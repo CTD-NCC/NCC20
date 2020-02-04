@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,reverse
+from django.shortcuts import render, redirect, reverse
 from .models import *
 from .serializer import *
 from rest_framework.views import APIView
@@ -22,7 +22,5 @@ class signup(APIView):
 
         userprofile = UserProfile(user=user,email1=email1,email2=email2,name1=name1,name2=name2,phone1=phone1,phone2=phone2)
         userprofile.save()
-
-
 
         return Response({"data": request.data , "token": AuthToken.objects.create(user)[1] },status=201)
