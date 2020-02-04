@@ -6,12 +6,12 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     totalScore = models.IntegerField(default=0)
     email1 = models.EmailField(default='example@gmail.com')
-    email2 = models.EmailField(default='example@gmail.com',null=True,blank=True)
+    email2 = models.EmailField(default='example@gmail.com', null=True, blank=True)
     phone1 = models.CharField(max_length=10)
-    phone2 = models.CharField(max_length=10,null=True,blank=True,default='0000000000')
+    phone2 = models.CharField(max_length=10,null=True,blank=True, default='0000000000')
     name1 = models.CharField(max_length=100)
-    name2 = models.CharField(max_length=100, null=True,blank=True,default='Player2')
-    junior = models.BooleanField(default=True)                      #True if Junior(FE) else False if Senior(SE,TE,BE)
+    name2 = models.CharField(max_length=100, null=True, blank=True, default='Player2')
+    junior = models.BooleanField(default=True)                     # True if Junior(FE) else False if Senior(SE,TE,BE)
     latestSubTime = models.TimeField(default='00:00')
     timer = models.TimeField(default='00:00')
     flag = models.BooleanField(default=False)                       # Flag for instruction Page
@@ -39,9 +39,9 @@ class Submission(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     que = models.ForeignKey(Question, on_delete=models.CASCADE)
     code = models.CharField(max_length=1000)
-    attempt = models.IntegerField(default=0)                    #Current Attempt
+    attempt = models.IntegerField(default=0)                    # Current Attempt
     out = models.IntegerField(default=0)
-    subStatus = models.CharField(default='NA', max_length=5)    #four type of submission status(WA, PASS, TLE, CTE)
+    subStatus = models.CharField(default='NA', max_length=5)    # four type of submission status(WA, PASS, TLE, CTE)
     subTime = models.CharField(default='', max_length=50)
     subScore = models.IntegerField(default=0)
     correctTestCases = models.IntegerField(default=0)
