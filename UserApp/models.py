@@ -27,6 +27,9 @@ class Question(models.Model):
     totalSuccessfulSub = models.IntegerField(default=0)
     accuracy = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.titleQue
+
 
 class MultipleQues(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
