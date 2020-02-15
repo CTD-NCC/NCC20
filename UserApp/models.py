@@ -14,7 +14,6 @@ class UserProfile(models.Model):
     junior = models.BooleanField(default=True)                     # True if Junior(FE) else False if Senior(SE,TE,BE)
     latestSubTime = models.TimeField(default='00:00')
     timer = models.TimeField(default='00:00')
-    flag = models.BooleanField(default=False)                       # Flag for instruction Page
 
     def __str__(self):
         return self.user.username

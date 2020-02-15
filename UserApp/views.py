@@ -3,8 +3,10 @@ from rest_framework.permissions import IsAuthenticated
 from .serializer import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import JsonResponse
 from knox.models import AuthToken
 from datetime import datetime
+import os,subprocess
 
 starttime = 0
 end_time = 0
@@ -45,26 +47,52 @@ class Signup(APIView):
         return Response({"data": request.data, "token": AuthToken.objects.create(user)[1]}, status=201)
 
 
+class Code(APIView):
+    def get(self,request,qn):
+        question = Question.objects.get(pk=qn)
+        que_title = question.titleQue
+        que = question.question
+        #user = UserProfile.objects.get(user=request.user)
+        data = {
+            "user": "sanket",
+            "question_title": que_title,
+            "questin": que,
+            "total": "100"
+        }
+        return JsonResponse(data)
+
+    def post(self,request,qn):
+        question = Question.objects.get(pk=qn)
+        userprof = UserProfile.objects.get(user=request.user)
+
+
+
+
 class LeaderBoard(APIView):
-    permission_classes = [IsAuthenticated]
+
+    def latest(self,data):
+        player = UserProfile.objects.filter(user=data['user'])
+        return player.latestSubTime
+
 
     def get(self, request):
-        data = {}
-
+        data = list()
         for player in UserProfile.objects.order_by("-totalScore"):
-            l = []
+            l = {}
+            l['user']=player.user.username
             for i in range(1, 7):
                 que = Question.objects.get(pk=i)
                 try:
-                    ans = MultipleQues.objects.get(user=player, que=que)
-                    l.append(ans.scoreQuestion)
+                    ans = MultipleQues.objects.get(user=player.user, que=que)
+                    l[f'q{i}']=ans.scoreQuestion
                 except MultipleQues.DoesNotExist:
-                    l.append(0)
-            l.append(player.totalScore)
-            data[player.user] = l
-
-        sorted(data.items(), key=lambda x: (x[1][6], player.latestSubTime))
-        return Response({"data": data})
+                    l[f'q{i}']=0
+            l['total']=player.totalScore
+            l['color']="nonTrans"
+            data.append(l)
+            #sorted(data, key=lambda x: (player.latestSubTime))
+        #data.sort(key=self.latest(data))
+        return Response(data)
 
 
 class Submissions(APIView):
@@ -83,10 +111,10 @@ class Submissions(APIView):
 
 
 class Questionhub(APIView):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        try:
+        '''try:
             user_profile = UserProfile.objects.get(user=request.user)
         except UserProfile.DoesNotExist:
             return HttpResponse("User profile does not exist")
@@ -108,7 +136,17 @@ class Questionhub(APIView):
                 que.accuracy = 0
         var = calculate()
         if var != 0:
-            return Response({"all_questions": all_questions , 'time': var })
+            return Response({"all_questions": all_questions , 'time': var })'''
+        all_ques = Question.objects.all()
+        data = []
+        for que in all_ques:
+            detail = {
+                "question_title":que.titleQue,
+                "Accuracy":que.accuracy,
+                "submissions":que.totalSuccessfulSub
+            }
+            data.append(detail)
+        return JsonResponse(data,safe=False)
 
 
 

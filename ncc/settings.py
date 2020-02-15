@@ -25,7 +25,7 @@ SECRET_KEY = 'k^2dh2b_62mtff_*ct9gm0f5(zq5_yux63gujiti(l(3m%*db8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'UserApp',
     'knox',
+    'frontend',
 ]
 
 REST_FRAMEWORK = {
