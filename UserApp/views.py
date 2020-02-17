@@ -11,6 +11,9 @@ import os, subprocess
 starttime = 0
 end_time = 0
 
+path_usercode = 'data/usersCode/'
+standard = 'data/standard/'
+
 
 def calculate():
     time = datetime.datetime.now()
@@ -43,7 +46,8 @@ class Signup(APIView):
         userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
                                   phone2=phone2)
         userprofile.save()
-        
+        os.system(f'mkdir {path_usercode}/{username}')
+
         return Response({"data": request.data, "token": AuthToken.objects.create(user)[1]}, status=201)
 
 
@@ -143,7 +147,6 @@ class Questionhub(APIView):
 
 
 class Result(APIView):
-    #result page : id of range,range,no. users in range
     def get(self,request):
         l = []
         d = {}
@@ -172,3 +175,24 @@ class Result(APIView):
             l.append(data)
 
         return JsonResponse(l,safe=False)
+
+
+def change_file_content(content, code_file):
+    sandbox_header = '#include"../../../include/sandbox.h"\n'
+    try:
+        # Inject the function call for install filters in the user code file
+        # Issue with design this way (look for a better solution (maybe docker))
+        # multiple main strings
+        before_main = content.split('main')[0] + 'main'
+        after_main = content.split('main')[1]
+        index = after_main.find('{') + 1
+        main = before_main + after_main[:index] + 'install_filters();' + after_main[index:]
+        with open(code_file, 'w+') as f:
+            f.write(sandbox_header)
+            f.write(main)
+            f.close()
+
+    except IndexError:
+        with open(code_file, 'w+') as f:
+            f.write(content)
+            f.close()
