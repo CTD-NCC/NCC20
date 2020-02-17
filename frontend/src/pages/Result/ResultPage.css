@@ -1,0 +1,56 @@
+.container-fluid{
+    background-image: linear-gradient(rgb(109, 170, 218),rgb(155, 218, 223));
+}
+.mainRow{
+    height: 93vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.pageTitle{
+    height: 7vh;
+    width: 100vw;
+}
+#pageTitle{
+    font-size: 32px;
+    margin-left: 5vw;
+    display: block;
+}
+.content{
+    height: 35vh;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+}
+.DisplayText{
+    font-size: 28px;
+    height: 8vh;
+    text-align: center;
+}
+.chartHolder{
+    height: 49vh;
+    border: 3px solid darkblue;
+    width: 90vw;
+    background-color: white;
+}
+.key{
+    font-size: 25px;
+    margin-top: 5vh;
+    margin-left: 9vw;
+}
+#colorKey{
+    border: 1px solid black;
+    width: 3vw;
+    height: 3vh;
+}
+#colorText{
+    height: 3vh;
+    margin-left: 1vw;
+    text-align: right;
+}
+.Value{
+    display: flex;
+    justify-content: left;
+    align-content: center;
+    margin: 20px;
+}
