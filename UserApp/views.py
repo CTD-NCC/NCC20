@@ -3,17 +3,18 @@ from rest_framework.permissions import IsAuthenticated
 from .serializer import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from knox.models import AuthToken
 from datetime import datetime
 import os, subprocess,re
+from seccomp.views import exec_main
 
 starttime = 0
 end_time = 0
 
-path_usercode = 'data/usersCode/'
+pathusercode = 'data/usersCode/'
 standard = 'data/standard/'
-
+NO_OF_TEST_CASES = 6
 
 def calculate():
     time = datetime.datetime.now()
@@ -28,25 +29,25 @@ def calculate():
 
 
 class Signup(APIView):
-    def get(self, request):
-        return HttpResponse("This is Login Page")
+    #def get(self, request):
 
     def post(self, request):
-        username = request.data.get("username")
-        password = request.data.get('password')
-        email1 = request.data.get('email1')
-        email2 = request.data.get('email2')
-        name1 = request.data.get('name1')
-        name2 = request.data.get('name2')
-        phone1 = request.data.get('phone1')
-        phone2 = request.data.get('phone2')
+        username = request.POST("username")
+        password = request.POST('password')
+        email1 = request.POST('email1')
+        email2 = request.POST('email2')
+        name1 = request.POST('name1')
+        name2 = request.POST('name2')
+        phone1 = request.POST('phone1')
+        phone2 = request.POST('phone2')
+        junior = request.POST('junior')
 
         user = User.objects.create_user(username=username, password=password)
 
         userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
-                                  phone2=phone2)
+                                  phone2=phone2,junior=junior)
         userprofile.save()
-        os.system(f'mkdir {path_usercode}/{username}')
+        os.system(f'mkdir {pathusercode}/{username}')
 
         return Response({"data": request.data, "token": AuthToken.objects.create(user)[1]}, status=201)
 
@@ -61,7 +62,7 @@ class Code(APIView):
             "user": user.username,
             "question_title": que_title,
             "questin": que,
-            "total": "100"
+            "total": user.totalScore
         }
         return JsonResponse(data)
 
@@ -77,12 +78,9 @@ class Code(APIView):
             mulque = MultipleQues.objects.get(user=usr,que=question)
         except MultipleQues.DoesNotExist:
             mulque = MultipleQues(user=usr,que=question)
-            mulque.save()
         att = mulque.attempts
-        mulque.attempts = mulque.attempts+1
-        mulque.save()
 
-        user_code_path = f"{pathuserscode}/{username}/question{qn}"
+        user_code_path = f"{pathusercode}/{username}/question{qn}"
         if not os.path.exists(user_code_path):
             os.system(f"mkdir {user_code_path}")
 
@@ -91,7 +89,7 @@ class Code(APIView):
 
         change_file_content(content,ext,codefile)
 
-        testcase_val = exe_main(
+        testcase_values = exec_main(
             username=username,
             qno = qn,
             attempts = att,
@@ -103,8 +101,25 @@ class Code(APIView):
         codefile.write(content)
         code_f.close()
 
+        now_time = datetime.datetime.now()
+        now_time_sec = now_time.second + now_time.minute * 60 + now_time.hour * 60 * 60
+        global starttime
+        submit_Time = now_time_sec - starttime
+
+        hour = submit_Time // (60 * 60)
+        val = submit_Time % (60 * 60)
+        min = val // 60
+        sec = val % 60
+
+        subTime = f'{hour}:{min}:{sec}'
+
+        sub = Submission(code=content, user=usr, que=question, attempt=att, subTime=subTime)
+
+        mulque.attempts += 1
+        mulque.save()
+
         error_text = ""
-        epath = path_usercode + f"/{username}/question{qn}/error.txt"
+        epath = pathusercode + f"/{username}/question{qn}/error.txt"
 
         if os.path.exists(epath):
             err = open(epath,"r")
@@ -112,9 +127,46 @@ class Code(APIView):
             error_text = re.sub('/.*?:','',error_text)
             err.close()
 
+        no_of_pass = 0
+        for i in testcase_values:
+            if i == 'AC':
+                no_of_pass += 1
 
+        sub.correctTestCases = no_of_pass
+        sub.TestCasesPercentage = (no_of_pass / NO_OF_TEST_CASES) * 100
+        sub.save()
 
+        status = 'AC' if no_of_pass == NO_OF_TEST_CASES else 'WA'  # overall Status
+        sub.subStatus = status
 
+        if status == 'AC':
+            userprof.totalScore += 100
+            question.totalSuccessfulSub += 1
+            question.totalSub += 1
+            sub.subScore = 100
+            mulque.scoreQuestion = 100
+
+        else:
+            question.totalSub += 1
+            sub.subScore = 0
+            mulque.scoreQuestion = 0
+
+        try:
+            question.accuracy = round((question.totalSuccessfulSub * 100 / question.totalSub), 1)
+        except ZeroDivisionError:
+            question.accuracy = 0
+
+        question.save()
+        userprof.save()
+        mulque.save()
+        dict = {
+            "testcases" : testcase_values,
+            "status" : sub.subStatus,
+            "error" : error_text,
+            "score" : sub.subStatus,
+        }
+
+        return JsonResponse(dict)
 
 
 class LeaderBoard(APIView):
@@ -158,39 +210,17 @@ class Submissions(APIView):
 
 class Questionhub(APIView):
     def get(self, request):
-        '''try:
-            user_profile = UserProfile.objects.get(user=request.user)
-        except UserProfile.DoesNotExist:
-            return HttpResponse("User profile does not exist")
-
         all_questions = Question.objects.all()
-        all_users = User.objects.all()
+        data = []
 
         for que in all_questions:
-            for user in all_users:
-                try:
-                    mul_que = MultipleQues.objects.get(user=user, que=que)
-                except MultipleQues.DoesNotExist:
-                    mul_que = MultipleQues(user=user, que=que)
-                que.totalSub += 1 if mul_que.attempts > 0 else 0
-
-            try:
-                que.accuracy = round((que.totalSuccessfulSub * 100 / que.totalSub), 1)
-            except ZeroDivisionError:
-                que.accuracy = 0
-        var = calculate()
-        if var != 0:
-            return Response({"all_questions": all_questions , 'time': var })'''
-        all_ques = Question.objects.all()
-        data = []
-        for que in all_ques:
             detail = {
                 "question_title": que.titleQue,
-                "Accuracy": que.accuracy,
+                "accuracy": que.accuracy,
                 "submissions": que.totalSuccessfulSub
             }
             data.append(detail)
-        return JsonResponse(data,safe=False)
+        return JsonResponse(data, safe=False)
 
 
 class Result(APIView):
