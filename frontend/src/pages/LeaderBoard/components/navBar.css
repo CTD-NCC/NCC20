@@ -1,0 +1,28 @@
+.navbar{
+    background-image: linear-gradient(rgb(78, 117, 150),rgb(96, 171, 218));
+}
+.links{
+    height: 8vh;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: left;
+    align-content: center;
+    transition: 1s;
+    box-shadow: 0 0 1px rgba(8, 8, 15, 0.8);
+}
+.links:hover{
+    cursor: pointer;
+    background-color: rgba(8, 8, 15, 0.8);
+}
+.pisblogo{
+    height: 8vh;
+    display: flex;
+    justify-content: left;
+    align-content: center;
+    margin-top: 14.5vh;
+}
+.pageTitle{
+    font-size: 30px;
+    padding-left: 1vw;
+}

@@ -1,0 +1,20 @@
+.btnSearch {
+  background-color: rgba(8, 8, 15, 0.8);
+  border-radius: 10%;
+  border: none;
+  outline: none;
+  margin-top: 0.4vh;
+  margin-left: 4px;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
+  height: 33px;
+  width: 36px;
+}
+.btnSearch:hover {
+  background-color: rgba(8, 8, 15);
+}
+.myrow {
+  margin-left: -4.5vw;
+}
+.form-control {
+  box-shadow: -1px -1px 4px #ffffff73, 1px 1px 3px rgba(94, 104, 121, 0.288);
+}

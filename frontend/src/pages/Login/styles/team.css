@@ -1,0 +1,256 @@
+@font-face {
+  font-family: Montserrat;
+  src: url(/Montserrat.otf);
+}
+
+.team {
+  height: 450px;
+  width: 450px;
+  margin-top: 10vh;
+  border-radius: 10px;
+  margin-left: 12vh;
+
+  font-family: Montserrat;
+  color: #03a9f4;
+  animation: entry 1000ms ease-out forwards;
+}
+
+@keyframes entry {
+  0% {
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 1),
+      0px 0px 0px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 1),
+      0px 0px 0px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+      4px 4px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.reg {
+  width: 450px;
+  height: 80px;
+  font-size: 40px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.in1 {
+  padding-left: 85px;
+  position: relative;
+  margin-top: 30px;
+}
+
+.in2 {
+  padding-left: 85px;
+  position: relative;
+  margin-top: 50px;
+}
+
+.in3 {
+  position: relative;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.next {
+  font-family: Montserrat;
+  width: 150px;
+  margin-top: -2vh;
+  position: relative;
+  height: 40px;
+  color: #868686;
+  border-radius: 40px;
+  border: none;
+  box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+    4px 4px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 18px;
+  background-color: white;
+  outline: none;
+  z-index: 1;
+  transition: 0.5s;
+}
+
+.radioWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.radioButton {
+  margin-right: 0.5vw;
+}
+
+.radioLabel {
+  margin-right: 2vw;
+}
+
+.teamCheck {
+  height: 20px;
+  font-size: 12px;
+}
+
+.next:focus {
+  outline: none;
+}
+
+.next:hover {
+  background-color: rgb(3, 169, 244);
+  color: white;
+  transition: 0.5s ease-out;
+  box-shadow: -2px -2px 6px rgb(168, 227, 255),
+    4px 4px 15px rgba(0, 73, 107, 0.3);
+}
+
+.password {
+  margin-top: -10px;
+  height: 40px;
+  width: 250px;
+  border: none;
+  border-radius: 40px;
+  padding: 5px 20px;
+  outline: none;
+  font-size: 18px;
+  color: #0080bb;
+  box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+    4px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.TeamName {
+  margin-top: 5px;
+  height: 40px;
+  width: 250px;
+  border: none;
+  border-radius: 40px;
+  padding: 5px 20px;
+  outline: none;
+  font-size: 18px;
+  color: #0080bb;
+  box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+    4px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.charCondition {
+  color: #919191;
+  text-indent: 20px;
+  margin-top: 2px;
+}
+
+.teamCheck {
+  width: 200px;
+  color: red;
+  font-weight: bold;
+  margin-top: 7px;
+  margin-bottom: 6vh;
+  margin-left: 2.5vh;
+  height: 30px;
+  font-size: 12px;
+}
+
+.hidden {
+  display: none;
+}
+
+.condition {
+  color: #4d4d4d;
+  margin-top: 1vh;
+  margin-left: 13.8vh;
+  font-size: 12px;
+}
+
+.passl {
+  margin-top: -37px;
+  position: absolute;
+  top: 30px;
+  margin-left: 15px;
+  color: #868686;
+  pointer-events: none;
+}
+
+.teaml {
+  position: absolute;
+  top: -50px;
+  margin-left: 15px;
+  color: #868686;
+  pointer-events: none;
+}
+
+.upt {
+  color: #03a9f4;
+  font-size: 18px;
+  top: -23px;
+  left: 80px;
+  transition: 0.3s;
+}
+
+.downt {
+  left: 95px;
+  color: #868686;
+  font-size: 16px;
+  top: 14px;
+  transition: 0.3s;
+}
+
+.upp {
+  color: #03a9f4;
+  font-size: 18px;
+  top: -2px;
+  left: 80px;
+  transition: 0.3s;
+}
+
+.downp {
+  left: 95px;
+  color: #868686;
+  font-size: 18px;
+  top: 35px;
+  transition: 0.3s;
+}
+
+.border {
+  border: 1px solid rgb(224, 0, 0);
+  box-shadow: -2px -2px 6px rgb(255, 150, 150), 2px 2px 6px rgba(112, 0, 0, 0.3);
+  transition: 0.3s ease-out;
+}
+
+.noBorder {
+  border: none;
+  box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+    4px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.exit {
+  animation: exi 500ms ease-out forwards;
+}
+
+@keyframes exi {
+  0% {
+    box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+      4px 4px 15px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 1),
+      0px 0px 0px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.green {
+  font-weight: bold;
+  color: rgb(0, 167, 0);
+}
+
+.red {
+  font-weight: bold;
+  color: red;
+}

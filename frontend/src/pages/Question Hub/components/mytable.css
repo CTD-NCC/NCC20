@@ -1,0 +1,37 @@
+.mytable{
+    /* font-size: 10px; */
+    text-align: center;
+    
+    justify-content: center;
+    margin-left: 0;
+    background-color: rgba(37, 36, 36, 0.466);
+    border-radius: 20px;   
+   
+    width: 65vw;
+    height: 65vh;
+}
+
+ .borderless th {
+    border: none;
+}
+
+.tdiv{
+    margin: auto;
+}
+
+.pbar
+{
+    width: 20vw;
+    height: 5vh;
+    border-radius: 7px;
+  
+}
+.inner-pbar{
+  
+   
+}
+.mybutton{
+    width: 7vw;
+    height: 5vh;
+    border-radius: 7px;
+}

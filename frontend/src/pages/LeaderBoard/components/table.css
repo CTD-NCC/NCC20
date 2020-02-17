@@ -1,0 +1,15 @@
+.table {
+  border-radius: 10px;
+  border: none;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
+  text-align: center;
+  justify-content: center;
+  margin-top: -4vh;
+  margin-bottom: 0vh;
+  background-color: rgba(8, 8, 15, 0.6);
+  color: whitesmoke;
+}
+.borderless th {
+  border: none;
+  outline: none;
+}

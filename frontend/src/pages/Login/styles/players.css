@@ -1,0 +1,182 @@
+@font-face {
+  font-family: Robot;
+  src: url(/Montserrat.otf);
+}
+.player1 {
+  opacity: 0;
+  height: 270px;
+  width: 450px;
+  margin-top: 7vh;
+  border-radius: 10px;
+  margin-left: 12vh;
+  font-family: Robot;
+  color: #03a9f4;
+  animation: pro1 500ms ease-out forwards;
+}
+.player2 {
+  height: 270px;
+  width: 450px;
+  margin-top: 3vh;
+  border-radius: 10px;
+  margin-left: 12vh;
+  box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+    4px 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: Robot;
+  color: #03a9f4;
+  animation: pro1 500ms ease-out forwards;
+}
+.header {
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  padding-top: 10px;
+}
+
+.inputbox {
+  margin-top: 35px;
+}
+
+.text {
+  font-size: 15px;
+  padding-left: 15px;
+  height: 30px;
+  width: 250px;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+  color: #0080bb;
+  box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+    4px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.colorRed {
+  color: red;
+  font-weight: bold;
+}
+
+@keyframes pro1 {
+  0% {
+    opacity: 0;
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 1),
+      0px 0px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  70% {
+    opacity: 1;
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 1),
+      0px 0px 0px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+      4px 4px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.lab1 {
+  pointer-events: none;
+  position: absolute;
+  font-size: 14px;
+  top: 6px;
+  left: 100px;
+  transition: 0.5s;
+}
+
+.lab2 {
+  pointer-events: none;
+  position: absolute;
+  font-size: 14px;
+  left: 100px;
+  top: 6px;
+  transition: 0.5s;
+}
+
+.in1 {
+  margin-top: 25px;
+}
+
+.back {
+  margin-top: 3vh;
+  margin-left: 8vw;
+  width: 150px;
+  height: 40px;
+  border-radius: 40px;
+  border: none;
+  box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+    4px 4px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 18px;
+  background-color: white;
+  color: #868686;
+  transition: 0.5s;
+}
+
+.back:hover {
+  background-color: rgb(3, 169, 244);
+  color: white;
+  transition: 0.5s ease-out;
+  box-shadow: -2px -2px 6px rgb(168, 227, 255),
+    4px 4px 15px rgba(0, 73, 107, 0.3);
+}
+
+.back:focus {
+  outline: none;
+}
+
+.LLogin:hover {
+  background-color: rgb(3, 169, 244);
+  color: white;
+  transition: 0.5s ease-out;
+  box-shadow: -2px -2px 6px rgb(168, 227, 255),
+    4px 4px 15px rgba(0, 73, 107, 0.3);
+}
+
+.LLogin:focus {
+  outline: none;
+}
+
+.LLogin {
+  outline-style: none;
+  margin-top: 3vh;
+  margin-left: 8.5vw;
+  width: 150px;
+  height: 40px;
+  border-radius: 40px;
+  border: none;
+  box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
+    4px 4px 15px rgba(0, 0, 0, 0.1);
+  outline: none;
+  cursor: pointer;
+  font-size: 18px;
+  background-color: white;
+  color: #868686;
+  transition: 0.5s;
+}
+
+.dissolve {
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.Upp {
+  font-size: 14px;
+  top: -22px;
+  left: 95px;
+  transition: 0.3s;
+}
+
+.Downn {
+  left: 100px;
+  color: #868686;
+  font-size: 14px;
+  top: 5px;
+  transition: 0.3s;
+}
+
+.Border {
+  box-shadow: -1px -1px 4px rgb(255, 91, 91), 1px 1px 4px rgba(116, 2, 2, 0.1);
+  border: 0.5px solid red;
+}
