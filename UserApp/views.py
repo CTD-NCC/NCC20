@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from knox.models import AuthToken
 from datetime import datetime
-import os,subprocess
+import os, subprocess
 
 starttime = 0
 end_time = 0
@@ -48,32 +48,28 @@ class Signup(APIView):
 
 
 class Code(APIView):
-    def get(self,request,qn):
+    def get(self, request, qn):
         question = Question.objects.get(pk=qn)
         que_title = question.titleQue
         que = question.question
-        #user = UserProfile.objects.get(user=request.user)
+        user = User.objects.get(user=request.user)
         data = {
-            "user": "sanket",
+            "user": user.username,
             "question_title": que_title,
             "questin": que,
             "total": "100"
         }
         return JsonResponse(data)
 
-    def post(self,request,qn):
+    def post(self, request, qn):
         question = Question.objects.get(pk=qn)
         userprof = UserProfile.objects.get(user=request.user)
 
 
-
-
 class LeaderBoard(APIView):
-
-    def latest(self,data):
+    def latest(self, data):
         player = UserProfile.objects.filter(user=data['user'])
         return player.latestSubTime
-
 
     def get(self, request):
         data = list()
@@ -84,14 +80,12 @@ class LeaderBoard(APIView):
                 que = Question.objects.get(pk=i)
                 try:
                     ans = MultipleQues.objects.get(user=player.user, que=que)
-                    l[f'q{i}']=ans.scoreQuestion
+                    l[f'q{i}'] = ans.scoreQuestion
                 except MultipleQues.DoesNotExist:
-                    l[f'q{i}']=0
-            l['total']=player.totalScore
-            l['color']="nonTrans"
+                    l[f'q{i}'] = 0
+            l['total'] = player.totalScore
+            l['color'] = "nonTrans"
             data.append(l)
-            #sorted(data, key=lambda x: (player.latestSubTime))
-        #data.sort(key=self.latest(data))
         return Response(data)
 
 
@@ -104,15 +98,13 @@ class Submissions(APIView):
         usersub = []
 
         for submission in total_submissions:
-            if (submission.que == que):
+            if submission.que == que:
                 usersub.append(submission)
 
         return Response({"submissions": usersub})
 
 
 class Questionhub(APIView):
-    #permission_classes = [IsAuthenticated]
-
     def get(self, request):
         '''try:
             user_profile = UserProfile.objects.get(user=request.user)
@@ -141,12 +133,9 @@ class Questionhub(APIView):
         data = []
         for que in all_ques:
             detail = {
-                "question_title":que.titleQue,
-                "Accuracy":que.accuracy,
-                "submissions":que.totalSuccessfulSub
+                "question_title": que.titleQue,
+                "Accuracy": que.accuracy,
+                "submissions": que.totalSuccessfulSub
             }
             data.append(detail)
-        return JsonResponse(data,safe=False)
-
-
-
+        return JsonResponse(data, safe=False)
