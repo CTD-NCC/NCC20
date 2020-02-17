@@ -6,15 +6,31 @@ from rest_framework.response import Response
 from django.http import JsonResponse,HttpResponse
 from knox.models import AuthToken
 from datetime import datetime
-import os, subprocess,re
+import datetime, os, re
 from seccomp.views import exec_main
 
 starttime = 0
 end_time = 0
+duration = 0
+start = datetime.datetime(2020, 1, 1, 0, 0)
 
 pathusercode = 'data/usersCode/'
 standard = 'data/standard/'
 NO_OF_TEST_CASES = 6
+
+def timer():
+    global starttime, start
+    global end_time
+    global duration
+    global flag
+    flag = True
+    duration = 7200
+    start = datetime.datetime.now()
+    start = start + datetime.timedelta(0, 15)
+    time = start.second + start.minute * 60 + start.hour * 60 * 60
+    starttime = time
+    end_time = time + int(duration)
+
 
 def calculate():
     time = datetime.datetime.now()
@@ -25,11 +41,13 @@ def calculate():
     if nowsec < end_time:
         return diff
     else:
-        return
+        return 0
 
 
 class Signup(APIView):
-    #def get(self, request):
+    def get(self, request):
+        timer()
+        return HttpResponse("This is Login Page")
 
     def post(self, request):
         username = request.POST("username")
@@ -48,8 +66,7 @@ class Signup(APIView):
                                   phone2=phone2,junior=junior)
         userprofile.save()
         os.system(f'mkdir {pathusercode}/{username}')
-
-        return Response({"data": request.data, "token": AuthToken.objects.create(user)[1]}, status=201)
+        return Response({"data": request.data}, status=201)
 
 
 class Code(APIView):
@@ -58,11 +75,14 @@ class Code(APIView):
         que_title = question.titleQue
         que = question.question
         user = User.objects.get(user=request.user)
+
+        var = calculate()
         data = {
             "user": user.username,
             "question_title": que_title,
             "questin": que,
-            "total": user.totalScore
+            "total": user.totalScore,
+            "time": var
         }
         return JsonResponse(data)
 
@@ -79,7 +99,6 @@ class Code(APIView):
         except MultipleQues.DoesNotExist:
             mulque = MultipleQues(user=usr,que=question)
         att = mulque.attempts
-
         user_code_path = f"{pathusercode}/{username}/question{qn}"
         if not os.path.exists(user_code_path):
             os.system(f"mkdir {user_code_path}")
@@ -92,11 +111,11 @@ class Code(APIView):
         testcase_values = exec_main(
             username=username,
             qno = qn,
-            attempts = att,
-            lang = ext
+            attempts=att,
+            lang=ext
         )
 
-        code_f = open(codefile,"w+")
+        code_f = open(codefile, "w+")
         code_f.seek(0)
         codefile.write(content)
         code_f.close()
@@ -189,7 +208,11 @@ class LeaderBoard(APIView):
 
             l['total'] = player.totalScore
             l['color'] = "nonTrans"
+
+            var = calculate()
+            l['time'] = var
             data.append(l)
+
         return Response(data)
 
 
@@ -205,7 +228,8 @@ class Submissions(APIView):
             if submission.que == que:
                 usersub.append(submission)
 
-        return Response({"submissions": usersub})
+        var = calculate()
+        return Response({"submissions": usersub, "time": var})
 
 
 class Questionhub(APIView):
@@ -224,7 +248,7 @@ class Questionhub(APIView):
 
 
 class Result(APIView):
-    def get(self,request):
+    def get(self):
         l = []
         d = {}
         for i in range(1,7):
@@ -249,9 +273,12 @@ class Result(APIView):
             data['id'] = i
             data['range'] = "{}-{}".format((i-1)*100, i*100)
             data['usrs'] = d['score{}'.format(i)]
+
+            var = calculate()
+            data['time'] = var
             l.append(data)
 
-        return JsonResponse(l,safe=False)
+        return JsonResponse(l, safe=False)
 
 
 def change_file_content(content, code_file):
