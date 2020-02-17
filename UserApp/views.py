@@ -5,14 +5,30 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
 from knox.models import AuthToken
-from datetime import datetime
-import os, subprocess
+import datetime
+import os
 
 starttime = 0
 end_time = 0
+duration = 0
+start = datetime.datetime(2020, 1, 1, 0, 0)
 
 path_usercode = 'data/usersCode/'
 standard = 'data/standard/'
+
+
+def timer():
+    global starttime, start
+    global end_time
+    global duration
+    global flag
+    flag = True
+    duration = 7200
+    start = datetime.datetime.now()
+    start = start + datetime.timedelta(0, 15)
+    time = start.second + start.minute * 60 + start.hour * 60 * 60
+    starttime = time
+    end_time = time + int(duration)
 
 
 def calculate():
@@ -24,11 +40,12 @@ def calculate():
     if nowsec < end_time:
         return diff
     else:
-        return
+        return 0
 
 
 class Signup(APIView):
     def get(self, request):
+        timer()
         return HttpResponse("This is Login Page")
 
     def post(self, request):
@@ -46,9 +63,10 @@ class Signup(APIView):
         userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
                                   phone2=phone2)
         userprofile.save()
+
         os.system(f'mkdir {path_usercode}/{username}')
 
-        return Response({"data": request.data, "token": AuthToken.objects.create(user)[1]}, status=201)
+        return Response({"data": request.data}, status=201)
 
 
 class Code(APIView):
@@ -57,11 +75,14 @@ class Code(APIView):
         que_title = question.titleQue
         que = question.question
         user = User.objects.get(user=request.user)
+
+        var = calculate()
         data = {
             "user": user.username,
             "question_title": que_title,
             "questin": que,
-            "total": "100"
+            "total": "100",
+            "time": var
         }
         return JsonResponse(data)
 
@@ -90,7 +111,11 @@ class LeaderBoard(APIView):
 
             l['total'] = player.totalScore
             l['color'] = "nonTrans"
+
+            var = calculate()
+            l['time'] = var
             data.append(l)
+
         return Response(data)
 
 
@@ -106,7 +131,8 @@ class Submissions(APIView):
             if submission.que == que:
                 usersub.append(submission)
 
-        return Response({"submissions": usersub})
+        var = calculate()
+        return Response({"submissions": usersub, "time": var})
 
 
 class Questionhub(APIView):
@@ -136,18 +162,20 @@ class Questionhub(APIView):
             return Response({"all_questions": all_questions , 'time': var })'''
         all_ques = Question.objects.all()
         data = []
+        var = calculate()
         for que in all_ques:
             detail = {
                 "question_title": que.titleQue,
                 "Accuracy": que.accuracy,
-                "submissions": que.totalSuccessfulSub
+                "submissions": que.totalSuccessfulSub,
+                "time": var
             }
             data.append(detail)
-        return JsonResponse(data,safe=False)
+        return JsonResponse(data, safe=False)
 
 
 class Result(APIView):
-    def get(self,request):
+    def get(self):
         l = []
         d = {}
         for i in range(1,7):
@@ -172,9 +200,12 @@ class Result(APIView):
             data['id'] = i
             data['range'] = "{}-{}".format((i-1)*100, i*100)
             data['usrs'] = d['score{}'.format(i)]
+
+            var = calculate()
+            data['time'] = var
             l.append(data)
 
-        return JsonResponse(l,safe=False)
+        return JsonResponse(l, safe=False)
 
 
 def change_file_content(content, code_file):
