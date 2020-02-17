@@ -5,8 +5,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
 from knox.models import AuthToken
-import datetime
-import os
+import datetime, os, re
+
+from seccomp.views import exec_main
 
 starttime = 0
 end_time = 0
@@ -86,9 +87,56 @@ class Code(APIView):
         }
         return JsonResponse(data)
 
-    def post(self, request, qn):
+    def post(self,request,qn):
         question = Question.objects.get(pk=qn)
-        userprof = UserProfile.objects.get(user=request.user)
+        usr = request.user
+        userprof = UserProfile.objects.get(user=usr)
+        username = userprof.user.username
+        content = request.POST['content']
+        ext = request.POST['ext']
+
+        try:
+            mulque = MultipleQues.objects.get(user=usr,que=question)
+        except MultipleQues.DoesNotExist:
+            mulque = MultipleQues(user=usr,que=question)
+            mulque.save()
+        att = mulque.attempts
+        mulque.attempts = mulque.attempts+1
+        mulque.save()
+
+        user_code_path = f"{path_usercode}/{username}/question{qn}"
+        if not os.path.exists(user_code_path):
+            os.system(f"mkdir {user_code_path}")
+
+        codefile  = user_code_path + f"code{att}.{ext}"
+        content = str(content)
+
+        change_file_content(content,ext,codefile)
+
+        testcase_val = exec_main(
+            username=username,
+            qno = qn,
+            attempts=att,
+            lang=ext
+        )
+
+        code_f = open(codefile, "w+")
+        code_f.seek(0)
+        codefile.write(content)
+        code_f.close()
+
+        error_text = ""
+        epath = path_usercode + f"/{username}/question{qn}/error.txt"
+
+        if os.path.exists(epath):
+            err = open(epath,"r")
+            error_text = err.read()
+            error_text = re.sub('/.*?:','',error_text)
+            err.close()
+
+
+
+
 
 
 class LeaderBoard(APIView):
