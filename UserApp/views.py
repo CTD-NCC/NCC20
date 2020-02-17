@@ -83,6 +83,7 @@ class LeaderBoard(APIView):
                     l[f'q{i}'] = ans.scoreQuestion
                 except MultipleQues.DoesNotExist:
                     l[f'q{i}'] = 0
+
             l['total'] = player.totalScore
             l['color'] = "nonTrans"
             data.append(l)
@@ -138,4 +139,36 @@ class Questionhub(APIView):
                 "submissions": que.totalSuccessfulSub
             }
             data.append(detail)
-        return JsonResponse(data, safe=False)
+        return JsonResponse(data,safe=False)
+
+
+class Result(APIView):
+    #result page : id of range,range,no. users in range
+    def get(self,request):
+        l = []
+        d = {}
+        for i in range(1,7):
+            d["score{}".format(i)] = 0
+        userprof = UserProfile.objects.all()
+        for user in userprof:
+            if user.totalScore <=100:
+                d["score{}".format((user.totalScore-user.totalScore)+1)] = d["score{}".format((user.totalScore-user.totalScore)+1)] +1
+            elif user.totalScore <=200:
+                d["score{}".format((user.totalScore-user.totalScore)+2)] = d["score{}".format((user.totalScore-user.totalScore)+2)] +1
+            elif user.totalScore <=300:
+                d["score{}".format((user.totalScore-user.totalScore)+3)] = d["score{}".format((user.totalScore-user.totalScore)+3)] +1
+            elif user.totalScore <=400:
+                d["score{}".format((user.totalScore-user.totalScore)+4)] = d["score{}".format((user.totalScore-user.totalScore)+4)] +1
+            elif user.totalScore <=500:
+                d["score{}".format((user.totalScore-user.totalScore)+5)] = d["score{}".format((user.totalScore-user.totalScore)+5)] +1
+            elif user.totalScore <=600:
+                d["score{}".format((user.totalScore-user.totalScore)+6)] = d["score{}".format((user.totalScore-user.totalScore)+6)] +1
+
+        for i in range(1,7):
+            data = {}
+            data['id'] = i
+            data['range'] = "{}-{}".format((i-1)*100, i*100)
+            data['usrs'] = d['score{}'.format(i)]
+            l.append(data)
+
+        return JsonResponse(l,safe=False)
