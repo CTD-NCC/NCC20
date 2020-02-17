@@ -1,15 +1,34 @@
-.table {
-  border-radius: 10px;
+.sanTable {
   border: none;
-  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
+  box-shadow: -3px -3px 7px rgb(155, 218, 223),
+    3px 3px 5px rgba(8, 8, 15, 0.466);
   text-align: center;
   justify-content: center;
-  margin-top: -4vh;
-  margin-bottom: 0vh;
-  background-color: rgba(8, 8, 15, 0.6);
+  margin-top: -2vh;
+  margin-bottom: 1vh;
+  margin-left: 7vw;
+  background-color: rgba(8, 8, 15, 0.8);
+  border-radius: 7px;
   color: whitesmoke;
+
+  width: 70vw;
 }
 .borderless th {
   border: none;
   outline: none;
+}
+.borderless td {
+  border: none;
+  outline: none;
+}
+.sanTable thead tr:hover {
+  background-color: rgba(8, 8, 15, 0.8);
+  color: whitesmoke;
+  border-radius: 7px;
+}
+.trans {
+  background-color: rgba(74, 74, 94, 0.8);
+  color: whitesmoke;
+  animation-name: blackWhite;
+  animation-duration: 1s;
 }

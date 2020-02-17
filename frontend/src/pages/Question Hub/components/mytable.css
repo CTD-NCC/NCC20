@@ -1,37 +1,48 @@
-.mytable{
-    /* font-size: 10px; */
-    text-align: center;
-    
-    justify-content: center;
-    margin-left: 0;
-    background-color: rgba(37, 36, 36, 0.466);
-    border-radius: 20px;   
-   
-    width: 65vw;
-    height: 65vh;
+.mytable {
+  /* font-size: 10px; */
+  text-align: center;
+  justify-content: center;
+  margin-left: 0;
+  background-color: rgba(8, 8, 15, 0.8);
+  border-radius: 7px;
+  color: whitesmoke;
+
+  width: 69vw;
+  height: 65vh;
 }
 
- .borderless th {
-    border: none;
+.borderless th {
+  border: none;
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* text-align: center; */
+}
+.borderless td {
+  border: none;
+
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.tdiv{
-    margin: auto;
+.myAcc {
+  margin-left: -20vw;
+}
+.tdiv {
+  margin: auto;
 }
 
-.pbar
-{
-    width: 20vw;
-    height: 5vh;
-    border-radius: 7px;
-  
+.pbar {
+  width: 17vw;
+  height: 3.5vh;
+  border-radius: 7px;
+  margin-left: 2.6vw;
 }
-.inner-pbar{
-  
-   
+.progress {
+  position: relative;
 }
-.mybutton{
-    width: 7vw;
-    height: 5vh;
-    border-radius: 7px;
+.mybutton {
+  width: 7vw;
+  height: 5vh;
+  border-radius: 7px;
 }

@@ -6,8 +6,9 @@
   opacity: 0;
   height: 270px;
   width: 450px;
-  margin-top: 7vh;
+  margin-top: 9vh;
   border-radius: 10px;
+  background-color: #f1f1f1;
   margin-left: 12vh;
   font-family: Robot;
   color: #03a9f4;
@@ -18,6 +19,7 @@
   width: 450px;
   margin-top: 3vh;
   border-radius: 10px;
+  background-color: #f1f1f1;
   margin-left: 12vh;
   box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),
     4px 4px 15px rgba(0, 0, 0, 0.1);
@@ -109,7 +111,7 @@
     4px 4px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   font-size: 18px;
-  background-color: white;
+  background-color: #f1f1f1;
   color: #868686;
   transition: 0.5s;
 }
@@ -151,7 +153,7 @@
   outline: none;
   cursor: pointer;
   font-size: 18px;
-  background-color: white;
+  background-color: #f1f1f1;
   color: #868686;
   transition: 0.5s;
 }

@@ -1,0 +1,29 @@
+.highlight {
+  background-color: rgba(213, 227, 253, 0.897);
+  color: rgba(8, 8, 15, 0.8);
+}
+
+.black {
+  background-color: rgba(8, 8, 15, 0.8);
+  color: rgba(213, 227, 253, 0.897);
+}
+
+.navQuestionLinks li {
+  height: 5vh;
+  width: 10vw;
+  padding-top: 7px;
+  cursor: pointer;
+  display: block;
+  border: none;
+  /* background-color: rgba(8, 8, 15, 0.8); */
+  align-items: center;
+  box-shadow: 3px 3px 15px rgba(92, 91, 91, 0.5);
+  transition: 0.3s;
+}
+.navQuestionLinks li:hover {
+  font-weight: bold;
+  background-color: rgba(213, 227, 253, 0.897);
+  transition: 0.15s;
+
+  color: rgba(8, 8, 15, 0.8);
+}

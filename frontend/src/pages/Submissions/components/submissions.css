@@ -1,0 +1,23 @@
+#style-3::-webkit-scrollbar {
+  display: none;
+}
+
+.tablediv {
+  max-height: 65vh;
+  padding-top: 4vh;
+  margin-top: 10vh;
+  overflow: auto;
+  background-color: transparent;
+  border-radius: 15px;
+}
+
+.progress {
+  position: relative;
+}
+
+.progress span {
+  position: absolute;
+  display: block;
+  width: 100%;
+  color: black;
+}

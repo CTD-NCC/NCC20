@@ -4,36 +4,39 @@ import "./Search.css";
 class Search extends Component {
   constructor(props) {
     super(props);
-    this.state = { search: "" };
-    this.Searching = this.Searching.bind(this);
   }
-  Searching(e) {
-    this.setState({ search: e.target.value });
-  }
+  onFormSubmit = (val, e) => {
+    e.preventDefault();
+    this.props.onSearch(val);
+  };
   render() {
-    const { onSearch, teams } = this.props;
+    const { onSearch, teams, Searching, search } = this.props;
 
     return (
       <div className="row myrow">
-        <span>
-          <input
-            type="text"
-            className="form-control"
-            id="filter"
-            placeholder="Search..."
-            onChange={this.Searching}
-            autoComplete="off"
-          />
-        </span>
-        <button
-          onClick={() => onSearch(this.state.search)}
-          className="btnSearch"
-        >
-          <img
-            src="/Search.png"
-            style={{ height: "100%", width: "100%" }}
-          ></img>
-        </button>
+        <form onSubmit={e => this.onFormSubmit(this.props.search, e)}>
+          <div className="spanSearch">
+            <input
+              type="text"
+              className="form-control"
+              id="filter"
+              placeholder="Search..."
+              onChange={Searching}
+              autoComplete="off"
+            />
+
+            <button
+              type="submit"
+              onClick={() => onSearch(this.props.search)}
+              className="btnSearch"
+            >
+              <img
+                src="/Search.png"
+                style={{ height: "100%", width: "100%" }}
+              ></img>
+            </button>
+          </div>
+        </form>
       </div>
     );
   }

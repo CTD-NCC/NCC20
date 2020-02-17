@@ -11,7 +11,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471816",
@@ -25,7 +26,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471817",
@@ -39,7 +41,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471818",
@@ -53,7 +56,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471819",
@@ -67,7 +71,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471820",
@@ -81,7 +86,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471821",
@@ -95,7 +101,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471822",
@@ -109,7 +116,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471823",
@@ -123,7 +131,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471824",
@@ -137,7 +146,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471825",
@@ -151,7 +161,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471826",
@@ -165,7 +176,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471827",
@@ -179,7 +191,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471828",
@@ -193,7 +206,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471829",
@@ -207,7 +221,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471830",
@@ -221,7 +236,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
 
   {
@@ -236,7 +252,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471832",
@@ -250,7 +267,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471833",
@@ -264,7 +282,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471834",
@@ -278,7 +297,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471835",
@@ -292,7 +312,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471836",
@@ -306,7 +327,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471837",
@@ -320,7 +342,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471838",
@@ -334,7 +357,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471839",
@@ -348,7 +372,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   },
   {
     _id: "5b21ca3eeb7f6fbccd471840",
@@ -362,7 +387,8 @@ const Data = [
     q6: true,
     q7: true,
     q8: true,
-    score: 100
+    score: 100,
+    color: "nonTrans"
   }
 ];
 

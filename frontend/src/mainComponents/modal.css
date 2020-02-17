@@ -1,0 +1,18 @@
+.ModalClass {
+  background-image: linear-gradient(rgb(109, 170, 218), rgb(155, 218, 223));
+  height: 93vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.MainModal {
+  height: 32vh;
+  width: 69vw;
+  background-color: rgba(8, 8, 15, 0.8);
+  color: whitesmoke;
+  justify-content: center;
+  align-content: center;
+  border-radius: 10px;
+  box-shadow: -5px -5px 10px rgb(200, 245, 255), 4px 4px 15px rgba(0, 0, 0, 0.1);
+}

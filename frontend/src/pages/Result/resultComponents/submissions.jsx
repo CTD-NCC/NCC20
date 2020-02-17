@@ -1,93 +1,52 @@
-const submissions = [
-    {
-        _id: 1,
-        question: 1,
-        result: "TLE",
-        time_taken_in_min: 30 
-    },
-    {
-        _id: 2,
-        question: 1,
-        result: "WA",
-        time_taken_in_min: 12 
-    },
-    {
-        _id: 3,
-        question: 1,
-        result: "ACC",
-        time_taken_in_min: 5 
-    },
-    {
-        _id: 4,
-        question: 2,
-        result: "AT",
-        time_taken_in_min: 20 
-    },
-    {
-        _id: 5,
-        question: 2,
-        result: "TLE",
-        time_taken_in_min: 15 
-    },
-    {
-        _id: 6,
-        question: 2,
-        result: "RT",
-        time_taken_in_min: 5 
-    },
-    {
-        _id: 7,
-        question: 2,
-        result: "ACC",
-        time_taken_in_min: 2 
-    },
-    {
-        _id: 8,
-        question: 3,
-        result: "ACC",
-        time_taken_in_min: 20 
-    },
-    {
-        _id: 9,
-        question: 4,
-        result: "WA",
-        time_taken_in_min: 15 
-    },
-    {
-        _id: 10,
-        question: 4,
-        result: "TLE",
-        time_taken_in_min: 10 
-    },
-    {
-        _id: 11,
-        question: 5,
-        result: "ACC",
-        time_taken_in_min: 20 
-    },
-    {
-        _id: 12,
-        question: 5,
-        result: "TLE",
-        time_taken_in_min: 10 
-    },
-    {
-        _id: 13,
-        question: 5,
-        result: "WA",
-        time_taken_in_min: 4 
-    },
-    {
-        _id: 14,
-        question: 6,
-        result: "RT",
-        time_taken_in_min: 10 
-    },
-    {
-        _id: 15,
-        question: 6,
-        result: "WA",
-        time_taken_in_min: 2 
-    }]
+// const submissions = [
+//     {
+//         id: 1,
+//         range: "0 - 100",
+//         numberOfTeams: 10
+//     },
+//     {
+//         id: 2,
+//         range: "100 - 200",
+//         numberOfTeams: 5
+//     },
+//     {
+//         id: 3,
+//         range: "200 - 300",
+//         numberOfTeams: 7
+//     },
+//     {
+//         id: 4,
+//         range: "300 - 400",
+//         numberOfTeams: 10
+//     },
+//     {
+//         id: 5,
+//         range: "400 - 500",
+//         numberOfTeams: 10
+//     },
+//     {
+//         id: 6,
+//         range: "500 - 600",
+//         numberOfTeams: 2
+//     },{
+//         id: 7,
+//         range: "600 - 700",
+//         numberOfTeams: 5
+//     },
+//     {
+//         id: 8,
+//         range: "700 - 800",
+//         numberOfTeams: 3
+//     }
+// ]
 
-export default submissions;
+import React, { Component } from 'react';
+
+class Submissions extends Component {
+    state = {  }
+    render() { 
+        return ( null );
+    }
+}
+ 
+export default Submissions;

@@ -30,7 +30,6 @@ class Timer extends Component {
         h1=h1-(.13);
         if(h1<=.13)
         h1=7.8;
-        console.log(h1);
         h1=h1.toString(10);
 
         //minutes logic

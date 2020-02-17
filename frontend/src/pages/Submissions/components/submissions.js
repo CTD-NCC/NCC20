@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router";
+import "./submissions.css";
 import "bootstrap/dist/css/bootstrap.css";
+import { Link } from "react-router-dom";
 
 class Table extends Component {
   constructor(props) {
@@ -13,8 +16,13 @@ class Table extends Component {
         { SrNo: 5, time: "15", ss: "51", status: 50, response: "-" },
         { SrNo: 6, time: "23", ss: "32", status: 70, response: "-" },
         { SrNo: 7, time: "12", ss: "35", status: 80, response: "-" },
-        { SrNo: 8, time: "34", ss: "38", status: 90, response: "-" }
-      ]
+        { SrNo: 8, time: "34", ss: "38", status: 90, response: "-" },
+        { SrNo: 9, time: "34", ss: "38", status: 90, response: "-" },
+        { SrNo: 10, time: "34", ss: "38", status: 90, response: "-" },
+        { SrNo: 11, time: "34", ss: "38", status: 90, response: "-" },
+        { SrNo: 12, time: "34", ss: "38", status: 90, response: "-" }
+      ],
+      redirect: false
     };
   }
 
@@ -41,6 +49,12 @@ class Table extends Component {
     });
   }
 
+  handleClick = () => {
+    this.setState({
+      redirect: true
+    });
+  };
+
   renderTableData() {
     return this.state.students.map((student, index) => {
       const { SrNo, time, ss, status } = student; //destructuring
@@ -52,6 +66,10 @@ class Table extends Component {
       } else {
         rate = "success";
       }
+      const newTo = {
+        pathname: "/coding",
+        param1: SrNo
+      };
       return (
         <tr key={SrNo}>
           <td>
@@ -64,25 +82,30 @@ class Table extends Component {
           </td>
           <td>
             <center>
-              <div className="progress">
+              <div
+                className="progress"
+                style={{ height: "3.5vh", width: "17vw" }}
+              >
                 <div
-                  className={"progress-bar progress-bar-striped bg-" + rate}
+                  className={"progress-bar bg-" + rate}
                   role="progressbar"
                   style={{ width: status + "%" }}
                   aria-valuenow={status}
                   aria-valuemin="0"
                   aria-valuemax="100"
                 >
-                  {status}%
+                  <span className="show">{status}%</span>
                 </div>
               </div>
             </center>
           </td>
           <td>
             <center>
-              <button className="btn btn-primary" href="{response}">
-                View
-              </button>
+              <Link to={newTo}>
+                <button className="butView" href="{response}">
+                  View
+                </button>
+              </Link>
             </center>
           </td>
         </tr>
@@ -91,12 +114,18 @@ class Table extends Component {
   }
 
   render() {
+    // if (this.state.redirect === true) {
+    //   this.setState({
+    //     redirect: false
+    //   });
+    //   return <Redirect push to="/coding" />;
+    // }
     return (
-      <div>
+      
+      <div className="tablediv" id="style-3">
         <table
           id="students"
-          className="table table-striped table-primary"
-          style={{ marginTop: "10vh" }}
+          className="table table-striped table-dark table-hover"
         >
           <tbody>
             <tr>{this.renderTableHeader()}</tr>
@@ -104,10 +133,9 @@ class Table extends Component {
           </tbody>
         </table>
       </div>
+    
     );
   }
 }
-
-//ReactDOM.render(<Table />, document.getElementById('root'));
 
 export default Table;

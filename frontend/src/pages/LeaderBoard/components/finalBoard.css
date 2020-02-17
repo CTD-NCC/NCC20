@@ -1,4 +1,8 @@
 .container {
-  width: 75vw;
   margin-top: -6vh;
+  /* overflow-x: scroll;
+  overflow-y: scroll; */
+}
+.nicheJaa {
+  margin-top: 0vh;
 }

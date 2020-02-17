@@ -1,13 +1,13 @@
 .result
 {
-    padding:2vh;
+    padding:4vh;
     border-radius:1vh; 
     display: flex;
     margin-left:35px; 
     justify-content: center;
     /* background-image:linear-gradient( rgba(56, 161, 175, 0.966),rgba(13, 69, 77, 0.8)); */
     background-color: rgba(255, 255, 255, 0.452);
-     font-size:4vh;
+     font-size:3vh;
      color:rgb(20,60,40);
      box-shadow: inset 0 0 5px #0350b4;
 
@@ -58,7 +58,8 @@
         width:13vw;
         border-radius:1vh;
         font-size:20px;
-        box-shadow: 1px 1px 5px 0 #38393a;
+        /* box-shadow: 1px 1px 5px 0 #38393a; */
+        background-color:  rgba(255, 255, 255, 0.452);;
 }
 
 .retry{
@@ -82,6 +83,10 @@
 
 .bgd{
         background-color: rgb(148, 39, 36);
+}
+
+.bgload{
+        background-color: rgb(72, 76, 83);
 }
 .score{
         color:rgb(165, 230, 221);  
