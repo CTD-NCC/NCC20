@@ -1,11 +1,17 @@
 from django.urls import path, include
 from .views import *
+from . import views
+from django.conf.urls import url
 
 urlpatterns = [
-    path('', include('knox.urls')),
+    # class base:
     path('signup/', Signup.as_view(), name='signup'),
-    path('questionhub/', Questionhub.as_view(), name='questionhub'),
-    path('code/<int:qn>/', Code.as_view()),
-    path('leaderboard/', LeaderBoard.as_view()),
-    path('result/', Result.as_view()),
+    path('questionhub/', Questionhub.as_view(), name='questionHub'),
+    path('code/<int:qn>/', Code.as_view(), name='codeSave'),
+    path('leaderboard/', LeaderBoard.as_view(), name='leaderBoard'),
+    path('result/', Result.as_view(), name='result'),
+
+    # function base:
+    path('logout', views.user_logout, name='logout'),
+    url(r'^(?P<garbage>.*)/$', views.garbage, name='redirect')
 ]

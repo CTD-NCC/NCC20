@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, reverse
-from rest_framework.permissions import IsAuthenticated
 from .serializer import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from datetime import datetime
 import datetime, os, re
 from seccomp.views import exec_main
@@ -67,12 +66,33 @@ class Signup(APIView):
         user = User.objects.create_user(username=username, password=password)
 
         userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
-                                  phone2=phone2,junior=junior)
+                                  phone2=phone2, junior=junior)
         userprofile.save()
         login(request, user)
         os.system(f'mkdir {pathusercode}/{username}')
 
         return Response({"data": request.data}, status=201)
+
+
+def change_file_content(content, code_file):
+    sandbox_header = '#include"../../../include/sandbox.h"\n'
+    try:
+        # Inject the function call for install filters in the user code file
+        # Issue with design this way (look for a better solution (maybe docker))
+        # multiple main strings
+        before_main = content.split('main')[0] + 'main'
+        after_main = content.split('main')[1]
+        index = after_main.find('{') + 1
+        main = before_main + after_main[:index] + 'install_filters();' + after_main[index:]
+        with open(code_file, 'w+') as f:
+            f.write(sandbox_header)
+            f.write(main)
+            f.close()
+
+    except IndexError:
+        with open(code_file, 'w+') as f:
+            f.write(content)
+            f.close()
 
 
 class Code(APIView):
@@ -116,7 +136,7 @@ class Code(APIView):
             if not os.path.exists(user_code_path):
                 os.system(f"mkdir {user_code_path}")
 
-            codefile  = user_code_path + f"code{att}.{ext}"
+            codefile = user_code_path + f"code{att}.{ext}"
             content = str(content)
 
             change_file_content(content, ext, codefile)
@@ -155,9 +175,9 @@ class Code(APIView):
             epath = pathusercode + f"/{username}/question{qn}/error.txt"
 
             if os.path.exists(epath):
-                err = open(epath,"r")
+                err = open(epath, "r")
                 error_text = err.read()
-                error_text = re.sub('/.*?:','',error_text)
+                error_text = re.sub('/.*?:', '', error_text)
                 err.close()
 
             no_of_pass = 0
@@ -216,7 +236,7 @@ class LeaderBoard(APIView):
             data = list()
             for player in UserProfile.objects.order_by("-totalScore", "latestSubTime"):
                 l = {}
-                l['user']=player.user.username
+                l['user'] = player.user.username
                 for i in range(1, 7):
                     que = Question.objects.get(pk=i)
                     try:
@@ -276,62 +296,69 @@ class Questionhub(APIView):
 
 
 class Result(APIView):
-    def get(self,request):
+    def get(self, request):
         if request.user.is_authenticated:
             l = []
             d = {}
-            for i in range(1,7):
+            for i in range(1, 7):
                 d["score{}".format(i)] = 0
 
             userprof = UserProfile.objects.all()
             for user in userprof:
-                if user.totalScore <=100:
-                    d["score{}".format((user.totalScore-user.totalScore)+1)] = d["score{}".format((user.totalScore-user.totalScore)+1)] +1
-                elif user.totalScore <=200:
-                    d["score{}".format((user.totalScore-user.totalScore)+2)] = d["score{}".format((user.totalScore-user.totalScore)+2)] +1
-                elif user.totalScore <=300:
-                    d["score{}".format((user.totalScore-user.totalScore)+3)] = d["score{}".format((user.totalScore-user.totalScore)+3)] +1
-                elif user.totalScore <=400:
-                    d["score{}".format((user.totalScore-user.totalScore)+4)] = d["score{}".format((user.totalScore-user.totalScore)+4)] +1
-                elif user.totalScore <=500:
-                    d["score{}".format((user.totalScore-user.totalScore)+5)] = d["score{}".format((user.totalScore-user.totalScore)+5)] +1
-                elif user.totalScore <=600:
-                    d["score{}".format((user.totalScore-user.totalScore)+6)] = d["score{}".format((user.totalScore-user.totalScore)+6)] +1
+                if user.totalScore <= 100:
+                    d["score{}".format((user.totalScore - user.totalScore) + 1)] = d["score{}".format(
+                        (user.totalScore - user.totalScore) + 1)] + 1
 
-            for i in range(1,7):
-                data = {}
-                data['id'] = i
-                data['range'] = "{}-{}".format((i-1)*100, i*100)
-                data['usrs'] = d['score{}'.format(i)]
+                elif user.totalScore <= 200:
+                    d["score{}".format((user.totalScore - user.totalScore) + 2)] = d["score{}".format(
+                        (user.totalScore - user.totalScore) + 2)] + 1
 
+                elif user.totalScore <= 300:
+                    d["score{}".format((user.totalScore - user.totalScore) + 3)] = d["score{}".format(
+                        (user.totalScore - user.totalScore) + 3)] + 1
+
+                elif user.totalScore <= 400:
+                    d["score{}".format((user.totalScore - user.totalScore) + 4)] = d["score{}".format(
+                        (user.totalScore - user.totalScore) + 4)] + 1
+
+                elif user.totalScore <= 500:
+                    d["score{}".format((user.totalScore - user.totalScore) + 5)] = d["score{}".format(
+                        (user.totalScore - user.totalScore) + 5)] + 1
+
+                elif user.totalScore <= 600:
+                    d["score{}".format((user.totalScore - user.totalScore) + 6)] = d["score{}".format(
+                        (user.totalScore - user.totalScore) + 6)] + 1
+
+            for i in range(1, 7):
+                data = {
+                    'id': i,
+                    'range': "{}-{}".format((i - 1) * 100, i * 100),
+                    'users': d['score{}'.format(i)]
+                }
                 l.append(data)
 
             var = calculate()
-            dict = {
+            data_dict = {
                 "data": l,
                 "time": var
             }
-            return JsonResponse(dict)
+            return JsonResponse(data_dict)
         else:
             return render(reverse('signup'))
 
 
-def change_file_content(content, code_file):
-    sandbox_header = '#include"../../../include/sandbox.h"\n'
-    try:
-        # Inject the function call for install filters in the user code file
-        # Issue with design this way (look for a better solution (maybe docker))
-        # multiple main strings
-        before_main = content.split('main')[0] + 'main'
-        after_main = content.split('main')[1]
-        index = after_main.find('{') + 1
-        main = before_main + after_main[:index] + 'install_filters();' + after_main[index:]
-        with open(code_file, 'w+') as f:
-            f.write(sandbox_header)
-            f.write(main)
-            f.close()
+# function based
+def garbage(request, garbage):
+    if request.user.is_authenticated:
+        logout(request)
+        return render(reverse('questionhub'))
+    else:
+        return HttpResponseRedirect(reverse("signup"))
 
-    except IndexError:
-        with open(code_file, 'w+') as f:
-            f.write(content)
-            f.close()
+
+def user_logout(request):
+    if request.user.is_authenticated:
+        logout(request)
+        return render(reverse('result'))
+    else:
+        return HttpResponseRedirect(reverse("signup"))
