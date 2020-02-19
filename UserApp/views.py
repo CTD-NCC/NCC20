@@ -20,7 +20,7 @@ standard = 'data/standard/'
 NO_OF_TEST_CASES = 6
 
 
-def timer():
+def timer(request):
     global starttime, start
     global end_time
     global duration
@@ -45,6 +45,15 @@ def calculate():
         return diff
     else:
         return 0
+
+
+def time(request):
+    curr_time = calculate()
+    hour = curr_time // (60 * 60)
+    val = curr_time % (60 * 60)
+    min = val // 60
+    sec = val % 60
+    return JsonResponse({"time": curr_time, "hh": str(hour), "mm": str(min), "ss": str(sec)})
 
 
 class Signup(APIView):
@@ -105,13 +114,11 @@ class Code(APIView):
             que = question.question
             user = User.objects.get(user=request.user)
 
-            var = calculate()
             data = {
                 "user": user.username,
                 "question_title": que_title,
                 "question": que,
                 "total": user.totalScore,
-                "time": var
             }
             return JsonResponse(data)
         else:
@@ -216,14 +223,11 @@ class Code(APIView):
             userprof.save()
             mulque.save()
 
-            var = calculate()
-
             dict = {
                 "testcases": testcase_values,
                 "status": sub.subStatus,
                 "error": error_text,
                 "score": sub.subStatus,
-                "time": var
             }
 
             return JsonResponse(dict)
@@ -235,11 +239,12 @@ class Code(APIView):
 class LeaderBoard(APIView):
     def get(self, request):
         if request.user.is_authenticated:
-            data = list()
-            var = calculate()
-
             for player in UserProfile.objects.order_by("-totalScore", "latestSubTime"):
-                l = {'user': player.user.username}
+                l = {
+                    'user': player.user.username,
+                    'total': player.totalScore,
+                    'color': "nonTrans"
+                }
                 for i in range(1, 7):
                     que = Question.objects.get(pk=i)
                     try:
@@ -248,11 +253,7 @@ class LeaderBoard(APIView):
                     except MultipleQues.DoesNotExist:
                         l[f'q{i}'] = 0
 
-                l['total'] = player.totalScore
-                l['color'] = "nonTrans"
-                l['time'] = var
-                data.append(l)
-            return Response(data)
+            return JsonResponse(l)
         else:
             return HttpResponseRedirect(reverse('signup'))
 
@@ -268,8 +269,7 @@ class Submissions(APIView):
                 if submission.que == que:
                     usersub.append(submission)
 
-            var = calculate()
-            return Response({"submissions": usersub, "time": var})
+            return Response({"submissions": usersub})
         else:
             return HttpResponseRedirect(reverse('signup'))
 
@@ -280,8 +280,6 @@ class Questionhub(APIView):
             all_questions = Question.objects.all()
             data = []
 
-            var = calculate()
-
             for que in all_questions:
                 detail = {
                     "question_title": que.titleQue,
@@ -290,8 +288,7 @@ class Questionhub(APIView):
                 }
                 data.append(detail)
 
-            dict = {"data": data, "time": var}
-            return JsonResponse(dict)
+            return Response(data)
         else:
             return HttpResponseRedirect(reverse('signup'))
 
@@ -338,12 +335,8 @@ class Result(APIView):
                 }
                 l.append(data)
 
-            var = calculate()
-            data_dict = {
-                "data": l,
-                "time": var
-            }
-            return JsonResponse(data_dict)
+            logout(request)
+            return Response(l)
         else:
             return HttpResponseRedirect(reverse('signup'))
 
@@ -353,13 +346,5 @@ def garbage(request, garbage):
     if request.user.is_authenticated:
         logout(request)
         return HttpResponseRedirect(reverse('questionhub'))
-    else:
-        return HttpResponseRedirect(reverse("signup"))
-
-
-def user_logout(request):
-    if request.user.is_authenticated:
-        logout(request)
-        return HttpResponseRedirect(reverse('result'))
     else:
         return HttpResponseRedirect(reverse("signup"))

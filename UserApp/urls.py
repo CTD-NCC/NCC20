@@ -1,6 +1,5 @@
 from django.urls import path, include
 from .views import *
-from . import views
 from django.conf.urls import url
 
 urlpatterns = [
@@ -12,7 +11,7 @@ urlpatterns = [
     path('result/', Result.as_view(), name='result'),
 
     # function base:
-    path('timer/', views.timer(), name='timer'),
-    path('logout', views.user_logout, name='logout'),
-    url(r'^(?P<garbage>.*)/$', views.garbage, name='redirect')
+    path('timer/', timer, name='timer'),
+    path('time/', time, name='timer'),
+    url(r'^(?P<garbage>.*)/$', garbage, name='redirect')
 ]
