@@ -32,11 +32,11 @@ class App extends Component {
             </div> */}
                 <div className="row" style={{ height: "93vh" }}>
                   <Route exact path="/modal" component={Modal}></Route>
-                  <Route path="/leaderboard" component={Leaderboard} />
-                  <Route path="/submission" component={SubmissionPage} />
-                  <Route path="/testcases" component={Testcases} />
-                  <Route path="/coding" component={Coding} />
-                  <Route path="/question" component={QuestionH} />
+                  <Route path="/leaderboard/" component={Leaderboard} />
+                  <Route path="/submission/" component={SubmissionPage} />
+                  <Route path="/testcases/" component={Testcases} />
+                  <Route path="/coding/" component={Coding} />
+                  <Route path="/question/" component={QuestionH} />
                 </div>
               </div>
             </div>

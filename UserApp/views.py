@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import HttpResponseRedirect, redirect, reverse
 from .serializer import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -32,6 +32,7 @@ def timer():
     time = start.second + start.minute * 60 + start.hour * 60 * 60
     starttime = time
     end_time = time + int(duration)
+    return HttpResponse('Ready to go')
 
 
 def calculate():
@@ -47,10 +48,11 @@ def calculate():
 
 
 class Signup(APIView):
+
     def get(self, request):
         if request.user.is_authenticated:
             return redirect(reverse('questionhub'))
-        return render(request, 'index.html')
+        return Response(template_name='frontend/public/index.html')
 
     def post(self, request):
         username = request.POST("username")
@@ -107,7 +109,7 @@ class Code(APIView):
             data = {
                 "user": user.username,
                 "question_title": que_title,
-                "questin": que,
+                "question": que,
                 "total": user.totalScore,
                 "time": var
             }
@@ -227,16 +229,17 @@ class Code(APIView):
             return JsonResponse(dict)
 
         else:
-            return render(reverse('signup'))
+            return HttpResponseRedirect(reverse('signup'))
 
 
 class LeaderBoard(APIView):
     def get(self, request):
         if request.user.is_authenticated:
             data = list()
+            var = calculate()
+
             for player in UserProfile.objects.order_by("-totalScore", "latestSubTime"):
-                l = {}
-                l['user'] = player.user.username
+                l = {'user': player.user.username}
                 for i in range(1, 7):
                     que = Question.objects.get(pk=i)
                     try:
@@ -247,13 +250,11 @@ class LeaderBoard(APIView):
 
                 l['total'] = player.totalScore
                 l['color'] = "nonTrans"
-
-                var = calculate()
                 l['time'] = var
                 data.append(l)
             return Response(data)
         else:
-            return render(reverse('signup'))
+            return HttpResponseRedirect(reverse('signup'))
 
 
 class Submissions(APIView):
@@ -270,7 +271,7 @@ class Submissions(APIView):
             var = calculate()
             return Response({"submissions": usersub, "time": var})
         else:
-            return render(reverse('signup'))
+            return HttpResponseRedirect(reverse('signup'))
 
 
 class Questionhub(APIView):
@@ -292,7 +293,7 @@ class Questionhub(APIView):
             dict = {"data": data, "time": var}
             return JsonResponse(dict)
         else:
-            return render(reverse('signup'))
+            return HttpResponseRedirect(reverse('signup'))
 
 
 class Result(APIView):
@@ -344,14 +345,14 @@ class Result(APIView):
             }
             return JsonResponse(data_dict)
         else:
-            return render(reverse('signup'))
+            return HttpResponseRedirect(reverse('signup'))
 
 
 # function based
 def garbage(request, garbage):
     if request.user.is_authenticated:
         logout(request)
-        return render(reverse('questionhub'))
+        return HttpResponseRedirect(reverse('questionhub'))
     else:
         return HttpResponseRedirect(reverse("signup"))
 
@@ -359,6 +360,6 @@ def garbage(request, garbage):
 def user_logout(request):
     if request.user.is_authenticated:
         logout(request)
-        return render(reverse('result'))
+        return HttpResponseRedirect(reverse('result'))
     else:
         return HttpResponseRedirect(reverse("signup"))
