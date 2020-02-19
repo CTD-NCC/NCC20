@@ -36,7 +36,7 @@ class CurrentScore extends Component {
         >
           SCORE
         </div>
-        <div className="score">100</div>
+        <div className="score">{this.props.score}</div>
         <div
           style={{
             marginTop: "6vh",
@@ -48,7 +48,7 @@ class CurrentScore extends Component {
             backgroundColor: "rgba(255, 255, 255, 0.452)",
             color: "rgb(20,60,40)",
             boxShadow: "inset 0 0 5px #0350b4",
-          
+          display :"none"
           }}
         >
           1 out of 8 questions solved

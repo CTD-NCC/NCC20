@@ -11,8 +11,17 @@ class Testcase extends Component {
   getProgressClass = () => {
     let classes = "progress-bar ";
     if(this.state.width>=150)
-    {classes =
-      this.props.testcase === "pass" ? classes + "bgs" : classes + "bgd";
+    {
+      if(this.props.testcase === "AC") 
+      classes =  classes + "bgs" ;
+      else if(this.props.testcase === "WA")
+       classes = classes + "bgd";
+       else if(this.props.testcase === "CTE")
+       classes = classes + "bgw";
+       else if(this.props.testcase === "RTE")
+       classes = classes + "bgg";
+       else
+       classes = classes + "bgr";
     return classes;
     }
     else

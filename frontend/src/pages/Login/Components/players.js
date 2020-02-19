@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../styles/players.css";
 import { connect } from "react-redux";
-import Axios from "axios";
+import axios from "axios";
 
 class players extends Component {
   constructor(props) {
@@ -365,7 +365,8 @@ class players extends Component {
       (x1 === 1 && x2 === 1 && x3 === 1 && x4 === 0 && x5 === 0 && x6 === 0) ||
       (x1 === 1 && x2 === 1 && x3 === 1 && x4 === 1 && x5 === 1 && x6 === 1)
     ) {
-      Axios.post("https://jsonplaceholder.typicode.com/posts", this.props.state)
+      axios
+        .post("http://sanket212000.pythonanywhere.com/signup", this.props.state)
         .then(response => {
           console.log(response);
         })
@@ -510,7 +511,7 @@ class players extends Component {
 
 const mapStateToProps = state => {
   return {
-    state : state.root
+    state: state.root
   };
 };
 

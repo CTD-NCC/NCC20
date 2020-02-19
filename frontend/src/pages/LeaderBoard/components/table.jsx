@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./table.css";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
+import { connect } from "react-redux";
 class MoviesTable extends Component {
   columns = [
     { path: "rank", label: "Rank" },
@@ -16,19 +17,48 @@ class MoviesTable extends Component {
   ];
 
   render() {
+    console.log(this.props.minutes);
     const { newTable, teams, search } = this.props;
-    return (
-      <table className="table sanTable borderless">
-        <TableHeader columns={this.columns} />
-        <TableBody
-          data={newTable}
-          columns={this.columns}
-          teams={teams}
-          search={search}
-        />
-      </table>
-    );
+    if (this.props.minutes < 15) {
+      return (
+        <React.Fragment>
+          <div className="sanTable2">
+            <img src="/lock.svg" className="lockImage"></img>
+          </div>
+          <table className="table sanTable3 borderless">
+            <TableHeader columns={this.columns} />
+            <TableBody
+              data={newTable}
+              columns={this.columns}
+              teams={teams}
+              search={search}
+            />
+          </table>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <div className="sanTable1"></div>
+          <table className="table sanTable borderless">
+            <TableHeader columns={this.columns} />
+            <TableBody
+              data={newTable}
+              columns={this.columns}
+              teams={teams}
+              search={search}
+            />
+          </table>
+        </React.Fragment>
+      );
+    }
   }
 }
-
-export default MoviesTable;
+const mapStateToProps = state => {
+  return {
+    seconds: state.root.seconds,
+    minutes: state.root.minutes,
+    hours: state.root.hours
+  };
+};
+export default connect(mapStateToProps)(MoviesTable);

@@ -24,16 +24,16 @@
 }
 
 .console{
-    text-align: center;
-    font-size: 4vh;
+    font-size: 2.5vh;
+    padding : 2vh;
     border-radius:1vh;
     width:100%;
-    height:100%;
+    height:30vh;
     border:none;
-    resize: none;
     box-shadow: inset 0 0 5px #0350b4;
     color:rgba(17, 24, 46, 0.836);
     background-color: rgba(255, 255, 255, 0.452);
+    overflow-y:auto;
 }
 
 .console:focus{
@@ -84,7 +84,31 @@
 .bgd{
         background-color: rgb(148, 39, 36);
 }
-
+.bgw{
+        background-color: rgba(241, 203, 33, 0.979);
+}
+.bgg{
+        background-color: rgb(56, 53, 53);
+}
+.bgr{
+        background-color: rgba(247, 241, 241, 0.877);
+        color : black;
+}
+::-webkit-scrollbar {
+        width: 8px;
+        background: transparent;
+}
+::-webkit-scrollbar-thumb {
+        background-color: rgba(32, 32, 32, 0.8);
+}
+::-webkit-scrollbar-track {
+        background-color: rgba(236, 251, 252, 0);
+}
+      
+.scroller {
+        scrollbar-color: rgba(32, 32, 32, 0.8) rgb(236, 251, 252, 0);
+        scrollbar-width: thin;
+}
 .bgload{
         background-color: rgb(72, 76, 83);
 }

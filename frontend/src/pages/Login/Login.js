@@ -28,7 +28,9 @@ class App extends React.Component {
       count: 60,
       width: 0,
       colorBar: "#05a000",
-      redirect: false
+      redirect: false,
+      buttonDisable: true,
+      startClass: "startContest"
     };
   }
 
@@ -116,6 +118,12 @@ class App extends React.Component {
     });
   }
 
+  handleStart() {
+    this.setState({
+      redirect: true
+    });
+  }
+
   render() {
     if (this.state.redirect) {
       this.setState({
@@ -181,19 +189,29 @@ class App extends React.Component {
                     <li>Each question has 100 points.</li>
                     <li>Duration of the contest is 3 hours.</li>
                   </ol>
-                  <div className="textt">The Game starts in</div>
+                  <div className="textt">You can start the contest in</div>
                   <div className="start">
                     <p>
                       {this.state.minutes}:{this.state.padd}
                       {this.state.seconds}
                     </p>
                   </div>
+                  <div className="texttt">
+                    <button
+                      type="button"
+                      className={this.state.startClass}
+                      disabled={this.state.buttonDisable}
+                      onClick={this.handleStart.bind(this)}
+                    >
+                      Start
+                    </button>
+                  </div>
                   <div
                     style={{
                       height: "1vh",
                       width: "100%",
                       backgroundColor: "#d7f8f5",
-                      marginTop: "-2.5vh"
+                      marginTop: "7vh"
                     }}
                   >
                     <div
@@ -219,7 +237,8 @@ class App extends React.Component {
       if (this.state.count === 0) {
         clearInterval(this.myinterval);
         this.setState({
-          redirect: true
+          buttonDisable: false,
+          startClass: "unblock"
         });
       }
       var per = ((60 - this.state.count) / 60) * 100;

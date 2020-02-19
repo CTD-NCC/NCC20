@@ -7,20 +7,29 @@ const initState = {
   player2Name: "",
   player2Contact: "",
   player2Email: "",
-  lastSubmission: ""
+  lastSubmission: "",
+  seconds: 0,
+  minutes: 0,
+  hours: 0
 };
 
-const rootReducer = (state = {
-  userName: "",
-  password: "",
-  player1Name: "",
-  player1Contact: "",
-  player1Email: "",
-  player2Name: "",
-  player2Contact: "",
-  player2Email: "",
-  lastSubmission: ""
-}, action) => {
+const rootReducer = (
+  state = {
+    userName: "",
+    password: "",
+    player1Name: "",
+    player1Contact: "",
+    player1Email: "",
+    player2Name: "",
+    player2Contact: "",
+    player2Email: "",
+    lastSubmission: "",
+    seconds: 0,
+    minutes: 0,
+    hours: 0
+  },
+  action
+) => {
   switch (action.type) {
     case "CHANGE_USERNAME":
       return {
@@ -66,6 +75,21 @@ const rootReducer = (state = {
       return {
         ...state,
         lastSubmission: action.newSubmission
+      };
+    case "CHANGE_SECONDS":
+      return {
+        ...state,
+        seconds: action.seconds
+      };
+    case "CHANGE_MINUTES":
+      return {
+        ...state,
+        minutes: action.minutes
+      };
+    case "CHANGE_HOURS":
+      return {
+        ...state,
+        hours: action.hours
       };
   }
   return state;

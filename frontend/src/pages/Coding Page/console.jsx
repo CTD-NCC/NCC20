@@ -15,9 +15,9 @@ const Console =(props) => {
             marginLeft : ".5vw",
             
         }}>
-            <textarea className="console" readOnly>
-              Console
-            </textarea>
+            <div className="console" >
+              <h3 style={{textAlign:"center"}}>Console</h3>
+            </div>
         </div>
      );
      return null;

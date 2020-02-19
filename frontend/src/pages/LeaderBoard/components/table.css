@@ -10,8 +10,73 @@
   background-color: rgba(8, 8, 15, 0.8);
   border-radius: 7px;
   color: whitesmoke;
-
+  z-index: 1;
   width: 70vw;
+  margin-top: -64vh;
+}
+.sanTable1 {
+  border: none;
+  box-shadow: -3px -3px 7px rgb(155, 218, 223),
+    3px 3px 5px rgba(8, 8, 15, 0.466);
+  text-align: center;
+  justify-content: center;
+  margin-top: -2vh;
+  margin-bottom: 1vh;
+  margin-left: 7vw;
+  background-color: rgba(8, 8, 15, 0.8);
+  border-radius: 7px;
+  color: whitesmoke;
+  height: 63vh;
+  width: 70vw;
+  z-index: 0;
+  margin-top: 0vh;
+}
+.sanTable3 {
+  border: none;
+  box-shadow: -3px -3px 7px rgb(155, 218, 223),
+    3px 3px 5px rgba(8, 8, 15, 0.466);
+  text-align: center;
+  justify-content: center;
+  margin-top: -2vh;
+  margin-bottom: 1vh;
+  margin-left: 7vw;
+  background-color: rgba(8, 8, 15, 0.8);
+  border-radius: 7px;
+  color: whitesmoke;
+  z-index: 0;
+  width: 70vw;
+  margin-top: -64vh;
+  animation: sanBlur 1s forwards;
+}
+
+@keyframes sanBlur {
+  from {
+    text-shadow: 0;
+    color: whitesmoke;
+  }
+  to {
+    text-shadow: 0 0 10px rgb(155, 218, 223);
+    color: transparent;
+  }
+}
+.sanTable2 {
+  border: none;
+  box-shadow: -3px -3px 7px rgb(155, 218, 223),
+    3px 3px 5px rgba(8, 8, 15, 0.466);
+  text-align: center;
+  justify-content: center;
+  margin-top: -2vh;
+  margin-bottom: 1vh;
+  margin-left: 7vw;
+  background-color: rgba(8, 8, 15, 0.8);
+  border-radius: 7px;
+  color: whitesmoke;
+  height: 63vh;
+  width: 70vw;
+  z-index: 1;
+  margin-top: 0vh;
+  display: flex;
+  align-items: center;
 }
 .borderless th {
   border: none;
@@ -31,4 +96,8 @@
   color: whitesmoke;
   animation-name: blackWhite;
   animation-duration: 1s;
+}
+.lockImage {
+  width: 40vw;
+  height: 40vh;
 }

@@ -5,6 +5,7 @@ import CurrentScore from "./currentScore";
 import Title from '../title';
 import { connect } from "react-redux";
 import "font-awesome/css/font-awesome.min.css";
+import axios from "axios";
 
 class Testcases extends Component {
 
@@ -16,28 +17,45 @@ class Testcases extends Component {
     classes = classes + "border border-secondary";
     return classes;
     }
-    classes =
-      testcase === "pass"
-        ? classes + "border border-success"
-        : classes + "border border-danger";
+    if(testcase === "AC")
+      classes = classes + "border border-success"
+    else if(testcase === "WA")
+      classes = classes + "border border-danger";
+    else if(testcase === "CTE")
+      classes = classes + "border border-warning";
+    else if(testcase === "RTE")
+       classes = classes + "border border-secondary";
+    else
+       classes = classes + "border"
     return classes;
   };
 
   componentDidMount(){
+    var result , score ,total ,error ;
+    axios.get("http://sanket212000.pythonanywhere.com/test/").then((response) => {
+      this.props.updateTestcases(response.data.testcases);
+      result = response.data.status;
+      score = response.data.score;
+      total =  response.data.total;
+      error = response.data.error;
+   });
     let time =0;
     var i= setInterval(this.setTime=()=>{
       time =time +1;
       this.props.updateTime(time);
       if(time===150)
       {
-        this.props.updateResult("PASS");
+        this.props.updateResult(result);
+        this.props.updateScore(score);
+        this.props.updateTotal(total);
+        this.props.updateConsole(error);
         clearInterval(i);
       }
     },40);
    
   }
   render() {
-
+    
     return (
       <div className="col-sm-12">
         <div className="row" style={{ height: "55vh" ,marginTop:"6vh"}}>
@@ -85,7 +103,7 @@ class Testcases extends Component {
               marginRight: "5vw"
             }}
           >
-            <CurrentScore />
+            <CurrentScore score = {this.props.score} />
           </div>
         </div>
         <div
@@ -93,9 +111,10 @@ class Testcases extends Component {
           style={{ display: "flex", justifyContent: "center", height: "28vh" }}
         >
           <div className="col-lg-11">
-            <textarea className="console" readOnly>
-              Console
-            </textarea>
+            <div className="console scroller" >
+              <h4 style={{ textAlign:"center"}}>Console</h4>
+               {this.props.error} 
+            </div>
           </div>
         </div>
       </div>
@@ -107,7 +126,9 @@ const mapStateToProps = state => {
   return  {
     testcases : state.testcases.testcases,
     time : state.testcases.time,
-    result : state.testcases.result
+    result : state.testcases.result,
+    score : state.testcases.score,
+    error : state.testcases.error
   };
 }
 
@@ -115,7 +136,10 @@ const mapDispatchToProps = dispatch => {
  return {
    updateTime : (time) => { dispatch({type :"UPDATE_TIME",time : time})},
    updateResult : (result) => { dispatch({type : "UPDATE_RESULT",result : result})},
-  
+   updateTestcases : (testcases) => { dispatch({type : "UPDATE_TESTCASES",testcases : testcases})},
+   updateScore : (score) => { dispatch({ type : "UPDATE_SCORE", score : score})},
+   updateTotal : (total) => { dispatch({ type : "UPDATE_TOTAL", total : total})},
+   updateConsole : (error) => { dispatch({ type : "UPDATE_CONSOLE", error : error})}
  }
 }
 

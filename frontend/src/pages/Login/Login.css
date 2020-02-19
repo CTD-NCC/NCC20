@@ -74,7 +74,15 @@
   color: aliceblue;
   display: flex;
   justify-content: center;
-  margin-top: 20vh;
+  margin-top: 10vh;
+}
+
+.texttt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vh;
+  height: 2vh;
 }
 
 .toCode {
@@ -102,4 +110,34 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.startContest {
+  cursor: not-allowed;
+  color: #0099cc;
+  margin-bottom: 0vh;
+  background: transparent;
+  border: 2px solid #0099cc;
+  border-radius: 6px;
+  transition: 0.3s;
+  height: 5vh;
+  width: 7vw;
+  font-size: 20px;
+}
+
+.unblock {
+  color: #0099cc;
+  margin-bottom: 0vh;
+  background: transparent;
+  border: 2px solid #0099cc;
+  border-radius: 6px;
+  transition: 0.3s;
+  height: 5vh;
+  width: 7vw;
+  font-size: 20px;
+}
+
+.unblock:hover {
+  background-color: #0099cc;
+  color: whitesmoke;
 }

@@ -12,6 +12,7 @@ import "codemirror/mode/clike/clike";
 import "codemirror/addon/edit/closebrackets.js";
 import Question from "../../mainComponents/Questions";
 import { connect } from "react-redux";
+import axios from "axios";
 
 class CodingPage extends Component {
   constructor(props) {
@@ -20,7 +21,8 @@ class CodingPage extends Component {
     this.state = {
       redirect: false,
       renderConsole: false,
-      value: ""
+      value: "",
+      run: ""
     };
     let fileReader;
     this.console = React.createRef();
@@ -39,17 +41,36 @@ class CodingPage extends Component {
   }
 
   handleClick = () => {
-     this.props.resetTestcase();
+    this.props.resetTestcase();
     this.setState({
-      redirect: true
+      redirect: true,
+      run: "false"
     });
     this.setState({ renderConsole: false });
+    axios
+      .post("http://sanket212000.pythonanywhere.com/code/1/", this.state)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   handleConsole = () => {
     this.setState({
-      renderConsole: true
+      renderConsole: true,
+      run: "true"
     });
+
+    axios
+      .post("http://sanket212000.pythonanywhere.com/code/1/", this.state)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
   handleFileRead = e => {
     const content = this.fileReader.result;
@@ -235,10 +256,10 @@ const mapDispatchToProps = dispatch => {
         newSubmission: value
       });
     },
-    resetTestcase : () => {
+    resetTestcase: () => {
       dispatch({
-        type : "RESET_TESTCASES",
-      })
+        type: "RESET_TESTCASES"
+      });
     }
   };
 };

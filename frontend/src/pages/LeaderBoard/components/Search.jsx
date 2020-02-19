@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Search.css";
+import { connect } from "react-redux";
 //import "font-awesome/css/font-awesome.min.css";
 class Search extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class Search extends Component {
     return (
       <div className="row myrow">
         <form onSubmit={e => this.onFormSubmit(this.props.search, e)}>
-          <div className="spanSearch">
+          <div className={this.props.minutes < 15 ? "spanGayab" : "spanSearch"}>
             <input
               type="text"
               className="form-control"
@@ -41,5 +42,11 @@ class Search extends Component {
     );
   }
 }
-
-export default Search;
+const mapStateToProps = state => {
+  return {
+    seconds: state.root.seconds,
+    minutes: state.root.minutes,
+    hours: state.root.hours
+  };
+};
+export default connect(mapStateToProps)(Search);

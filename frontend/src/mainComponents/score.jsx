@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {Component} from 'react';
 import "./navBar.css";
+import { connect } from "react-redux";
 
-const Score = () => {
+class Score extends Component {
+    
+    render() { 
+         
     return (  
         <div className="col-sm-9" >
             <div className="row sc" style={{
@@ -13,10 +17,15 @@ const Score = () => {
                                              fontSize:"2.5vh",
                                              }}>
                 SCORE :
-                <span >100</span>
+                <span >{this.props.total}</span>
             </div>
         </div>
     );
 }
- 
-export default Score;
+}
+const mapStateToProps = state => {
+    return  {
+      total : state.testcases.total
+    };
+  }
+export default connect(mapStateToProps)(Score);
