@@ -66,17 +66,16 @@ class Signup(APIView):
         return Response(template_name='frontend/build/index.html')
 
     def post(self, request):
-        #receive = json.loads(request.body.decode("utf-8"))
-        username = request.POST.get('userName')
-        # password = receive.get('password')
-        # email1 = receive.get('player1Email')
-        # email2 = receive.get('player2Email')
-        # name1 = receive.get('player1Name')
-        # name2 = receive.get('player2Name')
-        # phone1 = receive.get('player1Contact')
-        # phone2 = receive.get('player2Contact')
-        # junior = request.POST['junior']
-        print(username)
+        receive = json.loads(request.body.decode("utf-8"))
+        username = receive.get('userName')
+        password = receive.get('password')
+        email1 = receive.get('player1Email')
+        email2 = receive.get('player2Email')
+        name1 = receive.get('player1Name')
+        name2 = receive.get('player2Name')
+        phone1 = receive.get('player1Contact')
+        phone2 = receive.get('player2Contact')
+        junior = receive.get('year')
         user = User.objects.create_user(username=username, password=password)
 
         userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
@@ -363,6 +362,6 @@ class Result(APIView):
 def garbage(request, garbage):
     if request.user.is_authenticated:
         logout(request)
-        return HttpResponseRedirect(reverse('questionhub'))
+        return HttpResponseRedirect(reverse('questionHub'))
     else:
         return HttpResponseRedirect(reverse("signup"))

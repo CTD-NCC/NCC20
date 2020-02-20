@@ -184,11 +184,12 @@ class team extends Component {
               name="optradio"
               className="radioButton"
               defaultChecked
+              value= "Junior"
             ></input>
             Junior
           </label>
           <label class="radio-inline">
-            <input type="radio" name="optradio" className="radioButton"></input>
+            <input type="radio" name="optradio" value="Senior" className="radioButton"></input>
             Senior
           </label>
         </div>

@@ -27,7 +27,8 @@ const rootReducer = (
     lastSubmission: "",
     seconds: 0,
     minutes: 0,
-    hours: 0
+    hours: 0,
+    year:false
   },
   action
 ) => {
@@ -91,6 +92,11 @@ const rootReducer = (
       return {
         ...state,
         hours: action.hours
+      };
+    case "CHANGE_YEAR":
+      return {
+        ...state,
+        year: action.year
       };
   }
   return state;

@@ -367,14 +367,7 @@ class players extends Component {
     ) {
     console.log(this.props.state);
       axios
-        .post("http://192.168.43.62:8000/signup/", this.props.state,
-        {
-            headers: {
-            'Content-Type':'application/json'
-
-            }
-        }
-        )
+        .post("http://192.168.43.62:8000/signup/", this.props.state)
         .then(response => {
           console.log(response);
         })
