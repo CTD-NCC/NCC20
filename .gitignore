@@ -1,6 +1,5 @@
 myenv
 .idea/
-db.sqlite3
 ncc/__pycache__
 UserApp/__pycache__
 node_modules

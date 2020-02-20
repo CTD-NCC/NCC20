@@ -48,17 +48,6 @@ def compare(user_out, e_out):
 
 
 def clean_up(user_que_path):
-    # CALL THIS LOGIC ON LOGOUT
-
-    # items = ['temp.py', 'exe']
-    #
-    # for i in items:
-    #     fp = user_que_path + i
-    #     if os.path.exists(fp):
-    #         os.system('rm ' + fp)
-
-    # use regex here (learn it)
-
     for i in range(TESTCASES_NO):
         fp = user_que_path + 'output{}.txt'.format(i + 1)
         if os.path.exists(fp):
@@ -160,7 +149,7 @@ def exec_main(username, qno, lang, attempts=None, run=False):
 
     if run:
         process_code = run_test_case(
-            test_case_no=7,
+            test_case_no=1,
             user_que_path=user_question_path,
             code_file_path=code_file_path,
             qno=qno
