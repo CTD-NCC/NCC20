@@ -80,6 +80,7 @@ class Signup(APIView):
 
         userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
                                   phone2=phone2, junior=junior) #level remaining
+        user.save()
         userprofile.save()
         login(request, user)
         os.system(f'mkdir {pathusercode}/{username}')
@@ -128,7 +129,7 @@ class Code(APIView):
 
     #ajax request for run and normal post request for submit
     def post(self, request, qn):
-        if request.user.is_authenticated:
+        #if request.user.is_authenticated:
             question = Question.objects.get(pk=qn)
             usr = request.user
             userprof = UserProfile.objects.get(user=usr)
@@ -249,13 +250,13 @@ class Code(APIView):
 
             return JsonResponse(dict)
 
-        else:
-            return HttpResponseRedirect(reverse('signup'))
+        # else:
+        #     return HttpResponseRedirect(reverse('signup'))
 
 
 class LeaderBoard(APIView):
     def get(self, request):
-        if request.user.is_authenticated:
+        # if request.user.is_authenticated:
             for player in UserProfile.objects.order_by("-totalScore", "latestSubTime"):
                 l = {
                     'user': player.user.username,
@@ -271,13 +272,13 @@ class LeaderBoard(APIView):
                         l[f'q{i}'] = 0
 
             return JsonResponse(l)
-        else:
-            return HttpResponseRedirect(reverse('signup'))
+        # else:
+        #     return HttpResponseRedirect(reverse('signup'))
 
 
 class Submissions(APIView):
     def get(self, request, qn):
-        if request.user.is_authenticated:
+        # if request.user.is_authenticated:
             que = Question.objects.get(pk=qn)
             total_submissions = Submission.objects.filter(user=request.user)
             usersub = []
@@ -287,16 +288,16 @@ class Submissions(APIView):
                     usersub.append(submission)
 
             return Response({"submissions": usersub})
-        else:
-            return HttpResponseRedirect(reverse('signup'))
+        # else:
+        #     return HttpResponseRedirect(reverse('signup'))
 
 
 class Questionhub(APIView):
     def get(self, request):
-        if request.user.is_authenticated:
+        #if request.user.is_authenticated:
             all_questions = Question.objects.all()
             data = []
-
+            print(request.user.username)
             for que in all_questions:
                 detail = {
                     "question_title": que.titleQue,
@@ -306,13 +307,13 @@ class Questionhub(APIView):
                 data.append(detail)
 
             return Response(data)
-        else:
-            return HttpResponseRedirect(reverse('signup'))
+        # else:
+        #     return HttpResponseRedirect(reverse('signup'))
 
 
 class Result(APIView):
     def get(self, request):
-        if request.user.is_authenticated:
+        # if request.user.is_authenticated:
             l = []
             d = {}
             for i in range(1, 7):
@@ -354,8 +355,8 @@ class Result(APIView):
 
             logout(request)
             return Response(l)
-        else:
-            return HttpResponseRedirect(reverse('signup'))
+        # else:
+        #     return HttpResponseRedirect(reverse('signup'))
 
 
 # function based

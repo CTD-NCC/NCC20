@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   async componentDidMount(){
-    axios.get("http://192.168.43.62:8000/result/").then( response => {
+    axios.get("http://10.10.15.66:8000/result/").then( response => {
       this.setState({
         submissions: response.data, 
         atharva: "fetched",

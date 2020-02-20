@@ -367,7 +367,26 @@ class players extends Component {
     ) {
     console.log(this.props.state);
       axios
-        .post("http://192.168.43.62:8000/signup/", this.props.state)
+        .post("http://10.10.15.66:8000/signup/", this.props.state,
+
+        { header:{
+            'Content-Type':'application/json',
+            'Access-Control-Allow-Origin':'*',
+
+        }
+        }
+
+        )
+//    const header={
+//        'Content-Type':'application/json',
+//    }
+//    const data= this.props.state
+//    axios({
+//        method:'POST',
+//        url:'http://10.10.15.66:8000/signup/',
+//        headers:header,
+//        data:data
+//    })
         .then(response => {
           console.log(response);
         })
@@ -381,7 +400,7 @@ class players extends Component {
   render() {
     return (
       <div className={this.state.class}>
-        <form>
+        <form method="post">
           <div className="player1">
             <div className="header">Player 1</div>
             <div className="in1 inputbox">

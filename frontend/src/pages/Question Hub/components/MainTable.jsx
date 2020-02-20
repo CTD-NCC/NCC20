@@ -13,7 +13,7 @@ class QuestionH extends Component {
     };
   }
   async componentDidMount(){
-    axios.get("http://192.168.43.62:8000/question/").then(response => {
+    axios.get("http://10.10.15.66:8000/question/").then(response => {
       this.setState({questions : response.data })
     });
     

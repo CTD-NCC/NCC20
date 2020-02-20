@@ -32,7 +32,7 @@ class FinalBoard extends Component {
     // let response = await fetch(url);
     // let data = await response.json();
     // console.log(data[0]);
-    axios.get("http://192.168.43.62:8000/leaderboard/").then(
+    axios.get("http://10.10.15.66:8000/leaderboard/").then(
       response=>{
         this.setState({
           teams: response.data,
