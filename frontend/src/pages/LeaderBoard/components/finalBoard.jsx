@@ -8,7 +8,11 @@ import Search from "./Search";
 import "./finalBoard.css";
 import axios from "axios";
 
-class FinalBoard extends Component {
+class FinalBoard exte
+ delete mode 100644 frontend/build/logout.png
+ delete mode 100644 frontend/build/logout1.png
+ delete mode 100644 frontend/build/manifest.json
+ delete mode 100644 frontend/build/precache-manifest.9f293e81da69fb9nds Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +36,7 @@ class FinalBoard extends Component {
     // let response = await fetch(url);
     // let data = await response.json();
     // console.log(data[0]);
-    axios.get("http://Sanket212000.pythonanywhere.com/leaderboard/").then(
+    axios.get("http://192.168.43.62:8000/leaderboard/").then(
       response=>{
         this.setState({
           teams: response.data,

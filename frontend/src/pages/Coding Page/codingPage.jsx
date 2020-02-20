@@ -48,7 +48,7 @@ class CodingPage extends Component {
     });
     this.setState({ renderConsole: false });
     axios
-      .post("http://sanket212000.pythonanywhere.com/code/1/", this.state)
+      .post("http://192.168.43.62:8000/code/1/", this.state)
       .then(response => {
         console.log(response);
       })
@@ -64,7 +64,7 @@ class CodingPage extends Component {
     });
 
     axios
-      .post("http://sanket212000.pythonanywhere.com/code/1/", this.state)
+      .post("http://192.168.43.62:8000/code/1/", this.state)
       .then(response => {
         console.log(response);
       })

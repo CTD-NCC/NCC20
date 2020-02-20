@@ -66,7 +66,7 @@ class Timer extends Component {
 
   componentDidMount() {
     //let hrs = 60 * 60 * 3;
-    axios.get("http://Sanket212000.pythonanywhere.com/time/")
+    axios.get("http://192.168.43.62:8000/time/")
     .then(response=> {
       console.log(response);
        this.setState({

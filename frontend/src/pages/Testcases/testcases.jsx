@@ -32,7 +32,7 @@ class Testcases extends Component {
 
   componentDidMount(){
     var result , score ,total ,error ;
-    axios.get("http://sanket212000.pythonanywhere.com/test/").then((response) => {
+    axios.get("http://192.168.43.62:8000/test/").then((response) => {
       this.props.updateTestcases(response.data.testcases);
       result = response.data.status;
       score = response.data.score;

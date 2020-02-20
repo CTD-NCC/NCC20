@@ -366,7 +366,7 @@ class players extends Component {
       (x1 === 1 && x2 === 1 && x3 === 1 && x4 === 1 && x5 === 1 && x6 === 1)
     ) {
       axios
-        .post("http://sanket212000.pythonanywhere.com/signup", this.props.state)
+        .post("http://192.168.43.62:8000/signup/", this.props.state)
         .then(response => {
           console.log(response);
         })
@@ -497,6 +497,7 @@ class players extends Component {
             </button>
             <button
               type="submit"
+              htmlType="submit"
               className="LLogin"
               onClick={this.handleClick.bind(this)}
             >

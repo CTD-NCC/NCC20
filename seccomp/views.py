@@ -143,14 +143,6 @@ def exec_main(username, qno, lang, attempts=None, run=False):
 
     signals = get_signals_dict()
 
-    # Make a temporary sandbox file to import for the current code (A better soltion is relative imports)
-    # Implement it later
-    with open(user_question_path + 'temp.py', 'w+') as f:
-        sand = open(sandbox_file_py, 'r')
-        f.write(sand.read())
-        sand.close()
-        f.close()
-
     error_file = user_question_path + "error.txt"
 
     result = []
@@ -158,10 +150,13 @@ def exec_main(username, qno, lang, attempts=None, run=False):
     # Compile only if c or cpp
     return_value = compile_code(user_question_path, code_file_path, error_file)  # calling compile()
     print("compile", return_value)
+
     if return_value != 0:
-        result = ["CTE"] * TESTCASES_NO
-        # clean_up(user_question_path)
-        return result
+        if run == False:
+            result = ["CTE"] * TESTCASES_NO
+            return result
+        else:
+            return 'CTE'
 
     if run:
         process_code = run_test_case(
@@ -171,7 +166,7 @@ def exec_main(username, qno, lang, attempts=None, run=False):
             qno=qno
         )
         print("pc", process_code)
-        result.append(signals[process_code])
+        return signals[process_code]
 
     else:
         for i in range(TESTCASES_NO):

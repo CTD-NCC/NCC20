@@ -118,12 +118,13 @@ class Code(APIView):
                 "user": user.username,
                 "question_title": que_title,
                 "question": que,
-                "total": user.totalScore,
+                #"total": user.totalScore,
             }
             return JsonResponse(data)
         else:
             return redirect(reverse('singup'))
 
+    #ajax request for run and normal post request for submit
     def post(self, request, qn):
         if request.user.is_authenticated:
             question = Question.objects.get(pk=qn)
@@ -163,72 +164,86 @@ class Code(APIView):
             codefile.write(content)
             code_f.close()
 
-            now_time = datetime.datetime.now()
-            now_time_sec = now_time.second + now_time.minute * 60 + now_time.hour * 60 * 60
-            global starttime
-            submit_Time = now_time_sec - starttime
+            if not runflag:
+                now_time = datetime.datetime.now()
+                now_time_sec = now_time.second + now_time.minute * 60 + now_time.hour * 60 * 60
+                global starttime
+                submit_Time = now_time_sec - starttime
 
-            hour = submit_Time // (60 * 60)
-            val = submit_Time % (60 * 60)
-            min = val // 60
-            sec = val % 60
+                hour = submit_Time // (60 * 60)
+                val = submit_Time % (60 * 60)
+                min = val // 60
+                sec = val % 60
 
-            subTime = f'{hour}:{min}:{sec}'
+                subTime = f'{hour}:{min}:{sec}'
 
-            sub = Submission(code=content, user=usr, que=question, attempt=att, subTime=subTime)
+                sub = Submission(code=content, user=usr, que=question, attempt=att, subTime=subTime)
 
-            mulque.attempts += 1
-            mulque.save()
+                mulque.attempts += 1
+                mulque.save()
 
-            error_text = ""
-            epath = pathusercode + f"/{username}/question{qn}/error.txt"
+                error_text = ""
+                epath = pathusercode + f"/{username}/question{qn}/error.txt"
 
-            if os.path.exists(epath):
-                err = open(epath, "r")
-                error_text = err.read()
-                error_text = re.sub('/.*?:', '', error_text)
-                err.close()
+                if os.path.exists(epath):
+                    err = open(epath, "r")
+                    error_text = err.read()
+                    error_text = re.sub('/.*?:', '', error_text)
+                    err.close()
 
-            no_of_pass = 0
-            for i in testcase_values:
-                if i == 'AC':
-                    no_of_pass += 1
+                no_of_pass = 0
+                for i in testcase_values:
+                    if i == 'AC':
+                        no_of_pass += 1
 
-            sub.correctTestCases = no_of_pass
-            sub.TestCasesPercentage = (no_of_pass / NO_OF_TEST_CASES) * 100
-            sub.save()
+                sub.correctTestCases = no_of_pass
+                sub.TestCasesPercentage = (no_of_pass / NO_OF_TEST_CASES) * 100
+                sub.save()
 
-            status = 'AC' if no_of_pass == NO_OF_TEST_CASES else 'WA'  # overall Status
-            sub.subStatus = status
+                status = 'AC' if no_of_pass == NO_OF_TEST_CASES else 'WA'  # overall Status
+                sub.subStatus = status
 
-            if status == 'AC':
-                userprof.totalScore += 100
-                question.totalSuccessfulSub += 1
-                question.totalSub += 1
-                sub.subScore = 100
-                mulque.scoreQuestion = 100
-                userprof.latestSubTime = subTime
+                if status == 'AC':
+                    userprof.totalScore += 100
+                    question.totalSuccessfulSub += 1
+                    question.totalSub += 1
+                    sub.subScore = 100
+                    mulque.scoreQuestion = 100
+                    userprof.latestSubTime = subTime
 
+                else:
+                    question.totalSub += 1
+                    sub.subScore = 0
+                    mulque.scoreQuestion = 0
+
+                try:
+                    question.accuracy = round((question.totalSuccessfulSub * 100 / question.totalSub), 1)
+                except ZeroDivisionError:
+                    question.accuracy = 0
+
+                question.save()
+                userprof.save()
+                mulque.save()
+
+                dict = {
+                    "testcases": testcase_values,
+                    "status": sub.subStatus,
+                    "error": error_text,
+                    "score": sub.subStatus,
+                }
             else:
-                question.totalSub += 1
-                sub.subScore = 0
-                mulque.scoreQuestion = 0
+                error_text = ""
+                epath = pathusercode + f"/{username}/question{qn}/error.txt"
+                if os.path.exists(epath):
+                    err = open(epath, "r")
+                    error_text = err.read()
+                    error_text = re.sub('/.*?:', '', error_text)
+                    err.close()
 
-            try:
-                question.accuracy = round((question.totalSuccessfulSub * 100 / question.totalSub), 1)
-            except ZeroDivisionError:
-                question.accuracy = 0
-
-            question.save()
-            userprof.save()
-            mulque.save()
-
-            dict = {
-                "testcases": testcase_values,
-                "status": sub.subStatus,
-                "error": error_text,
-                "score": sub.subStatus,
-            }
+                dict =  {
+                    "testcases": testcase_values,
+                    "error": error_text,
+                }
 
             return JsonResponse(dict)
 

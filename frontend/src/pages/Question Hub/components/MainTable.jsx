@@ -13,7 +13,7 @@ class QuestionH extends Component {
     };
   }
   async componentDidMount(){
-    axios.get("http://sanket212000.pythonanywhere.com/questionhub/").then(response => {
+    axios.get("http://192.168.43.62:8000/questionhub/").then(response => {
       this.setState({questions : response.data })
     });
     
