@@ -1,4 +1,6 @@
 from django.shortcuts import HttpResponseRedirect, redirect, reverse
+from rest_framework.utils import json
+
 from .serializer import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -61,23 +63,24 @@ class Signup(APIView):
     def get(self, request):
         if request.user.is_authenticated:
             return redirect(reverse('questionhub'))
-        return Response(template_name='frontend/public/index.html')
+        return Response(template_name='frontend/build/index.html')
 
     def post(self, request):
-        username = request.POST("username")
-        password = request.POST('password')
-        email1 = request.POST('email1')
-        email2 = request.POST('email2')
-        name1 = request.POST('name1')
-        name2 = request.POST('name2')
-        phone1 = request.POST('phone1')
-        phone2 = request.POST('phone2')
-        junior = request.POST('junior')
-
+        #receive = json.loads(request.body.decode("utf-8"))
+        username = request.POST.get('userName')
+        # password = receive.get('password')
+        # email1 = receive.get('player1Email')
+        # email2 = receive.get('player2Email')
+        # name1 = receive.get('player1Name')
+        # name2 = receive.get('player2Name')
+        # phone1 = receive.get('player1Contact')
+        # phone2 = receive.get('player2Contact')
+        # junior = request.POST['junior']
+        print(username)
         user = User.objects.create_user(username=username, password=password)
 
         userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
-                                  phone2=phone2, junior=junior)
+                                  phone2=phone2, junior=junior) #level remaining
         userprofile.save()
         login(request, user)
         os.system(f'mkdir {pathusercode}/{username}')

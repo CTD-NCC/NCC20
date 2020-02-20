@@ -206,6 +206,8 @@ class CodingPage extends Component {
               <span style={{ marginLeft: "63vw" }}>
                 <button
                   className="btn btn-dark"
+                  htmlType="submit"
+
                   style={{
                     marginTop: "1.4vh",
                     marginLeft: "-8vw",
@@ -218,6 +220,7 @@ class CodingPage extends Component {
                   Submit
                 </button>
                 <button
+                htmlType="submit"
                   className="btn btn-dark"
                   style={{
                     marginTop: "1.4vh",

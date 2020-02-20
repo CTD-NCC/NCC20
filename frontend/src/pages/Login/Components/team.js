@@ -130,6 +130,15 @@ class team extends Component {
     }
   }
 
+    handleYear(e) {
+        if(e.target.value==="Junior") {
+            this.props.changeYear(true);
+        }
+        else {
+            this.props.changeYear(false);
+        }
+    }
+
   render() {
     console.log(this.props.userName, this.props.passWord);
     return (
@@ -168,7 +177,7 @@ class team extends Component {
             1) 6 to 20 characters
           </p>
         </div>
-        <div className="radioWrapper">
+        <div className="radioWrapper" onChange={this.handleYear.bind(this)}>
           <label class="radio-inline radioLabel">
             <input
               type="radio"
@@ -196,7 +205,8 @@ class team extends Component {
 const mapStateToProps = state => {
   return {
     userName: state.root.userName,
-    passWord: state.root.password
+    passWord: state.root.password,
+    year: state.root.year
   };
 };
 
@@ -212,6 +222,12 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: "CHANGE_PASSWORD",
         password: passWord
+      });
+    },
+    changeYear: year => {
+      dispatch({
+        type: "CHANGE_YEAR",
+        year: year
       });
     }
   };

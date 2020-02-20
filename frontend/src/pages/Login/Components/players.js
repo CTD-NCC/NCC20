@@ -365,8 +365,16 @@ class players extends Component {
       (x1 === 1 && x2 === 1 && x3 === 1 && x4 === 0 && x5 === 0 && x6 === 0) ||
       (x1 === 1 && x2 === 1 && x3 === 1 && x4 === 1 && x5 === 1 && x6 === 1)
     ) {
+    console.log(this.props.state);
       axios
-        .post("http://192.168.43.62:8000/signup/", this.props.state)
+        .post("http://192.168.43.62:8000/signup/", this.props.state,
+        {
+            headers: {
+            'Content-Type':'application/json'
+
+            }
+        }
+        )
         .then(response => {
           console.log(response);
         })

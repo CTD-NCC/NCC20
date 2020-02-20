@@ -8,11 +8,7 @@ import Search from "./Search";
 import "./finalBoard.css";
 import axios from "axios";
 
-class FinalBoard exte
- delete mode 100644 frontend/build/logout.png
- delete mode 100644 frontend/build/logout1.png
- delete mode 100644 frontend/build/manifest.json
- delete mode 100644 frontend/build/precache-manifest.9f293e81da69fb9nds Component {
+class FinalBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
