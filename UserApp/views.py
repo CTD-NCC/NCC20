@@ -63,8 +63,8 @@ class Signup(APIView):
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect(reverse('questionhub'))
-        return Response(template_name='frontend/build/index.html')
+            return HttpResponse("get in signup")
+        return HttpResponse("Post in signup")
 
     def post(self, request):
         receive = json.loads(request.body.decode("utf-8"))

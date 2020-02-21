@@ -25,7 +25,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+
     'UserApp',
     'frontend',
     'corsheaders',
@@ -61,11 +69,12 @@ CORS_ALLOW_METHODS = [
 
 ROOT_URLCONF = 'ncc.urls'
 
+AUTH_USER_MODEL = 'UserApp.UserProfile'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'frontend/build')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
