@@ -9,16 +9,19 @@ class QuestionH extends Component {
   constructor() {
     super();
     this.state = {
-      questions:[]
+      questions: []
     };
   }
-  async componentDidMount(){
-    axios.get("http://10.10.15.66:8000/question/").then(response => {
-      this.setState({questions : response.data })
+  async componentDidMount() {
+    axios.get("http://127.0.0.1:8000/question/").then(response => {
+      this.setState({questions: response.data});
+      console.log(response);
     });
-    
+
   }
+
   render() {
+
     return (
       <div className="tdiv">
         {/* <h1>table created</h1> */}
@@ -73,5 +76,6 @@ class QuestionH extends Component {
     );
   }
 }
+
 
 export default QuestionH;

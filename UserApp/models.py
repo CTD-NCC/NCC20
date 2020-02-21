@@ -44,5 +44,6 @@ class Submission(models.Model):
     subStatus = models.CharField(default='NA', max_length=5)    # four type of submission status(WA, PASS, TLE, CTE)
     subTime = models.CharField(default='', max_length=50)
     subScore = models.IntegerField(default=0)
+    attempt = models.IntegerField(default=0)
     correctTestCases = models.IntegerField(default=0)
     TestCasesPercentage = models.IntegerField(default=0)

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./button.css";
 import "./mytable.css";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 class Button extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class Button extends Component {
   }
 
   handleClick = () => {
+
+    this.props.updateNo(this.props.Srno);
     this.setState({
       redirect: true
     });
@@ -28,10 +31,25 @@ class Button extends Component {
     // }
     return (
       <Link to={newTo}>
-        <button className="butView">Attempt</button>
+        <button className="butView" onClick = {this.handleClick}>Attempt</button>
       </Link>
     );
   }
 }
 
-export default Button;
+const mapStateToProps = state => {
+  return {
+    qno : state.coding.qno
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateNo: qno => {
+      dispatch({ type: "UPDATE_NO", qno : qno });
+    },
+
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Button);

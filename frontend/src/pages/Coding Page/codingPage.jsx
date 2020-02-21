@@ -10,7 +10,6 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/clike/clike";
 import "codemirror/addon/edit/closebrackets.js";
-import Question from "../../mainComponents/Questions";
 import { connect } from "react-redux";
 import axios from "axios";
 
@@ -22,15 +21,26 @@ class CodingPage extends Component {
       redirect: false,
       renderConsole: false,
       value: "",
-      run: ""
+      run: false
     };
     let fileReader;
     this.console = React.createRef();
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
+      axios.get("http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/").then(response => {
+          this.props.updateQuestion(response.data.question);
+      })
+  }
+
+
+
+    componentDidUpdate() {
     if (this.state.renderConsole === true)
       this.console.current.scrollIntoView({ behavior: "smooth" });
+      axios.get("http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/").then(response => {
+          this.props.updateQuestion(response.data.question);
+      })
   }
 
   passValue(val) {
@@ -44,27 +54,33 @@ class CodingPage extends Component {
     this.props.resetTestcase();
     this.setState({
       redirect: true,
-      run: "false"
+      run: false
     });
+    var result,status, total , score, error;
     this.setState({ renderConsole: false });
     axios
-      .post("http://10.10.15.66:8000/code/1/", this.state)
+      .post("http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", {content :this.state.value, runFlag :this.state.run , ext : this.props.ext})
       .then(response => {
-        console.log(response);
+          this.props.updateTestcases(response.data.testcases);
+      result = response.data.status;
+      score = response.data.score;
+      error = response.data.error;
+      this.props.updateResult(result);
+          this.props.updateScore(score);
+          this.props.updateConsole(error);
       })
       .catch(error => {
         console.log(error);
       });
   };
-
   handleConsole = () => {
     this.setState({
       renderConsole: true,
-      run: "true"
+      run: true
     });
 
     axios
-      .post("http://10.10.15.66:8000/code/1/", this.state)
+      .post("http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", {content :this.state.value, runFlag :this.state.run , ext : this.props.ext})
       .then(response => {
         console.log(response);
       })
@@ -103,7 +119,6 @@ class CodingPage extends Component {
       lineNumbers: true,
       theme: "material",
       mode: "text/x-c++src",
-      mode: "text/x-csrc",
       styleActiveLine: true,
       autoCloseBrackets: true,
       matchBrackets: true
@@ -143,11 +158,7 @@ class CodingPage extends Component {
                 overflow: "auto"
               }}
             >
-              {Question.map((question, key) => {
-                if (this.props.questionNumber === question.key) {
-                  return question.questionName;
-                }
-              })}
+                {this.props.question}
             </div>
             <div
               style={{
@@ -207,7 +218,6 @@ class CodingPage extends Component {
                 <button
                   className="btn btn-dark"
                   htmlType="submit"
-
                   style={{
                     marginTop: "1.4vh",
                     marginLeft: "-8vw",
@@ -220,7 +230,7 @@ class CodingPage extends Component {
                   Submit
                 </button>
                 <button
-                htmlType="submit"
+                  htmlType="submit"
                   className="btn btn-dark"
                   style={{
                     marginTop: "1.4vh",
@@ -247,7 +257,15 @@ class CodingPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    lastSubmission: state.lastSubmission
+    lastSubmission: state.root.lastSubmission,
+      question : state.coding.question,
+      qno : state.coding.qno,
+      ext : state.coding.ext,
+       testcases: state.testcases.testcases,
+    time: state.testcases.time,
+    result: state.testcases.result,
+    score: state.testcases.score,
+    error: state.testcases.error
   };
 };
 
@@ -260,9 +278,30 @@ const mapDispatchToProps = dispatch => {
       });
     },
     resetTestcase: () => {
-      dispatch({
-        type: "RESET_TESTCASES"
-      });
+        dispatch({
+            type: "RESET_TESTCASES"
+        });
+    },
+      updateQuestion: (question) => {
+      dispatch({ type: "UPDATE_QUESTION", question: question });
+    },
+       updateTime: time => {
+      dispatch({ type: "UPDATE_TIME", time: time });
+    },
+    updateResult: result => {
+      dispatch({ type: "UPDATE_RESULT", result: result });
+    },
+    updateTestcases: testcases => {
+      dispatch({ type: "UPDATE_TESTCASES", testcases: testcases });
+    },
+    updateScore: score => {
+      dispatch({ type: "UPDATE_SCORE", score: score });
+    },
+    updateTotal: total => {
+      dispatch({ type: "UPDATE_TOTAL", total: total });
+    },
+    updateConsole: error => {
+      dispatch({ type: "UPDATE_CONSOLE", error: error });
     }
   };
 };

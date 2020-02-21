@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import "./tabBar.css";
+import { connect } from "react-redux";
 
 class TabBar extends Component {
   handleClick(val) {
+    this.props.updateNo(val);
     this.props.passValue(val);
   }
   render() {
@@ -40,4 +42,20 @@ class TabBar extends Component {
   }
 }
 
-export default TabBar;
+const mapStateToProps = state =>{
+  return {
+    qno : state.coding.qno
+  }
+
+}
+
+const mapDispatchToProps = dispatch => {
+
+  return {
+     updateNo: qno => {
+      dispatch({ type: "UPDATE_NO", qno : qno });
+    },
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(TabBar);
