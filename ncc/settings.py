@@ -59,6 +59,14 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+]
+
 ROOT_URLCONF = 'ncc.urls'
 
 AUTH_USER_MODEL = 'UserApp.UserProfile'

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./CPPUse.css";
+import { connect } from "react-redux";
 
 class CPPUse extends Component {
   constructor(props) {
@@ -11,14 +12,16 @@ class CPPUse extends Component {
     };
   }
 
-  handleClickC() {
+  handleClickC = (ext)=> {
+    this.props.updateExt(ext);
     this.setState({
       classC: "orange",
       classCpp: "black"
     });
   }
 
-  handleClickCpp() {
+  handleClickCpp = (ext) => {
+    this.props.updateExt(ext);
     this.setState({
       classC: "black",
       classCpp: "orange"
@@ -32,7 +35,7 @@ class CPPUse extends Component {
           <div className="CDiv">
             <li
               className={`CLang ${this.state.classC}`}
-              onClick={this.handleClickC.bind(this)}
+              onClick={()=> this.handleClickC("c")}
             >
               <a>C</a>
             </li>
@@ -40,7 +43,7 @@ class CPPUse extends Component {
           <div className="CppDiv">
             <li
               className={`CppLang ${this.state.classCpp}`}
-              onClick={this.handleClickCpp.bind(this)}
+              onClick={() => this.handleClickCpp("cpp")}
             >
               <a>C++</a>
             </li>
@@ -51,4 +54,20 @@ class CPPUse extends Component {
   }
 }
 
-export default CPPUse;
+const mapStateToProps = state =>{
+  return {
+    ext : state.coding.ext
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateExt: ext => {
+      dispatch({
+        type: "UPDATE_EXT",
+        ext: ext
+      });
+    },
+  }
+}
+  export default connect(mapStateToProps, mapDispatchToProps)(CPPUse);

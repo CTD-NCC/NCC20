@@ -26,22 +26,20 @@ class FinalBoard extends Component {
     this.Searching = this.Searching.bind(this);
   }
   componentDidMount() {
-   // let Resp;
+    // let Resp;
 
     // const url = "http://Sanket212000.pythonanywhere.com/leaderboard/";
     // let response = await fetch(url);
     // let data = await response.json();
     // console.log(data[0]);
-    axios.get("http://10.10.15.66:8000/leaderboard/").then(
-      response=>{
-        this.setState({
-          teams: response.data,
-          teams1: response.data,
-          post: "fetched"
-        });
-      }
-    )
-    
+    axios.get("http://127.0.0.1:8000/leaderboard/").then(response => {
+      this.setState({
+        teams: response.data,
+        teams1: response.data,
+        post: "fetched"
+      });
+    });
+
     //console.log(this.state.teams[0].score);
     // axios
     //   .get("http://sanket212000.pythonanywhere.com/leaderboard/")

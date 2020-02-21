@@ -10,8 +10,8 @@ class Testcase extends Component {
 
   getProgressClass = () => {
     let classes = "progress-bar ";
-    if(this.state.width>=150)
-    {
+   if(this.state.width>=15)
+   {
       if(this.props.testcase === "AC") 
       classes =  classes + "bgs" ;
       else if(this.props.testcase === "WA")
@@ -29,17 +29,17 @@ class Testcase extends Component {
       classes = classes + "bgload";
       return classes;
     }
-  };
+ };
 
   
   componentDidMount(){
     let width = 0;
      setInterval(this.getWidth=()=>{
-        width = width + 1;
+        width = width + 10;
         this.setState({width});
-      
+
      },40);
-    
+
   }
 
   render() {
@@ -51,7 +51,7 @@ class Testcase extends Component {
           className={this.getProgressClass()}
           style={{ width: this.state.width + "%"}}
         >
-          {this.state.width>=150?this.props.testcase:""}
+          {this.state.width>=15?this.props.testcase:""}
         </div>
       </div>
       </div>
