@@ -6,3 +6,4 @@ node_modules
 seccomp/__pycache__
 frontend/build/
 db.sqlite3
+UserApp/migrations/
