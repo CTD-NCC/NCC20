@@ -3,7 +3,6 @@ from .main import run_in_sandbox
 
 TESTCASES_NO = 6
 
-path_main = 'judgeApp'
 path_users_code = 'data/usersCode/'
 standard_data = 'data/standard/'
 

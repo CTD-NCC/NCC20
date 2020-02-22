@@ -13,13 +13,15 @@ class QuestionH extends Component {
     };
   }
   async componentDidMount() {
-    axios.get("http://127.0.0.1:8000/question/").then(response => {
+    const options = {
+      headers : {'Username': "sanket"}
+    };
+    axios({method : 'get' ,url : "http://127.0.0.1:8000/question/", headers : {'Username' : "sanket" }}).then(response => {
       this.setState({questions: response.data});
       console.log(response);
     });
 
   }
-
   render() {
 
     return (

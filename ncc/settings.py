@@ -59,6 +59,19 @@ CORS_ALLOW_METHODS = [
     'DELETE',
 ]
 
+CORS_ALLOW_HEADERS  = [
+    'Username',
+    'accept',
+    'accept-encoding'
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with'
+]
+
 ROOT_URLCONF = 'ncc.urls'
 
 TEMPLATES = [

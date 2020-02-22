@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, reverse
+from rest_framework.authentication import BaseAuthentication,SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.utils import json
 from .serializer import *
@@ -6,7 +7,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from datetime import datetime
-import datetime, os, re
+import datetime
+import os
+import re
 from seccomp.views import exec_main
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
@@ -58,13 +61,25 @@ def time(request):
     sec = val % 60
     return JsonResponse({"time": curr_time, "hh": str(hour), "mm": str(min), "ss": str(sec)})
 
+def check(request):
+    username = request.GET.get('username')
+    data = {}
+    data['exist'] = User.objects.filter(username__iexact=username).exists()
+    return JsonResponse(data)
+
+
+def getuser(username):
+    user = User.objects.get(username=username)
+    return user
 
 class Signup(APIView):
 
     def get(self, request):
-        if request.user.is_authenticated:
+        username = request.META.get('HTTP_USERNAME')
+        if not username:
+            return redirect(reverse('signup'))
+        else:
             return redirect(reverse('questionhub'))
-        return Response(template_name='frontend/build/index.html')
 
     def post(self, request):
         receive = json.loads(request.body.decode("utf-8"))
@@ -98,7 +113,8 @@ def change_file_content(content, code_file):
         before_main = content.split('main')[0] + 'main'
         after_main = content.split('main')[1]
         index = after_main.find('{') + 1
-        main = before_main + after_main[:index] + 'install_filters();' + after_main[index:]
+        main = before_main + after_main[:index] + \
+            'install_filters();' + after_main[index:]
         with open(code_file, 'w+') as f:
             f.write(sandbox_header)
             f.write(main)
@@ -112,26 +128,26 @@ def change_file_content(content, code_file):
 
 class Code(APIView):
 
-    def get(self, request,qn):
-        #if request.user.is_authenticated:
-            #qn =
-            question = Question.objects.get(pk=qn)
-            que_title = question.titleQue
-            que = question.question
-            #user = User.objects.get(user=request.user)
+    def get(self, request, qn):
+        # if request.user.is_authenticated:
+        # qn =
+        question = Question.objects.get(pk=qn)
+        que_title = question.titleQue
+        que = question.question
+        #user = User.objects.get(user=request.user)
 
-            data = {
-                #"user": user.username,
-                "question_title": que_title,
-                "question": que,
-                # "total": user.totalScore,
-            }
-            return JsonResponse(data)
+        data = {
+            # "user": user.username,
+            "question_title": que_title,
+            "question": que,
+            # "total": user.totalScore,
+        }
+        return JsonResponse(data)
         # else:
         #     return redirect(reverse('singup'))
 
     # ajax request for run and normal post request for submit
-    def post(self, request,qn):
+    def post(self, request, qn):
         receive = json.loads(request.body.decode("utf-8"))
         # if request.user.is_authenticated:
         question = Question.objects.get(pk=qn)
@@ -144,7 +160,7 @@ class Code(APIView):
         #qn = request.POST['qn']
         qn = 3
         runflag = receive.get('runFlag')
-        print(ext,runflag,content)
+        print(ext, runflag, content)
 
         try:
             mulque = MultipleQues.objects.get(user=usr, que=question)
@@ -156,8 +172,7 @@ class Code(APIView):
 
         if not os.path.exists(user_code_path):
             os.system(f"mkdir {user_code_path}")
-
-        codefile = user_code_path + f"code{att}.{ext}"
+        codefile = user_code_path + f"/code{att}.{ext}"
 
         change_file_content(content, codefile)
 
@@ -187,7 +202,8 @@ class Code(APIView):
 
             subTime = f'{hour}:{min}:{sec}'
 
-            sub = Submission(code=content, user=usr, que=question, attempt=att, subTime=subTime)
+            sub = Submission(code=content, user=usr,
+                             que=question, attempt=att, subTime=subTime)
 
             mulque.attempts += 1
             mulque.save()
@@ -227,7 +243,8 @@ class Code(APIView):
                 mulque.scoreQuestion = 0
 
             try:
-                question.accuracy = round((question.totalSuccessfulSub * 100 / question.totalSub), 1)
+                question.accuracy = round(
+                    (question.totalSuccessfulSub * 100 / question.totalSub), 1)
             except ZeroDivisionError:
                 question.accuracy = 0
 
@@ -263,6 +280,7 @@ class Code(APIView):
 
 class LeaderBoard(APIView):
     def get(self, request):
+        data = []
         # if request.user.is_authenticated:
         for player in UserProfile.objects.order_by("-totalScore", "latestSubTime"):
             l = {
@@ -277,8 +295,9 @@ class LeaderBoard(APIView):
                     l[f'q{i}'] = ans.scoreQuestion
                 except MultipleQues.DoesNotExist:
                     l[f'q{i}'] = 0
+            data.append(l)
 
-        return JsonResponse(l)
+        return JsonResponse(data,safe=False)
     # else:
     #     return HttpResponseRedirect(reverse('signup'))
 
@@ -301,12 +320,14 @@ class Submissions(APIView):
 
 class Questionhub(APIView):
     def get(self, request):
+        #username = request.META.get('HTTP_USERNAME')
+        print(request.META.get('HTTP_USERNAME'))
         # if request.user.is_authenticated:
         all_questions = Question.objects.all()
         data = []
         for que in all_questions:
             detail = {
-                "sn":que.id,
+                "sn": que.id,
                 "title": que.titleQue,
                 "accuracy": que.accuracy,
                 "subm": que.totalSuccessfulSub

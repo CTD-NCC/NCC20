@@ -33,6 +33,7 @@ class FinalBoard extends Component {
     // let data = await response.json();
     // console.log(data[0]);
     axios.get("http://127.0.0.1:8000/leaderboard/").then(response => {
+      console.log(response.data);
       this.setState({
         teams: response.data,
         teams1: response.data,
@@ -93,8 +94,8 @@ class FinalBoard extends Component {
   };
   render() {
     if (this.state.post === null) return null;
-    else {
-      console.log(this.state.teams[5].score);
+    else if(this.state.post === "fetched"){
+     // console.log(this.state.teams[5].score);
       this.state.teams.forEach((item, index) => {
         item.rank = index + 1;
       });

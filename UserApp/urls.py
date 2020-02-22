@@ -10,6 +10,7 @@ urlpatterns = [
     path('result/', Result.as_view(), name='result'),
 
     # function base:
+    path('checkusername/', check),
     path('timer/', timer, name='timer'),
     path('time/', time, name='timer'),
     url(r'^(?P<garbage>.*)/$', garbage, name='redirect')
