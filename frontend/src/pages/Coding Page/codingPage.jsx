@@ -56,7 +56,7 @@ class CodingPage extends Component {
       redirect: true,
       run: false
     });
-    var result,status, total , score, error;
+    var result, total , score, error;
     this.setState({ renderConsole: false });
     axios
       ({method : "post", url: "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", data :{content :this.state.value, runFlag :this.state.run , ext : this.props.ext}, headers :{Username :this.props.username}})
@@ -65,9 +65,11 @@ class CodingPage extends Component {
       result = response.data.status;
       score = response.data.score;
       error = response.data.error;
+      total = this.props.total + score;
       this.props.updateResult(result);
           this.props.updateScore(score);
           this.props.updateConsole(error);
+        this.props.updateTotal(total);
       })
       .catch(error => {
         console.log(error);
