@@ -46,6 +46,7 @@ REST_FRAMEWORK = {
     ]
 }
 
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -68,8 +69,6 @@ CORS_ALLOW_METHODS = [
 ]
 
 ROOT_URLCONF = 'ncc.urls'
-
-AUTH_USER_MODEL = 'UserApp.UserProfile'
 
 TEMPLATES = [
     {

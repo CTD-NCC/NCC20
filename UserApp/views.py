@@ -1,5 +1,4 @@
 from django.shortcuts import redirect, reverse
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.utils import json
 from .serializer import *
 from rest_framework.views import APIView
@@ -62,7 +61,8 @@ def time(request):
 class Signup(APIView):
 
     def get(self, request):
-        if request.user.is_authenticated:
+        if request.UserProfile.is_authenticated:
+            print("-------------")
             return HttpResponse("get in signup")
         return HttpResponse("Post in signup")
 

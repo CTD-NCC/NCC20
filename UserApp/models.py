@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser
 from .manager import CustomUserManager
 
 
-class UserProfile(AbstractUser):
+class UserProfile(AbstractBaseUser):
     username = models.CharField(max_length=20, unique=True)
     totalScore = models.IntegerField(default=0)
     email1 = models.EmailField(default='example@gmail.com')
