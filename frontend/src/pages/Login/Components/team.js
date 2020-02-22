@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../styles/team.css";
+import axios from "axios"
 import { connect } from "react-redux";
 
 class team extends Component {
@@ -14,7 +15,8 @@ class team extends Component {
       teamname: this.props.team,
       password: this.props.pass,
       errort: "noBorder",
-      errorp: "noBorder"
+      errorp: "noBorder",
+      exists: true
     };
   }
 
@@ -85,11 +87,21 @@ class team extends Component {
 
   handleTeamChange(e) {
     this.checkTeamname(e.target.value);
+
+
     this.props.changeTeamName(e.target.value);
     this.setState({
       teamname: e.target.value
     });
     this.props.changeUsername(e.target.value);
+    axios.post("http://127.0.0.1:8000/checkusername/",{username:this.props.userName}) .then(response => {
+      if(response.data.exists) {
+        console.log("Exists")
+      }
+      else {
+        console.log("Does not exist");
+      }
+    })
   }
 
   handleClick() {

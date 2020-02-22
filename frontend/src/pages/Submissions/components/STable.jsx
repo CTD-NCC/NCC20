@@ -4,11 +4,11 @@ import STableHeader from "./STableHeader";
 import STableBody from "./STableBody";
 class MoviesTable extends Component {
   columns = [
-    { path: "qn", label: "Question" },
-    { path: "title", label: "Title" },
+    { path: "qn", label: "Sr. No." },
+    // { path: "title", label: "Question" },
     { path: "time", label: "Time" },
     { path: "status", label: "Success Rate" },
-    { path: "response", label: "Response" }
+    { path: "response", label: "Question" }
   ];
 
   render() {

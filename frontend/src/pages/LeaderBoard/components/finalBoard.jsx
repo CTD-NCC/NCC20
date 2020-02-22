@@ -5,6 +5,7 @@ import { paginate } from "../utils/paginate";
 import Pagination from "./common/Pagination";
 import Table from "./table";
 import Search from "./Search";
+import {connect} from "react-redux";
 import "./finalBoard.css";
 import axios from "axios";
 
@@ -32,7 +33,7 @@ class FinalBoard extends Component {
     // let response = await fetch(url);
     // let data = await response.json();
     // console.log(data[0]);
-    axios.get("http://127.0.0.1:8000/leaderboard/").then(response => {
+    axios({method : "get" , url : "http://127.0.0.1:8000/leaderboard/",headers : {Username : this.props.username} }).then(response => {
       console.log(response.data);
       this.setState({
         teams: response.data,
@@ -127,4 +128,9 @@ class FinalBoard extends Component {
   }
 }
 
-export default FinalBoard;
+const mapStateToProps = state => {
+  return {
+    username : state.root.userName
+  }
+}
+export default connect(mapStateToProps)(FinalBoard);

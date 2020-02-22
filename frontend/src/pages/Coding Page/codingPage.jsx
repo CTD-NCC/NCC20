@@ -28,7 +28,7 @@ class CodingPage extends Component {
   }
 
   componentDidMount() {
-      axios.get("http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/").then(response => {
+      axios({method:"get",url:"http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/",header : {Username : this.props.username}}).then(response => {
           this.props.updateQuestion(response.data.question);
       })
   }
@@ -38,7 +38,7 @@ class CodingPage extends Component {
     componentDidUpdate() {
     if (this.state.renderConsole === true)
       this.console.current.scrollIntoView({ behavior: "smooth" });
-      axios.get("http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/").then(response => {
+      axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", headers : {Username : this.props.username}}).then(response => {
           this.props.updateQuestion(response.data.question);
       })
   }
@@ -59,7 +59,7 @@ class CodingPage extends Component {
     var result,status, total , score, error;
     this.setState({ renderConsole: false });
     axios
-      .post("http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", {content :this.state.value, runFlag :this.state.run , ext : this.props.ext})
+      ({method : "post", url: "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", data :{content :this.state.value, runFlag :this.state.run , ext : this.props.ext}, headers :{Username :this.props.username}})
       .then(response => {
           this.props.updateTestcases(response.data.testcases);
       result = response.data.status;
@@ -80,7 +80,7 @@ class CodingPage extends Component {
     });
 
     axios
-      .post("http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", {content :this.state.value, runFlag :this.state.run , ext : this.props.ext})
+      ({method : "post", url: "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", data :{content :this.state.value, runFlag :this.state.run , ext : this.props.ext}, headers :{Username :this.props.username}})
       .then(response => {
         console.log(response);
       })
@@ -265,7 +265,8 @@ const mapStateToProps = state => {
     time: state.testcases.time,
     result: state.testcases.result,
     score: state.testcases.score,
-    error: state.testcases.error
+    error: state.testcases.error,
+      username : state.root.userName
   };
 };
 

@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { getQuestions } from "../services/qdatabase";
 import Button from "./button";
 import axios from "axios";
+import {connect} from "react-redux";
 import "./mytable.css";
 
 class QuestionH extends Component {
@@ -16,7 +17,7 @@ class QuestionH extends Component {
     const options = {
       headers : {'Username': "sanket"}
     };
-    axios({method : 'get' ,url : "http://127.0.0.1:8000/question/", headers : {'Username' : "sanket" }}).then(response => {
+    axios({method : 'get' ,url : "http://127.0.0.1:8000/question/", headers : {'Username' : this.props.username }}).then(response => {
       this.setState({questions: response.data});
       console.log(response);
     });
@@ -79,5 +80,10 @@ class QuestionH extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    username : state.root.userName
+  }
+}
 
-export default QuestionH;
+export default connect(mapStateToProps)(QuestionH);

@@ -19,7 +19,7 @@ class App extends Component {
     }
 
     async componentDidMount() {
-        axios.get("http://127.0.0.1:8000/result/").then(response => {
+        axios({method : "get" , url : "http://127.0.0.1:8000/result/",headers :{Username : this.props.teamName}}).then(response => {
             this.setState({
                 submissions: response.data,
                 atharva: "fetched",
@@ -113,6 +113,7 @@ class App extends Component {
         }
     }
 }
+
 const mapStateToProps = state => {
     return {
         teamName: state.root.userName

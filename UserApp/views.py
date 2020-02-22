@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, reverse
 from rest_framework.authentication import BaseAuthentication,SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.utils import json
 from .serializer import *
 from rest_framework.views import APIView
@@ -61,8 +62,10 @@ def time(request):
     sec = val % 60
     return JsonResponse({"time": curr_time, "hh": str(hour), "mm": str(min), "ss": str(sec)})
 
+@csrf_exempt
 def check(request):
-    username = request.GET.get('username')
+    username = request.data.get('username')
+    print(username)
     data = {}
     data['exist'] = User.objects.filter(username__iexact=username).exists()
     return JsonResponse(data)
@@ -102,7 +105,6 @@ class Signup(APIView):
         os.system(f'mkdir {pathusercode}/{username}')
 
         return Response({"data": request.data}, status=201)
-
 
 def change_file_content(content, code_file):
     sandbox_header = '#include"../../../include/sandbox.h"\n'
