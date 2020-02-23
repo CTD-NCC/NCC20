@@ -26,6 +26,9 @@ NO_OF_TEST_CASES = 6
 
 
 def timer(request):
+    print('============')
+    print(request.user.username)
+
     global starttime, start
     global end_time
     global duration
@@ -53,7 +56,6 @@ def calculate():
 
 
 def time(request):
-    print(request.user)
     curr_time = calculate()
     hour = curr_time // (60 * 60)
     val = curr_time % (60 * 60)
@@ -80,11 +82,11 @@ def getuser(username):
 
 class Signup(APIView):
     def get(self, request):
-        username = request.META.get('HTTP_USERNAME')
-        if not username:
-            return redirect(reverse('signup'))
-        else:
-            return redirect(reverse('questionhub'))
+        #    username = request.META.get('HTTP_USERNAME')
+        # if not username:
+        #     return redirect(reverse('signup'))
+        # else:
+            return HttpResponse("On signup function")
 
     def post(self, request):
         receive = json.loads(request.body.decode("utf-8"))
@@ -132,10 +134,10 @@ def change_file_content(content, code_file):
 
 class Code(APIView):
     def get(self, request, qn):
-            username = request.META.get('HTTP_USERNAME')
-        # if not username:
-        #     return redirect(reverse('signup'))
-        # else:
+        username = request.META.get('HTTP_USERNAME')
+        if not username:
+            return HttpResponse("Username not exist")
+        else:
             question = Question.objects.get(pk=qn)
             que_title = question.titleQue
             que = question.question
