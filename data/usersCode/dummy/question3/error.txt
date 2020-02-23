@@ -1,3 +1,0 @@
-data/usersCode/dummy/question3/code3.c:1:1: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ at end of input
-    1 | hiiiii
-      | ^~~~~~

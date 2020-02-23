@@ -34,12 +34,6 @@ class TabBar extends Component {
           <li className={this.props.class6} onClick={() => this.handleClick(6)}>
             <a>Question 6</a>
           </li>
-          <li className={this.props.class7} onClick={() => this.handleClick(7)}>
-            <a>Question 7</a>
-          </li>
-          <li className={this.props.class8} onClick={() => this.handleClick(8)}>
-            <a>Question 8</a>
-          </li>
         </ul>
       </div>
     );

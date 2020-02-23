@@ -38,14 +38,14 @@ error : "",
             {
                 return{
                     ...state,
-                    testcases : []
+                    testcases :  ["","","","","",""]
                 }
             }
-            case "RESET_TESTCASES" :
+            case "RESET_CONSOLE" :
             {
                 return{
                     ...state,
-                    result : "Running Testcases..."
+                    error : ""
                 }
             }
         case "UPDATE_TESTCASES" :
