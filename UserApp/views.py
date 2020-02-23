@@ -159,7 +159,7 @@ class Code(APIView):
 
             data = {
                 "user": user.username,
-                "question_title": que_title,
+                "title": que_title,
                 "question": que,
                 #"total": userprof.totalScore
             }

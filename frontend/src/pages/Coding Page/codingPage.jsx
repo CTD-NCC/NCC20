@@ -31,6 +31,7 @@ class CodingPage extends Component {
 
       axios({method:"get",url:"http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/",headers : {Username : this.props.username}}).then(response => {
           this.props.updateQuestion(response.data.question);
+            this.props.updateTitle(response.data.title);
       })
 
   }
@@ -161,8 +162,8 @@ class CodingPage extends Component {
                 borderRadius: "5px",
                 overflow: "auto"
               }}
-            >
-                {this.props.question}
+            ><h4>{this.props.title}</h4>
+                <div>{this.props.question}</div>
             </div>
             <div
               style={{
@@ -272,7 +273,8 @@ const mapStateToProps = state => {
     result: state.testcases.result,
     score: state.testcases.score,
     error: state.testcases.error,
-      username : state.root.userName
+      username : state.root.userName,
+      title : state.coding.title
   };
 };
 
@@ -281,7 +283,8 @@ const mapDispatchToProps = dispatch => {
     changeLastSubmission: value => {
       dispatch({
         type: "CHANGE_LAST_SUBMISSION",
-        newSubmission: value
+        newSubmission: value,
+
       });
     },
     resetTestcase: () => {
@@ -302,6 +305,9 @@ const mapDispatchToProps = dispatch => {
 
       updateQuestion: (question) => {
       dispatch({ type: "UPDATE_QUESTION", question: question });
+    },
+        updateTitle: (title) => {
+      dispatch({ type: "UPDATE_TITLE", title: title });
     },
        updateTime: time => {
       dispatch({ type: "UPDATE_TIME", time: time });

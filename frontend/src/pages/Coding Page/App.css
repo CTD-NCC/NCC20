@@ -60,6 +60,7 @@
 }
 
 .scroller {
+
   scrollbar-color: rgba(32, 32, 32, 0.8) rgb(236, 251, 252, 0);
   scrollbar-width: thin;
 }

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import STableHeader from "./STableHeader";
 import STableBody from "./STableBody";
+import axios from "axios";
+
 class MoviesTable extends Component {
   columns = [
     { path: "qn", label: "Sr. No." },
@@ -11,7 +13,9 @@ class MoviesTable extends Component {
     { path: "response", label: "Question" }
   ];
 
-  render() {
+
+
+    render() {
     const { newTable, submissions } = this.props;
     return (
       <table className="table sanTable borderless sTable">

@@ -3,27 +3,39 @@ import { Redirect } from "react-router";
 import "./submissions.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { connect } from "react-redux";
 
 class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
+
       students: [
-        { SrNo: 1, time: "10", ss: "30", status: 15, response: "-" },
-        { SrNo: 2, time: "15", ss: "20", status: 50, response: "-" },
-        { SrNo: 3, time: "29", ss: "32", status: 20, response: "-" },
-        { SrNo: 4, time: "32", ss: "42", status: 30, response: "-" },
-        { SrNo: 5, time: "15", ss: "51", status: 50, response: "-" },
-        { SrNo: 6, time: "23", ss: "32", status: 70, response: "-" },
-        { SrNo: 7, time: "12", ss: "35", status: 80, response: "-" },
-        { SrNo: 8, time: "34", ss: "38", status: 90, response: "-" },
-        { SrNo: 9, time: "34", ss: "38", status: 90, response: "-" },
-        { SrNo: 10, time: "34", ss: "38", status: 90, response: "-" },
-        { SrNo: 11, time: "34", ss: "38", status: 90, response: "-" },
-        { SrNo: 12, time: "34", ss: "38", status: 90, response: "-" }
+        // { SrNo: 1, time: "10", ss: "30", status: 15, response: "-" },
+        // { SrNo: 2, time: "15", ss: "20", status: 50, response: "-" },
+        // { SrNo: 3, time: "29", ss: "32", status: 20, response: "-" },
+        // { SrNo: 4, time: "32", ss: "42", status: 30, response: "-" },
+        // { SrNo: 5, time: "15", ss: "51", status: 50, response: "-" },
+        // { SrNo: 6, time: "23", ss: "32", status: 70, response: "-" },
+        // { SrNo: 7, time: "12", ss: "35", status: 80, response: "-" },
+        // { SrNo: 8, time: "34", ss: "38", status: 90, response: "-" },
+        // { SrNo: 9, time: "34", ss: "38", status: 90, response: "-" },
+        // { SrNo: 10, time: "34", ss: "38", status: 90, response: "-" },
+        // { SrNo: 11, time: "34", ss: "38", status: 90, response: "-" },
+        // { SrNo: 12, time: "34", ss: "38", status: 90, response: "-" }
       ],
       redirect: false
     };
+  }
+
+  componentDidMount() {
+     axios({method : 'get' ,url : "http://127.0.0.1:8000/submission/",headers : {'Username' : this.props.username }})
+         .then(response => {
+      this.setState({
+      students : response.data
+      })
+     });
   }
 
   renderTableHeader() {
@@ -137,5 +149,9 @@ class Table extends Component {
     );
   }
 }
-
-export default Table;
+const mapStateToProps = state => {
+  return {
+    qn : state.submission.qn
+  }
+}
+export default connect(mapStateToProps)(Table);
