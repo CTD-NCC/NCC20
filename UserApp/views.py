@@ -107,6 +107,7 @@ class Signup(APIView):
 
         return Response({"data": request.data}, status=201)
 
+
 def change_file_content(content, code_file):
     sandbox_header = '#include"../../../include/sandbox.h"\n'
     try:
@@ -131,15 +132,16 @@ def change_file_content(content, code_file):
 
 class Code(APIView):
     def get(self, request, qn):
-        username = request.META.get('HTTP_USERNAME')
-        if not username:
-            return redirect(reverse('signup'))
-        else:
-            #receive = json.loads(request.body.decode("utf-8"))
+            username = request.META.get('HTTP_USERNAME')
+        # if not username:
+        #     return redirect(reverse('signup'))
+        # else:
             question = Question.objects.get(pk=qn)
             que_title = question.titleQue
             que = question.question
             user = getuser(username)
+            print(username)
+
             userprof = UserProfile.objects.get(user = user)
             # att = receive.get('attempt')
             # if att:
@@ -152,6 +154,7 @@ class Code(APIView):
             #         "code": sub.code
             #     }
             # else:
+
             data = {
                 "user": user.username,
                 "question_title": que_title,
