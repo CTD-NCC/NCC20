@@ -126,14 +126,21 @@ def change_file_content(content, code_file):
 
 class Code(APIView):
     def get(self, request, qn):
-        username = request.META.get('HTTP_USERNAME')
-        if not username:
-            return redirect(reverse('signup'))
-        else:
+            username = request.META.get('HTTP_USERNAME')
+        # if not username:
+        #     return redirect(reverse('signup'))
+        # else:
+
+            print("7777777777777777777777")
+            print(username)
+
+
             question = Question.objects.get(pk=qn)
             que_title = question.titleQue
             que = question.question
             user = getuser(username)
+
+            print(username)
 
             data = {
                 "user": user.username,
@@ -396,4 +403,3 @@ def garbage(request, garbage):
         return HttpResponseRedirect(reverse('questionHub'))
     else:
         return HttpResponseRedirect(reverse("signup"))
-i   
