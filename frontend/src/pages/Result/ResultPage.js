@@ -19,7 +19,7 @@ class App extends Component {
     }
 
     async componentDidMount() {
-        axios.get("http://127.0.0.1:8000/result/").then(response => {
+        axios({method : "get" , url : "http://127.0.0.1:8000/result/",headers :{Username : this.props.teamName}}).then(response => {
             this.setState({
                 submissions: response.data,
                 atharva: "fetched",
@@ -43,79 +43,53 @@ class App extends Component {
         if (this.state.atharva === null)
             return null;
         if (this.state.atharva === "fetched") {
-            return ( <
-                div className = "container-fluid" >
-                <
-                div className = "row mainRow" >
-                <
-                div className = "row content"
+            return (       
+                <div className = "container-fluid" >
+                <div className = "row mainRow" >
+                <div className = "row content"
                 style = {
                     { marginLeft: "18vw", marginRight: "18vw" } } >
-                <
-                div className = "row upper" >
-                <
-                div className = "col-sm-6" >
-                <
-                DisplayText text = "Team Name"
-                border = "false" / >
-                <
-                DisplayText text = { this.props.teamName }
-                border = "true" / >
-                <
-                /div> <
-                div className = "col-sm-6"
+                <div className = "row upper" >
+                <div className = "col-sm-6" >
+                <DisplayText text = "Team Name"
+                border = "false" />
+                <DisplayText text = { this.props.teamName }
+                border = "true" />
+                </div>
+                 
+                <div className = "col-sm-6"
                 style = {
                     { paddingRight: "25px" } } >
-                <
-                DisplayText text = "Rank"
-                border = "false" / >
-                <
-                DisplayText text = "7"
-                border = "true" / >
-                <
-                /div> <
-                /div> <
-                div className = "row lower" >
-                <
-                div className = "col-sm-6" >
-                <
-                DisplayText text = "Questions Attempted"
-                border = "false" / >
-                <
-                DisplayText text = "6"
-                border = "true" / >
-                <
-                /div> <
-                div className = "col-sm-6"
+                <DisplayText text = "Rank"
+                border = "false" />
+                <DisplayText text = "7"
+                border = "true" />
+                </div> </div> <div className = "row lower" >
+                <div className = "col-sm-6" >
+                <DisplayText text = "Questions Attempted"
+                border = "false" />
+                <DisplayText text = "6"
+                border = "true" />
+                </div> <div className = "col-sm-6"
                 style = {
                     { paddingRight: "25px" } } >
-                <
-                DisplayText text = "Score"
-                border = "false" / >
-                <
-                DisplayText text = "400"
-                border = "true" / >
-                <
-                /div> <
-                /div> <
-                /div> <
-                div className = "row chartHolder" >
-                <
-                div className = "col-sm-12" >
-                <
-                Chart chartData = { this.state.chartData }
-                /> <
-                /div> <
-                /div> <
-                /div> <
-                /div>
+                <     DisplayText text = "Score"
+                border = "false" />
+                <        DisplayText text = {this.props.total}
+                border = "true" />
+                </div> </div> </div> <div className = "row chartHolder" >
+                <div className = "col-sm-12" >
+                <Chart chartData = { this.state.chartData }
+                /> </div> </div> </div> </div>
             );
         }
     }
 }
+
 const mapStateToProps = state => {
     return {
-        teamName: state.root.userName
+        teamName: state.root.userName,
+        total : state.testcases.userName
     };
 };
 export default connect(mapStateToProps)(App);

@@ -61,7 +61,8 @@ def time(request):
 
 
 def check(request):
-    username = request.GET.get('username')
+    username = request.data.get('username')
+    print(username)
     data = {}
     data['exist'] = User.objects.filter(username__iexact=username).exists()
     return JsonResponse(data)
@@ -100,7 +101,6 @@ class Signup(APIView):
         os.system(f'mkdir {pathusercode}/{username}')
 
         return Response({"data": request.data}, status=201)
-
 
 def change_file_content(content, code_file):
     sandbox_header = '#include"../../../include/sandbox.h"\n'

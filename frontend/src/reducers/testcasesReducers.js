@@ -4,7 +4,7 @@ const initState = {
     result : "Running Testcases"
 };
 
-const testCasesReducer = (state={ testcases : [],
+const testCasesReducer = (state={ testcases : ["","","","","",""],
 time : 0,
 result : "Running Testcases...",
 score : 0,
