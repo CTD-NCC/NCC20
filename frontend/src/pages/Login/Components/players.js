@@ -367,13 +367,12 @@ class players extends Component {
         ) {
            // console.log(this.props.state);
             axios
-                .post("http://127.0.0.1:8000/signup/", this.props.state,
+                ({method : "post" , url : "http://127.0.0.1:8000/signup/", data : this.props.state,
 
-                    {
-                        header: {
+
+                        headers: {
                             'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': '*',
-
+                            'Access-Control-Allow-Origin': '*'
                         }
                     }
 

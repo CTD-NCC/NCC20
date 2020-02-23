@@ -156,7 +156,7 @@ class Code(APIView):
                 "user": user.username,
                 "question_title": que_title,
                 "question": que,
-                "total": userprof.totalScore,
+                #"total": userprof.totalScore
             }
             return JsonResponse(data)
 

@@ -1,0 +1,4 @@
+data/usersCode/Atharva/question2/code1.cpp: In function ‘int main()’:
+data/usersCode/Atharva/question2/code1.cpp:9:3: error: ‘Bye’ was not declared in this scope
+    9 |   Bye Bye!!
+      |   ^~~

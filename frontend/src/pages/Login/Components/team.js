@@ -94,16 +94,15 @@ class team extends Component {
       teamname: e.target.value
     });
     this.props.changeUsername(e.target.value);
-    axios.post("http://127.0.0.1:8000/checkusername/",{username:this.props.userName}) .then(response => {
+
+  }
+checkUser = () => {
+      axios.post("http://127.0.0.1:8000/checkusername/",{username:this.props.userName}) .then(response => {
       if(response.data.exists) {
-        console.log("Exists")
-      }
-      else {
-        console.log("Does not exist");
+
       }
     })
-  }
-
+}
   handleClick() {
     if (this.state.teamname === "" || this.props.checkt != "") {
       if (this.props.checkt === "Username should be minimum 3 characters") {
@@ -165,6 +164,7 @@ class team extends Component {
             onFocus={this.handleFocust.bind(this)}
             onBlur={this.handleBlurt.bind(this)}
             onChange={this.handleTeamChange.bind(this)}
+            onKeyUp={this.checkUser.bind(this)}
             value={this.props.userName}
             spellCheck="false"
           ></input>

@@ -27,7 +27,7 @@ class App extends Component {
                     labels: response.data.map(sub => `${sub.range}`),
                     datasets: [{
                         label: "Number of Teams",
-                        data: response.data.map(sub => sub.usrs),
+                        data: response.data.map(sub => sub.users),
                         backgroundColor: "rgb(150, 230, 255)",
                         borderWidth: 1,
                         borderColor: "#000",

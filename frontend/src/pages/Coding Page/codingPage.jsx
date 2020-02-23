@@ -28,7 +28,8 @@ class CodingPage extends Component {
   }
 
   componentDidMount() {
-      axios({method:"get",url:"http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/",header : {Username : this.props.username}}).then(response => {
+
+      axios({method:"get",url:"http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/",headers : {Username : this.props.username}}).then(response => {
           this.props.updateQuestion(response.data.question);
       })
 
@@ -68,7 +69,7 @@ class CodingPage extends Component {
       result = response.data.status;
       score = response.data.score;
       error = response.data.error;
-      total = this.props.total + score;
+      total = this.props.total + parseInt(score,10);
       this.props.updateResult(result);
           this.props.updateScore(score);
           this.props.updateConsole(error);
@@ -147,8 +148,6 @@ class CodingPage extends Component {
             class4={this.props.class4}
             class5={this.props.class5}
             class6={this.props.class6}
-            class7={this.props.class7}
-            class8={this.props.class8}
           />
           <div className="mainTab scroller" id="style-1">
             <div
@@ -178,6 +177,7 @@ class CodingPage extends Component {
               }}
             >
               <span style={{ display: "flex" }}>
+                  <span style={{paddingLeft: '3vw', color: 'white', width: '13vw', marginTop: '1.5vh', fontSize: '20px'}}>Code Editor</span>
                 <CPPUse />
                 <span style={{ marginLeft: "40vw" }}>
                   <input
@@ -186,7 +186,7 @@ class CodingPage extends Component {
                     onChange={e => this.handleChange(e.target.files[0])}
                     accept=".cpp"
                   />
-                  <label for="file" style={{ marginTop: "1vh" }}>
+                  <label for="file" style={{ marginTop: "1vh", marginLeft: '-18vw' }}>
                     Choose file
                   </label>
                   <button
@@ -195,10 +195,11 @@ class CodingPage extends Component {
                       marginBottom: "1vh",
                       outline: "none",
                       border: "none",
-                      marginTop: "0.2vh",
+                      marginTop: "0.7vh",
                       marginLeft: "1vw",
                       marginRight: "1vw",
-                      width: "10vw"
+                      width: "10vw",
+                        height: '4.6vh'
                     }}
                     onClick={this.loadBuffer}
                   >
