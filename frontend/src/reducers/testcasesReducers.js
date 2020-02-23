@@ -34,6 +34,20 @@ error : "",
                     result : "Running Testcases..."
                 }
             }
+            case "RESET_TESTS" :
+            {
+                return{
+                    ...state,
+                    testcases : []
+                }
+            }
+            case "RESET_TESTCASES" :
+            {
+                return{
+                    ...state,
+                    result : "Running Testcases..."
+                }
+            }
         case "UPDATE_TESTCASES" :
             {
                 return {

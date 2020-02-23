@@ -31,6 +31,7 @@ class CodingPage extends Component {
       axios({method:"get",url:"http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/",header : {Username : this.props.username}}).then(response => {
           this.props.updateQuestion(response.data.question);
       })
+
   }
 
 
@@ -38,9 +39,9 @@ class CodingPage extends Component {
     componentDidUpdate() {
     if (this.state.renderConsole === true)
       this.console.current.scrollIntoView({ behavior: "smooth" });
-      axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", headers : {Username : this.props.username}}).then(response => {
-          this.props.updateQuestion(response.data.question);
-      })
+      // axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", headers : {Username : this.props.username}}).then(response => {
+      //     this.props.updateQuestion(response.data.question);
+      // })
   }
 
   passValue(val) {
@@ -52,6 +53,8 @@ class CodingPage extends Component {
 
   handleClick = () => {
     this.props.resetTestcase();
+    this.props.resetConsole();
+    this.props.resetTests();
     this.setState({
       redirect: true,
       run: false
@@ -283,6 +286,17 @@ const mapDispatchToProps = dispatch => {
             type: "RESET_TESTCASES"
         });
     },
+      resetConsole: () => {
+        dispatch({
+            type: "RESET_CONSOLE"
+        });
+    },
+      resetTests: () => {
+        dispatch({
+            type: "RESET_TESTS"
+        });
+    },
+
       updateQuestion: (question) => {
       dispatch({ type: "UPDATE_QUESTION", question: question });
     },

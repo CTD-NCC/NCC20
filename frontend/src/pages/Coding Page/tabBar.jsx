@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import "./tabBar.css";
+import axios from "axios";
 import { connect } from "react-redux";
 
 class TabBar extends Component {
   handleClick(val) {
+     axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${val}`+"/", headers : {Username : this.props.username}}).then(response => {
+           this.props.updateQuestion(response.data.question);
+       })
     this.props.updateNo(val);
     this.props.passValue(val);
   }
@@ -44,7 +48,8 @@ class TabBar extends Component {
 
 const mapStateToProps = state =>{
   return {
-    qno : state.coding.qno
+    qno : state.coding.qno,
+    username : state.root.userName
   }
 
 }
@@ -55,6 +60,9 @@ const mapDispatchToProps = dispatch => {
      updateNo: qno => {
       dispatch({ type: "UPDATE_NO", qno : qno });
     },
+      updateQuestion: (question) => {
+      dispatch({ type: "UPDATE_QUESTION", question: question });
+    }
   }
 }
 

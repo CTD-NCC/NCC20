@@ -1,3 +1,5 @@
+import itertools
+
 from django.shortcuts import redirect, reverse
 from rest_framework.utils import json
 from .serializer import *
@@ -60,12 +62,15 @@ def time(request):
     return JsonResponse({"time": curr_time, "hh": str(hour), "mm": str(min), "ss": str(sec)})
 
 
-def check(request):
-    username = request.data.get('username')
-    print(username)
-    data = {}
-    data['exist'] = User.objects.filter(username__iexact=username).exists()
-    return JsonResponse(data)
+class check(APIView):
+    def post(self,request):
+        receive = json.loads(request.body.decode("utf-8"))
+        username = receive.get('username')
+        print(username)
+        data = {}
+        data['exist'] = User.objects.filter(username__iexact=username).exists()
+        print(data)
+        return JsonResponse(data)
 
 
 def getuser(username):
@@ -130,16 +135,28 @@ class Code(APIView):
         if not username:
             return redirect(reverse('signup'))
         else:
+            #receive = json.loads(request.body.decode("utf-8"))
             question = Question.objects.get(pk=qn)
             que_title = question.titleQue
             que = question.question
             user = getuser(username)
-
+            userprof = UserProfile.objects.get(user = user)
+            # att = receive.get('attempt')
+            # if att:
+            #     sub = Submission.objects.filter(user=user,que=question,attempt=att)
+            #     data = {
+            #         "user": user.username,
+            #         "question_title": que_title,
+            #         "question": que,
+            #         "total": userprof.totalScore,
+            #         "code": sub.code
+            #     }
+            # else:
             data = {
                 "user": user.username,
                 "question_title": que_title,
                 "question": que,
-                "total": user.totalScore,
+                "total": userprof.totalScore,
             }
             return JsonResponse(data)
 
@@ -159,7 +176,6 @@ class Code(APIView):
 
             content = receive.get('content')
             ext = receive.get('ext')
-            qn = request.POST['qn']
             runflag = receive.get('runFlag')
             print(ext, runflag, content)
 
@@ -287,7 +303,7 @@ class LeaderBoard(APIView):
             for player in UserProfile.objects.order_by("-totalScore", "latestSubTime"):
                 data = []
                 l = {
-                    'user': player.user.username,
+                    'user': username,
                     'total': player.totalScore,
                     'color': "nonTrans"
                 }
@@ -299,25 +315,30 @@ class LeaderBoard(APIView):
                     except MultipleQues.DoesNotExist:
                         l[f'q{i}'] = 0
                 data.append(l)
-
             return JsonResponse(data, safe=False)
 
 
 class Submissions(APIView):
-    def get(self, request, qn):
+    def get(self, request):
         username = request.META.get('HTTP_USERNAME')
         if not username:
             return HttpResponseRedirect(reverse('signup'))
         else:
+            receive = json.loads(request.body.decode("utf-8"))
+            qn = receive.get('qn')
             que = Question.objects.get(pk=qn)
-            total_submissions = Submission.objects.filter(user=request.user)
+            usr = getuser(username)
+            total_submissions = Submission.objects.filter(user=usr,que=que)
             usersub = []
 
-            for submission in total_submissions:
-                if submission.que == que:
-                    usersub.append(submission)
+            for submission,i in itertools.zip(total_submissions,range(total_submissions)):
+                data = {}
+                data['sn'] = i
+                data['time'] = submission.subTime
+                data['rate'] = (submission.correctTestCases/NO_OF_TEST_CASES * 100)
+                usersub.append(data)
 
-            return Response({"submissions": usersub})
+            return JsonResponse(usersub, safe=False)
 
 
 class Questionhub(APIView):
@@ -387,6 +408,7 @@ class Result(APIView):
                 l.append(data)
 
             logout(request)
+            print(l)
             return Response(l)
 
 
@@ -396,4 +418,3 @@ def garbage(request, garbage):
         return HttpResponseRedirect(reverse('questionHub'))
     else:
         return HttpResponseRedirect(reverse("signup"))
-i   
