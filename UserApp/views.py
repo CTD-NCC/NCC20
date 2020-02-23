@@ -26,9 +26,6 @@ NO_OF_TEST_CASES = 6
 
 
 def timer(request):
-    print('============')
-    print(request.user.username)
-
     global starttime, start
     global end_time
     global duration
@@ -82,7 +79,7 @@ def getuser(username):
 
 class Signup(APIView):
     def get(self, request):
-        #    username = request.META.get('HTTP_USERNAME')
+        #      username = request.META.get('HTTP_USERNAME')
         # if not username:
         #     return redirect(reverse('signup'))
         # else:
@@ -90,7 +87,10 @@ class Signup(APIView):
 
     def post(self, request):
         receive = json.loads(request.body.decode("utf-8"))
-        username = receive.get('userName')
+        username = request.data.get('userName')
+
+        print("username in signup")
+
         password = receive.get('password')
         email1 = receive.get('player1Email')
         email2 = receive.get('player2Email')
@@ -103,8 +103,11 @@ class Signup(APIView):
 
         userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
                                   phone2=phone2, junior=junior)  # level remaining
+
+        print(username)
         userprofile.save()
         login(request, user)
+
         os.system(f'mkdir {pathusercode}/{username}')
 
         return Response({"data": request.data}, status=201)
@@ -141,40 +144,40 @@ class Code(APIView):
             question = Question.objects.get(pk=qn)
             que_title = question.titleQue
             que = question.question
-            user = getuser(username)
+
             print(username)
 
-            userprof = UserProfile.objects.get(user = user)
-            # att = receive.get('attempt')
-            # if att:
+            user = getuser(username)
+
+            print('-------------')
+            print(user.username)
+
+            # att = request.query_parms.get('attempt')
+            # if not att:
             #     sub = Submission.objects.filter(user=user,que=question,attempt=att)
             #     data = {
             #         "user": user.username,
             #         "question_title": que_title,
             #         "question": que,
-            #         "total": userprof.totalScore,
             #         "code": sub.code
             #     }
             # else:
-
             data = {
-                "user": user.username,
-                "question_title": que_title,
-                "question": que,
-                #"total": userprof.totalScore
+                    "user": user.username,
+                    "question_title": que_title,
+                    "question": que,
             }
             return JsonResponse(data)
 
     # ajax request for run and normal post request for submit
     def post(self, request, qn):
-        receive = json.loads(request.body.decode("utf-8"))
-
         username = request.META.get('HTTP_USERNAME')
 
         if not username:
             return HttpResponseRedirect(reverse('signup'))
 
         else:
+            receive = json.loads(request.body.decode("utf-8"))
             question = Question.objects.get(pk=qn)
             usr = getuser(username)
             userprof = UserProfile.objects.get(user=usr)
@@ -329,18 +332,18 @@ class Submissions(APIView):
         if not username:
             return HttpResponseRedirect(reverse('signup'))
         else:
-            receive = json.loads(request.body.decode("utf-8"))
-            qn = receive.get('qn')
+            qn = request.query_parms.get('qn', 1)
             que = Question.objects.get(pk=qn)
             usr = getuser(username)
             total_submissions = Submission.objects.filter(user=usr,que=que)
             usersub = []
 
-            for submission,i in itertools.zip(total_submissions,range(total_submissions)):
-                data = {}
-                data['sn'] = i
-                data['time'] = submission.subTime
-                data['rate'] = (submission.correctTestCases/NO_OF_TEST_CASES * 100)
+            for submission,i in itertools.zip(total_submissions,len(total_submissions)):
+                data = {
+                    'sn': i,
+                    'time': submission.subTime,
+                    'rate': (submission.correctTestCases / NO_OF_TEST_CASES * 100)
+                }
                 usersub.append(data)
 
             return JsonResponse(usersub, safe=False)
@@ -378,6 +381,25 @@ class Result(APIView):
             for i in range(1, 7):
                 d["score{}".format(i)] = 0
 
+            user = getuser(username)
+
+            user_prof = UserProfile.objects.get(user=user)
+            score = user.totalScore
+
+            attempts = 0
+            for q_id in range(1, 7):
+                que = Question.objects.get(pk=q_id)
+                all_sub = Submission.objects.filter(user=user, que=que)
+                if all_sub:
+                    attempts += 1
+
+            print(attempts)
+
+            all_users = UserProfile.objects.order_by('-totalScore', 'latestSubTime')
+            rank = all_users.index(user_prof)
+
+
+
             userprof = UserProfile.objects.all()
             for user in userprof:
                 if user.totalScore <= 100:
@@ -412,14 +434,19 @@ class Result(APIView):
                 }
                 l.append(data)
 
+            dict = {
+                'scorelist': l,
+                'rank': rank,
+                'score': score,
+                'attempts': attempts
+            }
             logout(request)
-            print(l)
-            return Response(l)
+            return Response(dict)
 
 
 # function based
-def garbage(request, garbage):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('questionHub'))
-    else:
-        return HttpResponseRedirect(reverse("signup"))
+# def garbage(request, garbage):
+#     if request.user.is_authenticated:
+#         return HttpResponseRedirect(reverse('questionHub'))
+#     else:
+#         return HttpResponseRedirect(reverse("signup"))
