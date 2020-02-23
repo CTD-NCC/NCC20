@@ -368,6 +368,7 @@ class players extends Component {
            // console.log(this.props.state);
             axios
                 .post( "http://127.0.0.1:8000/signup/",  this.props.state)
+
                 .then(response => {
                     console.log(response);
                 })

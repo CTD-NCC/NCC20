@@ -98,8 +98,8 @@ class team extends Component {
   }
 checkUser = () => {
       axios.post("http://127.0.0.1:8000/checkusername/",{username:this.props.userName}) .then(response => {
-      if(response.data.exists) {
-
+      if(response.data.exist === true) {
+          this.props.changeCheckT("Username already exists");
       }
     })
 }

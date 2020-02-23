@@ -163,9 +163,10 @@ class Code(APIView):
             #     }
             # else:
             data = {
-                    "user": user.username,
-                    "question_title": que_title,
-                    "question": que,
+                "user": user.username,
+                "title": que_title,
+                "question": que,
+                #"total": userprof.totalScore
             }
             return JsonResponse(data)
 
