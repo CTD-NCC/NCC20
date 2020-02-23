@@ -102,6 +102,7 @@ class Signup(APIView):
 
         return Response({"data": request.data}, status=201)
 
+
 def change_file_content(content, code_file):
     sandbox_header = '#include"../../../include/sandbox.h"\n'
     try:
@@ -130,11 +131,6 @@ class Code(APIView):
         # if not username:
         #     return redirect(reverse('signup'))
         # else:
-
-            print("7777777777777777777777")
-            print(username)
-
-
             question = Question.objects.get(pk=qn)
             que_title = question.titleQue
             que = question.question
