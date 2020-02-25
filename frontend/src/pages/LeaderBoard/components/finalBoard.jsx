@@ -27,6 +27,7 @@ class FinalBoard extends Component {
     this.Searching = this.Searching.bind(this);
   }
   componentDidMount() {
+   const username = localStorage.getItem('Username');
     // let Resp;
 
     // let response = await fetch(url);
@@ -34,8 +35,8 @@ class FinalBoard extends Component {
     // console.log(data[0]);
     axios({
       method: "get",
-      url: "http://127.0.0.1:8000/leaderboard/",
-      headers: { Username: this.props.username }
+      url: "http://"+`${this.props.url}`+"/leaderboard/",
+      headers: { Username: username }
     }).then(response => {
       console.log(response.data);
       this.setState({
@@ -133,7 +134,8 @@ class FinalBoard extends Component {
 
 const mapStateToProps = state => {
   return {
-    username: state.root.userName
+    username: state.root.userName,
+    url : state.Url.url
   };
 };
 export default connect(mapStateToProps)(FinalBoard);

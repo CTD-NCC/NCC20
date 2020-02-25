@@ -96,7 +96,7 @@ class team extends Component {
     }
     checkUser = () => {
         axios
-            .post("http://127.0.0.1:8000/checkusername/", {
+            .post("http://" + `${this.props.url}` +"/checkusername/", {
                 username: this.props.userName
             })
             .then(response => {
@@ -235,7 +235,8 @@ const mapStateToProps = state => {
     return {
         userName: state.root.userName,
         passWord: state.root.password,
-        year: state.root.year
+        year: state.root.year,
+        url : state.Url.url
     };
 };
 

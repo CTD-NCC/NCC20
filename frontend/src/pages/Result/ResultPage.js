@@ -17,15 +17,18 @@ class App extends Component {
             atharva: null,
             rank: 0,
             score: 0,
-            attempts: 0
+            attempts: 0,
+            username : ""
         };
     }
 
     async componentDidMount() {
+     const username = localStorage.getItem('Username');
+     this.setState({username: username});
         axios({
             method: "get",
-            url: "http://127.0.0.1:8000/result/",
-            headers: { Username: this.props.teamName }
+            url: "http://"+`${this.props.url}`+"/result/",
+            headers: { Username: username }
         }).then(response => {
             console.log(response.data);
             this.setState({
@@ -48,6 +51,7 @@ class App extends Component {
                 }
             });
         });
+        localStorage.removeItem('Username');
     }
 
     render() {
@@ -69,7 +73,7 @@ class App extends Component {
                 DisplayText text = "Team Name"
                 border = "false" / >
                 <
-                DisplayText text = { this.props.teamName }
+                DisplayText text = { this.state.username }
                 border = "true" / >
                 <
                 /div> <
@@ -126,7 +130,8 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         teamName: state.root.userName,
-        total: state.testcases.userName
+        total: state.testcases.userName,
+        url : state.Url.url
     };
 };
 export default connect(mapStateToProps)(App);

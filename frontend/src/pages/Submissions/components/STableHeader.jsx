@@ -4,15 +4,16 @@ import axios from "axios";
 
 class STableHeader extends Component {
   handleSelect = e => {
+   const username = localStorage.getItem('Username');
     this.props.updateQN(e.currentTarget.selectedIndex + 1);
     axios({
       method: "get",
-      url: "http://127.0.0.1:8000/submission/",
+      url: "http://"+`${this.props.url}`+"/submission/",
       params: {
         qn: e.currentTarget.selectedIndex + 1
       },
       headers: {
-        Username: this.props.username
+        Username: username
       }
     }).then(response => {
       this.props.updateSubmission(response.data);
@@ -52,7 +53,8 @@ const mapStateToProps = state => {
   return {
     username: state.root.userName,
     qn: state.submission.qn,
-    submissions: state.submission.submissions
+    submissions: state.submission.submissions,
+    url : state.Url.url
   };
 };
 const mapDispatchToProps = dispatch => {

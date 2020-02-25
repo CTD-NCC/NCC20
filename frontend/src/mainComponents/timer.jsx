@@ -3,6 +3,7 @@ import "./navBar.css";
 import { connect } from "react-redux";
 import axios from "axios";
 import { Redirect } from "react-router";
+
 class Timer extends Component {
   state = {
     seconds: "00",
@@ -66,7 +67,7 @@ class Timer extends Component {
 
   componentDidMount() {
     //let hrs = 60 * 60 * 3;
-    axios.get("http://127.0.0.1:8000/time/").then(response => {
+    axios.get("http://"+`${this.props.url}`+"/time/").then(response => {
       console.log(response);
       this.setState({
         hrs: response.data.time,
@@ -133,7 +134,8 @@ const mapStateToProps = state => {
   return {
     seconds: state.root.seconds,
     minutes: state.root.minutes,
-    hours: state.root.hours
+    hours: state.root.hours,
+    url : state.Url.url
   };
 };
 

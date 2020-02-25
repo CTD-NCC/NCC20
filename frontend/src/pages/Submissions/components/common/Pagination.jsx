@@ -7,7 +7,7 @@ function Pagination(props) {
   const { itemsCount, pageSize, currentPage, onPageChange } = props;
   const pagesCount = Math.ceil(itemsCount / pageSize);
   //console.log(pagesCount);
-  if (pagesCount === 1) return null; //If there is only one page no need to render
+  if (pagesCount === 0 || pagesCount === NaN || pagesCount === 1 )  return null; //If there is only one page no need to render
   const pages = _.range(1, pagesCount + 1);
 
   return (

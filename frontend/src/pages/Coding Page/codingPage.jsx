@@ -13,6 +13,7 @@ import "codemirror/addon/edit/closebrackets.js";
 import { connect } from "react-redux";
 import axios from "axios";
 
+
 class CodingPage extends Component {
   constructor(props) {
     super(props);
@@ -28,11 +29,12 @@ class CodingPage extends Component {
   }
 
   componentDidMount() {
+   const username = localStorage.getItem('Username');
     axios({
       method: "get",
-      url: "http://127.0.0.1:8000/code/" + `${this.props.qno}` + "/",
+      url: "http://" + `${this.props.url}`+"/code/" + `${this.props.qno}` + "/",
       params : {attempt: this.props.attempt},
-      headers: { Username: this.props.username }
+      headers: { Username: username }
     }).then(response => {
       this.props.updateQuestion(response.data.question);
       this.props.updateTitle(response.data.title);
@@ -67,16 +69,17 @@ class CodingPage extends Component {
       run: false
     });
     var result, total, score, error;
+    const username = localStorage.getItem('Username');
     this.setState({ renderConsole: false });
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/code/" + `${this.props.qno}` + "/",
+      url: "http://"+`${this.props.url}`+"/code/" + `${this.props.qno}` + "/",
       data: {
         content: this.state.value,
         runFlag: this.state.run,
         ext: this.props.ext
       },
-      headers: { Username: this.props.username }
+      headers: { Username: username }
     })
       .then(response => {
         this.props.updateTestcases(response.data.testcases);
@@ -98,19 +101,19 @@ class CodingPage extends Component {
       renderConsole: true,
       run: true
     });
-
+    const username = localStorage.getItem('Username');
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/run/" + `${this.props.qno}` + "/",
+      url: "http://"+`${this.props.url}`+"/code/" + `${this.props.qno}` + "/",
       data: {
         content: this.state.value,
         runFlag: this.state.run,
         ext: this.props.ext
       },
-      headers: { Username: this.props.username }
+      headers: { Username: username}
     })
       .then(response => {
-        console.log(response);
+        console.log(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -310,7 +313,8 @@ const mapStateToProps = state => {
     error: state.testcases.error,
     username: state.root.userName,
     title: state.coding.title,
-    attempt : state.coding.attempt
+    attempt : state.coding.attempt,
+    url : state.Url.url
   };
 };
 

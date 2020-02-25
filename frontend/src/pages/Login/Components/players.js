@@ -367,7 +367,7 @@ class players extends Component {
         ) {
             // console.log(this.props.state);
             axios
-                .post("http://127.0.0.1:8000/signup/", this.props.state)
+                .post("http://"+`${this.props.url}`+"/signup/", this.props.state)
 
             .then(response => {
                     console.log(response);
@@ -375,6 +375,7 @@ class players extends Component {
                 .catch(error => {
                     console.log(error);
                 });
+               localStorage.setItem('Username',this.props.username);
             this.props.changeModePL();
         }
     }
@@ -510,7 +511,9 @@ class players extends Component {
 
 const mapStateToProps = state => {
     return {
-        state: state.root
+        state: state.root,
+        url : state.Url.url,
+        username : state.root.userName
     };
 };
 

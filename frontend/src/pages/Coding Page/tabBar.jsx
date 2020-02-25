@@ -5,10 +5,11 @@ import { connect } from "react-redux";
 
 class TabBar extends Component {
   handleClick(val) {
+   const username = localStorage.getItem('Username');
     axios({
       method: "get",
-      url: "http://127.0.0.1:8000/code/" + `${val}` + "/",
-      headers: { Username: this.props.username }
+      url: "http://"+`${this.props.url}`+"/code/" + `${val}` + "/",
+      headers: { Username: username }
     }).then(response => {
       this.props.updateQuestion(response.data.question);
       this.props.updateTitle(response.data.title);
@@ -48,7 +49,8 @@ class TabBar extends Component {
 const mapStateToProps = state => {
   return {
     qno: state.coding.qno,
-    username: state.root.userName
+    username: state.root.userName,
+    url : state.Url.url
   };
 };
 

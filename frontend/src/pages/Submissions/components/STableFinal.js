@@ -27,14 +27,15 @@ class STableFinal extends Component {
         };
     }
     componentDidMount() {
+     const username = localStorage.getItem('Username');
         axios({
             method: "get",
-            url: "http://127.0.0.1:8000/submission/",
+            url: "http://"+`${this.props.url}`+"/submission/",
             params: {
                 qn: this.props.qn
             },
             headers: {
-                Username: this.props.username
+                Username: username
             }
         }).then(response => {
             this.props.updateSubmission(response.data);
@@ -77,7 +78,8 @@ const mapStateToProps = state => {
     return {
         qn: state.submission.qn,
         username: state.root.userName,
-        submissions: state.submission.submissions
+        submissions: state.submission.submissions,
+        url : state.Url.url
     };
 };
 const mapDispatchToProps = dispatch => {

@@ -14,13 +14,11 @@ class QuestionH extends Component {
     };
   }
   async componentDidMount() {
-    const options = {
-      headers: { Username: "sanket" }
-    };
+    const username = localStorage.getItem('Username');
     axios({
       method: "get",
-      url: "http://127.0.0.1:8000/question/",
-      headers: { Username: this.props.username }
+      url: "http://"+`${this.props.url}`+"/question/",
+      headers: { Username: username}
     }).then(response => {
       this.setState({ questions: response.data });
       console.log(response);
@@ -84,7 +82,8 @@ class QuestionH extends Component {
 
 const mapStateToProps = state => {
   return {
-    username: state.root.userName
+    username: state.root.userName,
+    url : state.Url.url
   };
 };
 
