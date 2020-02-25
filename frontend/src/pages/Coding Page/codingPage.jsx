@@ -48,7 +48,7 @@ class CodingPage extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.renderConsole === true)
+    if (this.props.renderConsole === true)
       this.console.current.scrollIntoView({ behavior: "smooth" });
     // axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", headers : {Username : this.props.username}}).then(response => {
     //     this.props.updateQuestion(response.data.question);
@@ -57,9 +57,9 @@ class CodingPage extends Component {
 
   passValue(val) {
     this.props.handlePassedValue(val);
-    this.setState({
-      renderConsole: false
-    });
+    // this.setState({
+    //   renderConsole: false
+    // });
   }
 
   handleClick = () => {
@@ -72,7 +72,7 @@ class CodingPage extends Component {
     });
     var result, total, score, error;
     const username = localStorage.getItem('Username');
-    this.setState({ renderConsole: false });
+    //this.setState({ renderConsole: false });
     axios({
       method: "post",
       url: "http://"+`${this.props.url}`+"/code/" + `${this.props.qno}` + "/",
@@ -100,9 +100,9 @@ class CodingPage extends Component {
   };
   handleConsole = () => {
     this.setState({
-      renderConsole: true,
-      run: true
+        run: true
     });
+    this.props.updateRunRender(true);
     const username = localStorage.getItem('Username');
     axios({
       method: "post",
@@ -115,10 +115,8 @@ class CodingPage extends Component {
       headers: { Username: username}
     })
       .then(response => {
-
-       this.setState({
-       error: response.data.error,
-       result : response.data.result})
+          this.props.updateRunError(response.data.error);
+          this.props.updateRunResult(response.data.result);
       })
       .catch(error => {
         console.log(error);
@@ -296,7 +294,7 @@ class CodingPage extends Component {
               </span>
             </div>
             <div ref={this.console}>
-              <Console render={this.state.renderConsole} error={this.state.error} result={this.state.result}/>
+              <Console />
             </div>
           </div>
         </div>
@@ -319,7 +317,10 @@ const mapStateToProps = state => {
     username: state.root.userName,
     title: state.coding.title,
     attempt : state.coding.attempt,
-    url : state.Url.url
+    url : state.Url.url,
+    renderConsole : state.coding.renderConsole,
+    runError : state.coding.error,
+    runResult : state.coding.result,
   };
 };
 
@@ -376,7 +377,25 @@ const mapDispatchToProps = dispatch => {
         type : "UPDATE_ATTEMPT",
         attempt : attempt
       })
-    }
+    },
+    updateRunRender : renderConsole => {
+      dispatch({
+        type : "UPDATE_RENDERCONSOLE",
+        renderConsole : renderConsole
+      })
+    },
+    updateRunError : error => {
+        dispatch({
+          type : "UPDATE_RUNERROR",
+          error : error
+      })
+    },
+      updateRunResult : result => {
+          dispatch({
+            type : "UPDATE_RUNRESULT",
+            result : result
+        })
+      }
   };
 };
 

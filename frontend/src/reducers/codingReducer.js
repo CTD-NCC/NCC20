@@ -3,7 +3,10 @@ question : "",
     title : "",
     qno : 1,
     ext : "c",
-    attempt : -1
+    attempt : -1,
+    renderConsole: false,
+    result : "",
+    error : ""
 }, action) => {
 
     if(action.type === "UPDATE_QUESTION")
@@ -11,6 +14,27 @@ question : "",
         return{
             ...state,
             question : action.question
+        }
+    }
+    if(action.type === "UPDATE_RUNERROR")
+    {
+        return{
+            ...state,
+            error : action.error
+        }
+    }
+    if(action.type === "UPDATE_RUNRESULT")
+    {
+        return{
+            ...state,
+            result : action.result
+        }
+    }
+    if(action.type === "UPDATE_RENDERCONSOLE")
+    {
+        return{
+            ...state,
+            renderConsole : action.renderConsole
         }
     }
     if(action.type === "UPDATE_NO")
