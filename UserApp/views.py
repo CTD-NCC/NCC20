@@ -140,18 +140,22 @@ class Code(APIView):
 
             user = getuser(username)
             att = request.query_params.get('attempt')
+            att = int(att)
 
+            print(type(att))
             print(att)
+
+            att = att-1
 
             data = {
                 "title": que_title,
                 "question": que,
             }
 
-            if att != -1:
-                sub = Submission.objects.filter(user=user,que=question,attempt=att)
-                #data['code'] = sub.code
-                data['code'] = ""
+            if att != -2:
+                sub = Submission.objects.get(user=user,que=question,attempt=att)
+                print(sub)
+                data['code'] = sub.code
             else:
                 data['code'] = ""
             return JsonResponse(data)
@@ -302,6 +306,8 @@ class Code(APIView):
                 }
             else:
                 error_text = ""
+                if testcase_values == 'AC':
+                    error_text = "Compiled Successfully"
                 epath = pathusercode + f"/{username}/question{qn}/error.txt"
                 if os.path.exists(epath):
                     err = open(epath, "r")

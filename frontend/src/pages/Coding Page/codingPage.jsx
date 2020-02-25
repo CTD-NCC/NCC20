@@ -22,7 +22,9 @@ class CodingPage extends Component {
       redirect: false,
       renderConsole: false,
       value: "",
-      run: false
+      run: false,
+      result : "",
+      error : ""
     };
     let fileReader;
     this.console = React.createRef();
@@ -113,7 +115,10 @@ class CodingPage extends Component {
       headers: { Username: username}
     })
       .then(response => {
-        console.log(response.data);
+
+       this.setState({
+       error: response.data.error,
+       result : response.data.result})
       })
       .catch(error => {
         console.log(error);
@@ -291,7 +296,7 @@ class CodingPage extends Component {
               </span>
             </div>
             <div ref={this.console}>
-              <Console render={this.state.renderConsole} />
+              <Console render={this.state.renderConsole} error={this.state.error} result={this.state.result}/>
             </div>
           </div>
         </div>

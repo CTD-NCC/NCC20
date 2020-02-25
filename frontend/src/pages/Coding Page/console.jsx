@@ -17,6 +17,8 @@ const Console =(props) => {
         }}>
             <div className="console" >
               <h3 style={{textAlign:"center"}}>Console</h3>
+              <div>{props.result}</div><br/>
+              <div>{props.error}</div>
             </div>
         </div>
      );
