@@ -415,7 +415,12 @@ class Result(APIView):
             print(attempts)
 
             all_users = UserProfile.objects.order_by('-totalScore', 'latestSubTime')
-            rank = all_users.index(user_prof)
+
+            rank = 1
+            for i in all_users:
+                if i != user_prof:
+                    rank += 1
+
 
             userprof = UserProfile.objects.all()
             for user in userprof:
