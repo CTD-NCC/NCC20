@@ -1,9 +1,9 @@
-import React from 'react';
+import React ,{Component}from 'react';
 import { connect } from "react-redux";
 
-const Console =(props) => {
-      
-    
+class Console extends Component {
+    state = {  }
+    render() {
     if(this.props.renderConsole===true)
     {
         this.props.updateRunRender(false);
@@ -28,7 +28,7 @@ const Console =(props) => {
     }
      return null;
 }
-
+}
 const mapStateToProps = state => {
     return {
         error : state.coding.error,
