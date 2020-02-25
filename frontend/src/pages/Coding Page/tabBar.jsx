@@ -5,10 +5,14 @@ import { connect } from "react-redux";
 
 class TabBar extends Component {
   handleClick(val) {
-     axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${val}`+"/", headers : {Username : this.props.username}}).then(response => {
-           this.props.updateQuestion(response.data.question);
-            this.props.updateTitle(response.data.title);
-       })
+    axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/code/" + `${val}` + "/",
+      headers: { Username: this.props.username }
+    }).then(response => {
+      this.props.updateQuestion(response.data.question);
+      this.props.updateTitle(response.data.title);
+    });
     this.props.updateNo(val);
     this.props.passValue(val);
   }
@@ -41,27 +45,25 @@ class TabBar extends Component {
   }
 }
 
-const mapStateToProps = state =>{
+const mapStateToProps = state => {
   return {
-    qno : state.coding.qno,
-    username : state.root.userName
-  }
-
-}
+    qno: state.coding.qno,
+    username: state.root.userName
+  };
+};
 
 const mapDispatchToProps = dispatch => {
-
   return {
-     updateNo: qno => {
-      dispatch({ type: "UPDATE_NO", qno : qno });
+    updateNo: qno => {
+      dispatch({ type: "UPDATE_NO", qno: qno });
     },
-      updateQuestion: (question) => {
+    updateQuestion: question => {
       dispatch({ type: "UPDATE_QUESTION", question: question });
     },
-      updateTitle: (title) => {
+    updateTitle: title => {
       dispatch({ type: "UPDATE_TITLE", title: title });
     }
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps,mapDispatchToProps)(TabBar);
+export default connect(mapStateToProps, mapDispatchToProps)(TabBar);

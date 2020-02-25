@@ -365,11 +365,11 @@ class players extends Component {
             (x1 === 1 && x2 === 1 && x3 === 1 && x4 === 0 && x5 === 0 && x6 === 0) ||
             (x1 === 1 && x2 === 1 && x3 === 1 && x4 === 1 && x5 === 1 && x6 === 1)
         ) {
-           // console.log(this.props.state);
+            // console.log(this.props.state);
             axios
-                .post( "http://127.0.0.1:8000/signup/",  this.props.state)
+                .post("http://127.0.0.1:8000/signup/", this.props.state)
 
-                .then(response => {
+            .then(response => {
                     console.log(response);
                 })
                 .catch(error => {
@@ -387,12 +387,12 @@ class players extends Component {
             <
             div className = "player1" >
             <
-            div className = "header" > Player 1 < /div> <
+            div className = "header" > Player 1 < /div>{" "} <
             div className = "in1 inputbox" >
             <
             label className = { `plname1 lab1 ${this.state.positionPn1}` } >
-            Name <
-            /label> <
+            Name { " " } <
+            /label>{" "} <
             input maxLength = "50"
             autoComplete = "new-password"
             type = "text"
@@ -402,13 +402,13 @@ class players extends Component {
             onChange = { this.pl1nameChange.bind(this) }
             value = { this.props.state.player1Name }
             spellCheck = "false" >
-            < /input> <
-            /div> <
+            < /input>{" "} <
+            /div>{" "} <
             div className = "in2 inputbox" >
             <
             label className = { `plnum1 lab1 ${this.state.labelpc1color} ${this.state.positionPc1} ` } >
-            { this.state.labelpc1 } <
-            /label> <
+            { this.state.labelpc1 } { " " } <
+            /label>{" "} <
             input maxLength = "10"
             autoComplete = "new-password"
             type = "text"
@@ -418,13 +418,13 @@ class players extends Component {
             onChange = { this.pl1contactChange.bind(this) }
             value = { this.props.state.player1Contact }
             spellCheck = "false" >
-            < /input> <
-            /div> <
+            < /input>{" "} <
+            /div>{" "} <
             div className = "in2 inputbox" >
             <
             label className = { `plemail1 lab1 ${this.state.positionPe1} ${this.state.labelpe1color}` } >
-            { this.state.labelpe1 } <
-            /label> <
+            { this.state.labelpe1 } { " " } <
+            /label>{" "} <
             input maxLength = "50"
             autoComplete = "new-password"
             type = "text"
@@ -434,17 +434,17 @@ class players extends Component {
             onChange = { this.pl1emailChange.bind(this) }
             value = { this.props.state.player1Email }
             spellCheck = "false" >
-            < /input> <
-            /div> <
-            /div> <
+            < /input>{" "} <
+            /div>{" "} <
+            /div>{" "} <
             div className = "player2" >
             <
-            div className = "header" > Player 2 < /div> <
+            div className = "header" > Player 2 < /div>{" "} <
             div className = "in1 inputbox" >
             <
             label className = { `plname2 lab2 ${this.state.positionPn2}` } >
-            Name <
-            /label> <
+            Name { " " } <
+            /label>{" "} <
             input maxLength = "50"
             autoComplete = "new-password"
             type = "text inputbox"
@@ -454,13 +454,13 @@ class players extends Component {
             onChange = { this.pl2nameChange.bind(this) }
             value = { this.props.state.player2Name }
             spellCheck = "false" >
-            < /input> <
-            /div> <
+            < /input>{" "} <
+            /div>{" "} <
             div className = "in2 inputbox" >
             <
             label className = { `plnum2 lab2 ${this.state.positionPc2} ${this.state.labelpc2color}` } >
-            { this.state.labelpc2 } <
-            /label> <
+            { this.state.labelpc2 } { " " } <
+            /label>{" "} <
             input maxLength = "10"
             type = "text"
             className = { `text ${this.state.errorpc2}` }
@@ -470,13 +470,13 @@ class players extends Component {
             onChange = { this.pl2contactChange.bind(this) }
             value = { this.props.state.player2Contact }
             spellCheck = "false" >
-            < /input> <
-            /div> <
+            < /input>{" "} <
+            /div>{" "} <
             div className = "in2 inputbox" >
             <
             label className = { `plemail2 lab2 ${this.state.positionPe2} ${this.state.labelpe2color}` } >
-            { this.state.labelpe2 } <
-            /label> <
+            { this.state.labelpe2 } { " " } <
+            /label>{" "} <
             input maxLength = "50"
             type = "text"
             className = { `text ${this.state.errorpe2}` }
@@ -486,23 +486,23 @@ class players extends Component {
             onChange = { this.pl2emailChange.bind(this) }
             value = { this.props.state.player2Email }
             spellCheck = "false" >
-            < /input> <
-            /div> <
-            /div> <
+            < /input>{" "} <
+            /div>{" "} <
+            /div>{" "} <
             div className = "Footer" >
             <
             button className = "back"
             onClick = { this.handleBack.bind(this) } >
-            BACK <
-            /button> <
+            BACK { " " } <
+            /button>{" "} <
             button type = "submit"
             htmlType = "submit"
             className = "LLogin"
             onClick = { this.handleClick.bind(this) } >
-            LOGIN <
-            /button> <
-            /div> <
-            /form> <
+            LOGIN { " " } <
+            /button>{" "} <
+            /div>{" "} <
+            /form>{" "} <
             /div>
         );
     }

@@ -1,12 +1,18 @@
-const submissionReducer = (state={
-qn : 1
+const submissionReducer = (state = {
+    submissions: [],
+    qn: 1
 }, action) => {
 
-    if(action.type === "UPDATE_QNO")
-    {
-        return{
+    if (action.type === "UPDATE_QNO") {
+        return {
             ...state,
-            qn : action.qn
+            qn: action.qn
+        }
+    }
+    if (action.type === "UPDATE_SUB") {
+        return {
+            ...state,
+            submissions: action.submissions
         }
     }
     return state;

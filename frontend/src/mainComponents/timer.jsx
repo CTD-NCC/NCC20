@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./navBar.css";
 import { connect } from "react-redux";
-import axios from "axios"
-import { Redirect } from "react-router"
+import axios from "axios";
+import { Redirect } from "react-router";
 class Timer extends Component {
   state = {
     seconds: "00",
@@ -66,27 +66,27 @@ class Timer extends Component {
 
   componentDidMount() {
     //let hrs = 60 * 60 * 3;
-    axios.get("http://127.0.0.1:8000/time/")
-    .then(response=> {
+    axios.get("http://127.0.0.1:8000/time/").then(response => {
       console.log(response);
-       this.setState({
-        hrs:response.data.time,
+      this.setState({
+        hrs: response.data.time,
         seconds: response.data.ss,
         minutes: response.data.mm,
         hours: response.data.hh,
         fetched: true
-     })
-     this.startTimer(this.state.hrs);
-
-     });
-    
-    
+      });
+      this.startTimer(this.state.hrs);
+    });
   }
 
   render() {
-    if(this.state.fetched){
-      if(this.state.hours === "00" && this.state.minutes === "00" && this.state.seconds === "00"){
-        return <Redirect push to="/result" />
+    if (this.state.fetched) {
+      if (
+        this.state.hours === "00" &&
+        this.state.minutes === "00" &&
+        this.state.seconds === "00"
+      ) {
+        return <Redirect push to="/result" />;
       }
       return (
         <div className="col-sm-12">
@@ -126,8 +126,7 @@ class Timer extends Component {
           </div>
         </div>
       );
-    }
-    else return null;
+    } else return null;
   }
 }
 const mapStateToProps = state => {

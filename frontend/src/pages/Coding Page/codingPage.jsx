@@ -28,22 +28,27 @@ class CodingPage extends Component {
   }
 
   componentDidMount() {
-
-      axios({method:"get",url:"http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/",headers : {Username : this.props.username}}).then(response => {
-          this.props.updateQuestion(response.data.question);
-            this.props.updateTitle(response.data.title);
+    axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/code/" + `${this.props.qno}` + "/",
+      params : {attempt: this.props.attempt},
+      headers: { Username: this.props.username }
+    }).then(response => {
+      this.props.updateQuestion(response.data.question);
+      this.props.updateTitle(response.data.title);
+      this.setState({
+        value : response.data.code
       })
-
+    });
+    this.props.updateAttempt(-1);
   }
 
-
-
-    componentDidUpdate() {
+  componentDidUpdate() {
     if (this.state.renderConsole === true)
       this.console.current.scrollIntoView({ behavior: "smooth" });
-      // axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", headers : {Username : this.props.username}}).then(response => {
-      //     this.props.updateQuestion(response.data.question);
-      // })
+    // axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", headers : {Username : this.props.username}}).then(response => {
+    //     this.props.updateQuestion(response.data.question);
+    // })
   }
 
   passValue(val) {
@@ -61,19 +66,27 @@ class CodingPage extends Component {
       redirect: true,
       run: false
     });
-    var result, total , score, error;
+    var result, total, score, error;
     this.setState({ renderConsole: false });
-    axios
-      ({method : "post", url: "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", data :{content :this.state.value, runFlag :this.state.run , ext : this.props.ext}, headers :{Username :this.props.username}})
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/code/" + `${this.props.qno}` + "/",
+      data: {
+        content: this.state.value,
+        runFlag: this.state.run,
+        ext: this.props.ext
+      },
+      headers: { Username: this.props.username }
+    })
       .then(response => {
-          this.props.updateTestcases(response.data.testcases);
-      result = response.data.status;
-      score = response.data.score;
-      error = response.data.error;
-      total = this.props.total + parseInt(score,10);
-      this.props.updateResult(result);
-          this.props.updateScore(score);
-          this.props.updateConsole(error);
+        this.props.updateTestcases(response.data.testcases);
+        result = response.data.status;
+        score = response.data.score;
+        error = response.data.error;
+        total = response.data.total;
+        this.props.updateResult(result);
+        this.props.updateScore(score);
+        this.props.updateConsole(error);
         this.props.updateTotal(total);
       })
       .catch(error => {
@@ -86,8 +99,16 @@ class CodingPage extends Component {
       run: true
     });
 
-    axios
-      ({method : "post", url: "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", data :{content :this.state.value, runFlag :this.state.run , ext : this.props.ext}, headers :{Username :this.props.username}})
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/run/" + `${this.props.qno}` + "/",
+      data: {
+        content: this.state.value,
+        runFlag: this.state.run,
+        ext: this.props.ext
+      },
+      headers: { Username: this.props.username }
+    })
       .then(response => {
         console.log(response);
       })
@@ -162,8 +183,9 @@ class CodingPage extends Component {
                 borderRadius: "5px",
                 overflow: "auto"
               }}
-            ><h4>{this.props.title}</h4>
-                <div>{this.props.question}</div>
+            >
+              <h4>{this.props.title}</h4>
+              <div>{this.props.question}</div>
             </div>
             <div
               style={{
@@ -178,7 +200,17 @@ class CodingPage extends Component {
               }}
             >
               <span style={{ display: "flex" }}>
-                  <span style={{paddingLeft: '3vw', color: 'white', width: '13vw', marginTop: '1.5vh', fontSize: '20px'}}>Code Editor</span>
+                <span
+                  style={{
+                    paddingLeft: "3vw",
+                    color: "white",
+                    width: "13vw",
+                    marginTop: "1.5vh",
+                    fontSize: "20px"
+                  }}
+                >
+                  Code Editor
+                </span>
                 <CPPUse />
                 <span style={{ marginLeft: "40vw" }}>
                   <input
@@ -187,7 +219,10 @@ class CodingPage extends Component {
                     onChange={e => this.handleChange(e.target.files[0])}
                     accept=".cpp"
                   />
-                  <label for="file" style={{ marginTop: "1vh", marginLeft: '-18vw' }}>
+                  <label
+                    for="file"
+                    style={{ marginTop: "1vh", marginLeft: "-18vw" }}
+                  >
                     Choose file
                   </label>
                   <button
@@ -200,7 +235,7 @@ class CodingPage extends Component {
                       marginLeft: "1vw",
                       marginRight: "1vw",
                       width: "10vw",
-                        height: '4.6vh'
+                      height: "4.6vh"
                     }}
                     onClick={this.loadBuffer}
                   >
@@ -265,16 +300,17 @@ class CodingPage extends Component {
 const mapStateToProps = state => {
   return {
     lastSubmission: state.root.lastSubmission,
-      question : state.coding.question,
-      qno : state.coding.qno,
-      ext : state.coding.ext,
-       testcases: state.testcases.testcases,
+    question: state.coding.question,
+    qno: state.coding.qno,
+    ext: state.coding.ext,
+    testcases: state.testcases.testcases,
     time: state.testcases.time,
     result: state.testcases.result,
     score: state.testcases.score,
     error: state.testcases.error,
-      username : state.root.userName,
-      title : state.coding.title
+    username: state.root.userName,
+    title: state.coding.title,
+    attempt : state.coding.attempt
   };
 };
 
@@ -283,33 +319,32 @@ const mapDispatchToProps = dispatch => {
     changeLastSubmission: value => {
       dispatch({
         type: "CHANGE_LAST_SUBMISSION",
-        newSubmission: value,
-
+        newSubmission: value
       });
     },
     resetTestcase: () => {
-        dispatch({
-            type: "RESET_TESTCASES"
-        });
+      dispatch({
+        type: "RESET_TESTCASES"
+      });
     },
-      resetConsole: () => {
-        dispatch({
-            type: "RESET_CONSOLE"
-        });
+    resetConsole: () => {
+      dispatch({
+        type: "RESET_CONSOLE"
+      });
     },
-      resetTests: () => {
-        dispatch({
-            type: "RESET_TESTS"
-        });
+    resetTests: () => {
+      dispatch({
+        type: "RESET_TESTS"
+      });
     },
 
-      updateQuestion: (question) => {
+    updateQuestion: question => {
       dispatch({ type: "UPDATE_QUESTION", question: question });
     },
-        updateTitle: (title) => {
+    updateTitle: title => {
       dispatch({ type: "UPDATE_TITLE", title: title });
     },
-       updateTime: time => {
+    updateTime: time => {
       dispatch({ type: "UPDATE_TIME", time: time });
     },
     updateResult: result => {
@@ -326,6 +361,12 @@ const mapDispatchToProps = dispatch => {
     },
     updateConsole: error => {
       dispatch({ type: "UPDATE_CONSOLE", error: error });
+    },
+    updateAttempt : attempt => {
+      dispatch({
+        type : "UPDATE_ATTEMPT",
+        attempt : attempt
+      })
     }
   };
 };

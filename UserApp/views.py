@@ -1,5 +1,3 @@
-import itertools
-
 from django.shortcuts import redirect, reverse
 from rest_framework.utils import json
 from .serializer import *
@@ -65,10 +63,8 @@ class check(APIView):
     def post(self,request):
         receive = json.loads(request.body.decode("utf-8"))
         username = receive.get('username')
-        print(username)
         data = {}
         data['exist'] = User.objects.filter(username__iexact=username).exists()
-        print(data)
         return JsonResponse(data)
 
 
@@ -88,9 +84,6 @@ class Signup(APIView):
     def post(self, request):
         receive = json.loads(request.body.decode("utf-8"))
         username = request.data.get('userName')
-
-        print("username in signup")
-
         password = receive.get('password')
         email1 = receive.get('player1Email')
         email2 = receive.get('player2Email')
@@ -145,32 +138,24 @@ class Code(APIView):
             que_title = question.titleQue
             que = question.question
 
-            print(username)
-
             user = getuser(username)
+            att = request.query_params.get('attempt')
 
-            print('-------------')
-            print(user.username)
+            print(att)
 
-            # att = request.query_parms.get('attempt')
-            # if not att:
-            #     sub = Submission.objects.filter(user=user,que=question,attempt=att)
-            #     data = {
-            #         "user": user.username,
-            #         "question_title": que_title,
-            #         "question": que,
-            #         "code": sub.code
-            #     }
-            # else:
             data = {
-                "user": user.username,
                 "title": que_title,
                 "question": que,
-                #"total": userprof.totalScore
             }
+
+            if att != -1:
+                sub = Submission.objects.filter(user=user,que=question,attempt=att)
+                #data['code'] = sub.code
+                data['code'] = ""
+            else:
+                data['code'] = ""
             return JsonResponse(data)
 
-    # ajax request for run and normal post request for submit
     def post(self, request, qn):
         username = request.META.get('HTTP_USERNAME')
 
@@ -186,7 +171,6 @@ class Code(APIView):
             content = receive.get('content')
             ext = receive.get('ext')
             runflag = receive.get('runFlag')
-            print(ext, runflag, content)
 
             try:
                 mulque = MultipleQues.objects.get(user=usr, que=question)
@@ -252,27 +236,58 @@ class Code(APIView):
                 sub.TestCasesPercentage = (no_of_pass / NO_OF_TEST_CASES) * 100
                 sub.save()
 
-                status = 'AC' if no_of_pass == NO_OF_TEST_CASES else 'WA'  # overall Status
-                sub.subStatus = status
+                if userprof.junior == False:
+                    status = 'AC' if no_of_pass == NO_OF_TEST_CASES else 'WA'  # overall Status
+                    sub.subStatus = status
 
-                if status == 'AC':
-                    userprof.totalScore += 100
-                    question.totalSuccessfulSub += 1
-                    question.totalSub += 1
-                    sub.subScore = 100
-                    mulque.scoreQuestion = 100
-                    userprof.latestSubTime = subTime
+                    if status == 'AC':
+                        userprof.totalScore += 100
+                        question.totalSuccessfulSub += 1
+                        question.totalSub += 1
+                        sub.subScore = 100
+                        mulque.scoreQuestion = 100
+                        userprof.latestSubTime = subTime
+
+
+                    else:
+                        question.totalSub += 1
+                        sub.subScore = 0
+                        mulque.scoreQuestion = 0
+
+                    try:
+                        question.accuracy = round(
+                            (question.totalSuccessfulSub * 100 / question.totalSub), 1)
+                    except ZeroDivisionError:
+                        question.accuracy = 0
 
                 else:
-                    question.totalSub += 1
-                    sub.subScore = 0
-                    mulque.scoreQuestion = 0
+                    if no_of_pass == NO_OF_TEST_CASES:
+                        status = 'AC'
+                    elif no_of_pass == 0:
+                        status = 'WA'
+                    else:
+                        status = 'PA'
+                    sub.subStatus = status
 
-                try:
-                    question.accuracy = round(
-                        (question.totalSuccessfulSub * 100 / question.totalSub), 1)
-                except ZeroDivisionError:
-                    question.accuracy = 0
+                    if status != 'WA':
+                        userprof.totalScore += no_of_pass*100/NO_OF_TEST_CASES
+                        question.totalSub += 1
+                        if status == 'AC':
+                            question.totalSuccessfulSub += 1
+                        sub.subScore = no_of_pass*100/NO_OF_TEST_CASES
+                        mulque.scoreQuestion = no_of_pass*100/NO_OF_TEST_CASES
+                        userprof.latestSubTime = subTime
+
+                    else:
+                        question.totalSub += 1
+                        sub.subScore = 0
+                        mulque.scoreQuestion = 0
+
+                    try:
+                        question.accuracy = round(
+                            (question.totalSuccessfulSub * 100 / question.totalSub), 1)
+                    except ZeroDivisionError:
+                        question.accuracy = 0
 
                 question.save()
                 userprof.save()
@@ -283,6 +298,7 @@ class Code(APIView):
                     "status": sub.subStatus,
                     "error": error_text,
                     "score": sub.subScore,
+                    "total": userprof.totalScore
                 }
             else:
                 error_text = ""
@@ -309,11 +325,11 @@ class LeaderBoard(APIView):
             return HttpResponseRedirect(reverse('signup'))
 
         else:
+            data = []
             for player in UserProfile.objects.order_by("-totalScore", "latestSubTime"):
-                data = []
                 l = {
-                    'user': username,
-                    'total': player.totalScore,
+                    'teamName': player.user.username,
+                    'score': player.totalScore,
                     'color': "nonTrans"
                 }
                 for i in range(1, 7):
@@ -333,18 +349,20 @@ class Submissions(APIView):
         if not username:
             return HttpResponseRedirect(reverse('signup'))
         else:
-            qn = request.query_parms.get('qn', 1)
+            qn = request.query_params.get('qn')
             que = Question.objects.get(pk=qn)
             usr = getuser(username)
             total_submissions = Submission.objects.filter(user=usr,que=que)
             usersub = []
 
-            for submission,i in itertools.zip(total_submissions,len(total_submissions)):
+            i = 1
+            for submission in total_submissions:
                 data = {
                     'sn': i,
                     'time': submission.subTime,
                     'rate': (submission.correctTestCases / NO_OF_TEST_CASES * 100)
                 }
+                i += 1
                 usersub.append(data)
 
             return JsonResponse(usersub, safe=False)
@@ -385,7 +403,7 @@ class Result(APIView):
             user = getuser(username)
 
             user_prof = UserProfile.objects.get(user=user)
-            score = user.totalScore
+            score = user_prof.totalScore
 
             attempts = 0
             for q_id in range(1, 7):
@@ -398,8 +416,6 @@ class Result(APIView):
 
             all_users = UserProfile.objects.order_by('-totalScore', 'latestSubTime')
             rank = all_users.index(user_prof)
-
-
 
             userprof = UserProfile.objects.all()
             for user in userprof:

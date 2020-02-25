@@ -23,14 +23,12 @@ class Testcases extends Component {
   };
 
   componentDidMount() {
-
     let time = 0;
     var i = setInterval(
       (this.setTime = () => {
         time = time + 1;
         this.props.updateTime(time);
         if (time === 15) {
-
           clearInterval(i);
         }
       }),

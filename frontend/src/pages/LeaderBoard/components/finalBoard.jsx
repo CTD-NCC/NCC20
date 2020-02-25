@@ -5,7 +5,7 @@ import { paginate } from "../utils/paginate";
 import Pagination from "./common/Pagination";
 import Table from "./table";
 import Search from "./Search";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import "./finalBoard.css";
 import axios from "axios";
 
@@ -29,11 +29,14 @@ class FinalBoard extends Component {
   componentDidMount() {
     // let Resp;
 
-    // const url = "http://Sanket212000.pythonanywhere.com/leaderboard/";
     // let response = await fetch(url);
     // let data = await response.json();
     // console.log(data[0]);
-    axios({method : "get" , url : "http://127.0.0.1:8000/leaderboard/",headers : {Username : this.props.username} }).then(response => {
+    axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/leaderboard/",
+      headers: { Username: this.props.username }
+    }).then(response => {
       console.log(response.data);
       this.setState({
         teams: response.data,
@@ -67,7 +70,7 @@ class FinalBoard extends Component {
   handlePageChange = page => {
     const updateState = this.state;
     updateState.currentPage = page;
-    this.setState({ state: updateState });
+    this.setState({ state:updateState });
   };
 
   Searching(e) {
@@ -95,8 +98,8 @@ class FinalBoard extends Component {
   };
   render() {
     if (this.state.post === null) return null;
-    else if(this.state.post === "fetched"){
-     // console.log(this.state.teams[5].score);
+    else if (this.state.post === "fetched") {
+      // console.log(this.state.teams[5].score);
       this.state.teams.forEach((item, index) => {
         item.rank = index + 1;
       });
@@ -130,7 +133,7 @@ class FinalBoard extends Component {
 
 const mapStateToProps = state => {
   return {
-    username : state.root.userName
-  }
-}
+    username: state.root.userName
+  };
+};
 export default connect(mapStateToProps)(FinalBoard);

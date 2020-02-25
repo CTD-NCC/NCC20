@@ -2,7 +2,8 @@ const codingReducer = (state={
 question : "",
     title : "",
     qno : 1,
-    ext : "c"
+    ext : "c",
+    attempt : -1
 }, action) => {
 
     if(action.type === "UPDATE_QUESTION")
@@ -31,6 +32,13 @@ question : "",
         return{
             ...state,
             title : action.title
+        }
+    }
+    if(action.type === "UPDATE_ATTEMPT")
+    {
+        return{
+            ...state,
+            attempt : action.attempt
         }
     }
     return state;

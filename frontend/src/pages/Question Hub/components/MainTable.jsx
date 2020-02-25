@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { getQuestions } from "../services/qdatabase";
 import Button from "./button";
 import axios from "axios";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import "./mytable.css";
 
 class QuestionH extends Component {
@@ -15,16 +15,18 @@ class QuestionH extends Component {
   }
   async componentDidMount() {
     const options = {
-      headers : {'Username': "sanket"}
+      headers: { Username: "sanket" }
     };
-    axios({method : 'get' ,url : "http://127.0.0.1:8000/question/", headers : {'Username' : this.props.username }}).then(response => {
-      this.setState({questions: response.data});
+    axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/question/",
+      headers: { Username: this.props.username }
+    }).then(response => {
+      this.setState({ questions: response.data });
       console.log(response);
     });
-
   }
   render() {
-
     return (
       <div className="tdiv">
         {/* <h1>table created</h1> */}
@@ -82,8 +84,8 @@ class QuestionH extends Component {
 
 const mapStateToProps = state => {
   return {
-    username : state.root.userName
-  }
-}
+    username: state.root.userName
+  };
+};
 
 export default connect(mapStateToProps)(QuestionH);
