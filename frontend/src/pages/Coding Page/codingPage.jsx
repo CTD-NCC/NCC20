@@ -22,7 +22,8 @@ class CodingPage extends Component {
       redirect: false,
       renderConsole: false,
       value: "",
-      run: false
+      run: false,
+      autoscroll : false
     };
     let fileReader;
     this.console = React.createRef();
@@ -46,11 +47,11 @@ class CodingPage extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.renderConsole === true)
+    if (this.state.autoscroll === true)
+    {
       this.console.current.scrollIntoView({ behavior: "smooth" });
-    // axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", headers : {Username : this.props.username}}).then(response => {
-    //     this.props.updateQuestion(response.data.question);
-    // })
+        this.setState({autoscroll:false});
+    }
   }
 
   passValue(val) {
@@ -99,7 +100,8 @@ class CodingPage extends Component {
   handleConsole = () => {
     this.setState({
       renderConsole: true,
-      run: true
+      run: true,
+      autoscroll : true
     });
     const username = localStorage.getItem('Username');
     axios({
