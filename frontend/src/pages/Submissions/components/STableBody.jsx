@@ -61,7 +61,7 @@ class STableBody extends Component {
               <button
                 onClick = {()=>this.handleClick(index+1)}
                 className="butView"
-                style={{ marginLeft: "-25.5vw", marginTop: "1vh" }}
+                style={{ marginLeft: "-15.5vw", marginTop: "1vh" }}
               >
                 View
               </button>

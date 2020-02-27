@@ -31,7 +31,7 @@ class STableHeader extends Component {
                 <select
                   onChange={this.handleSelect}
                   className={"custom-select"}
-                  style={{ width: "9vw" }}
+                  style={{ width: "11vw" }}
                   id="question"
                 >
                   <option value={"1"}>Question 1</option>

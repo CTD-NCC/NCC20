@@ -4,7 +4,6 @@ question : "",
     qno : 1,
     ext : "c",
     attempt : -1,
-    renderConsole: false,
     result : "",
     error : ""
 }, action) => {
@@ -28,13 +27,6 @@ question : "",
         return{
             ...state,
             result : action.result
-        }
-    }
-    if(action.type === "UPDATE_RENDERCONSOLE")
-    {
-        return{
-            ...state,
-            renderConsole : action.renderConsole
         }
     }
     if(action.type === "UPDATE_NO")

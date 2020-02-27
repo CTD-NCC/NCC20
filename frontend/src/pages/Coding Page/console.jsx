@@ -6,7 +6,6 @@ class Console extends Component {
     render() {
     if(this.props.renderConsole===true)
     {
-        this.props.updateRunRender(false);
     return ( 
        
         <div 
@@ -33,19 +32,8 @@ const mapStateToProps = state => {
     return {
         error : state.coding.error,
         result : state.coding.result,
-        renderConsole : state.coding.renderConsole
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        updateRunRender : renderConsole => {
-            dispatch({
-              type : "UPDATE_RENDERCONSOLE",
-              renderConsole : renderConsole
-            })
-          }
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Console);
+export default connect(mapStateToProps)(Console);

@@ -23,8 +23,7 @@ class CodingPage extends Component {
       renderConsole: false,
       value: "",
       run: false,
-      result : "",
-      error : ""
+      autoscroll : false
     };
     let fileReader;
     this.console = React.createRef();
@@ -48,21 +47,22 @@ class CodingPage extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.renderConsole === true)
+    if (this.state.autoscroll === true)
+    {
       this.console.current.scrollIntoView({ behavior: "smooth" });
-    // axios({method : "get", url : "http://127.0.0.1:8000/code/"+`${this.props.qno}`+"/", headers : {Username : this.props.username}}).then(response => {
-    //     this.props.updateQuestion(response.data.question);
-    // })
+        this.setState({autoscroll:false});
+    }
   }
 
   passValue(val) {
     this.props.handlePassedValue(val);
-    // this.setState({
-    //   renderConsole: false
-    // });
+    this.setState({
+      renderConsole: false
+    });
   }
 
   handleClick = () => {
+
     this.props.resetTestcase();
     this.props.resetConsole();
     this.props.resetTests();
@@ -100,9 +100,11 @@ class CodingPage extends Component {
   };
   handleConsole = () => {
     this.setState({
-        run: true
+      renderConsole: true,
+      run: true,
+      autoscroll : true
     });
-    this.props.updateRunRender(true);
+    
     const username = localStorage.getItem('Username');
     axios({
       method: "post",
@@ -294,7 +296,7 @@ class CodingPage extends Component {
               </span>
             </div>
             <div ref={this.console}>
-              <Console />
+              <Console renderConsole= {this.state.renderConsole}/>
             </div>
           </div>
         </div>
@@ -318,7 +320,6 @@ const mapStateToProps = state => {
     title: state.coding.title,
     attempt : state.coding.attempt,
     url : state.Url.url,
-    renderConsole : state.coding.renderConsole,
     runError : state.coding.error,
     runResult : state.coding.result,
   };
@@ -376,12 +377,6 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type : "UPDATE_ATTEMPT",
         attempt : attempt
-      })
-    },
-    updateRunRender : renderConsole => {
-      dispatch({
-        type : "UPDATE_RENDERCONSOLE",
-        renderConsole : renderConsole
       })
     },
     updateRunError : error => {
