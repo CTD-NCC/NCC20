@@ -10,6 +10,7 @@ urlpatterns = [
     path('submission/', Submissions.as_view()),
     path('result/', Result.as_view(), name='result'),
     path('checkusername/', check.as_view()),
+    path('total/',total.as_view()),
 
     # function base:
     path('timer/', timer, name='timer'),

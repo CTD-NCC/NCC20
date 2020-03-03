@@ -1,6 +1,5 @@
 from seccomp import *
 import sys
-
 # create a filter object with a default KILL action
 
 

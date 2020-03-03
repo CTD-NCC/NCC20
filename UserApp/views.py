@@ -8,7 +8,7 @@ from datetime import datetime
 import datetime
 import os
 import re
-from seccomp.views import exec_main
+from JudgeApp.views import exec_main
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 
@@ -106,24 +106,30 @@ class Signup(APIView):
         return Response({"data": request.data}, status=201)
 
 
-def change_file_content(content, code_file):
-    sandbox_header = '#include"../../../include/sandbox.h"\n'
-    try:
-        # Inject the function call for install filters in the user code file
-        # Issue with design this way (look for a better solution (maybe docker))
-        # multiple main strings
-        before_main = content.split('main')[0] + 'main'
-        after_main = content.split('main')[1]
-        index = after_main.find('{') + 1
-        main = before_main + after_main[:index] + \
-            'install_filters();' + after_main[index:]
-        with open(code_file, 'w+') as f:
-            f.write(sandbox_header)
-            f.write(main)
-            f.close()
+def change_file_content(content, ext, code_file):
+    if ext != 'py':
+        sandbox_header = '#include"../../../include/sandbox.h"\n'
+        try:
+            # Inject the function call for install filters in the user code file
+            # Issue with design this way (look for a better solution (maybe docker))
+            # multiple main strings
+            before_main = content.split('main')[0] + 'main'
+            after_main = content.split('main')[1]
+            index = after_main.find('{') + 1
+            main = before_main + after_main[:index] + \
+                'install_filters();' + after_main[index:]
+            with open(code_file, 'w+') as f:
+                f.write(sandbox_header)
+                f.write(main)
+                f.close()
 
-    except IndexError:
+        except IndexError:
+            with open(code_file, 'w+') as f:
+                f.write(content)
+                f.close()
+    else:
         with open(code_file, 'w+') as f:
+            f.write('import temp\n')
             f.write(content)
             f.close()
 
@@ -188,7 +194,7 @@ class Code(APIView):
                 os.system(f"mkdir {user_code_path}")
             codefile = user_code_path + f"/code{att}.{ext}"
 
-            change_file_content(content, codefile)
+            change_file_content(content, ext, codefile)
 
             testcase_values = exec_main(
                 username=username,
@@ -470,6 +476,18 @@ class Result(APIView):
             }
             logout(request)
             return Response(dict)
+
+class total(APIView):
+    def get(self,request):
+        username = request.META.get('HTTP_USERNAME')
+        if not username:
+            return HttpResponseRedirect(reverse('signup'))
+        else:
+            user = getuser(username)
+            userprof = UserProfile.objects.get(user=user)
+            data = {}
+            data['total'] = userprof.totalScore
+            return JsonResponse(data)
 
 
 # function based
