@@ -439,9 +439,9 @@ class Result(APIView):
 
             rank = 1
             for i in all_users:
-                if i != user_prof:
-                    rank += 1
-
+                if i == user_prof:
+                    break
+                rank += 1
 
             userprof = UserProfile.objects.all()
             for user in userprof:
