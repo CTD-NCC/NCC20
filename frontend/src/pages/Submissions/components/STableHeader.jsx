@@ -5,7 +5,7 @@ import axios from "axios";
 class STableHeader extends Component {
   handleSelect = e => {
    const username = localStorage.getItem('Username');
-  
+  this.props.updateQN(e.currentTarget.selectedIndex + 1);
     axios({
       method: "get",
       url: "http://"+`${this.props.url}`+"/submission/",
