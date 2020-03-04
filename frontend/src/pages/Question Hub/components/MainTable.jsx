@@ -52,7 +52,7 @@ class QuestionH extends Component {
                   <div className="progress  pbar">
                     <div
                       className="progress-bar inner-pbar "
-                      style={{ width: question.accuracy }}
+                      style={{ width: `${question.accuracy}%` }}
                     >
                       <div
                         className="justify-content-center d-flex position-absolute w-100"

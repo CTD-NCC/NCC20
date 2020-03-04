@@ -28,7 +28,7 @@ const rootReducer = (
     seconds: 0,
     minutes: 0,
     hours: 0,
-    year:false
+    year:true
   },
   action
 ) => {

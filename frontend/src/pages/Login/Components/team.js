@@ -144,6 +144,7 @@ class team extends Component {
     }
 
     handleYear(e) {
+    console.log(e.target.value);
         if (e.target.value === "Junior") {
             this.props.changeYear(true);
         } else {

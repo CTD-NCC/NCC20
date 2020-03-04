@@ -8,6 +8,7 @@ class TabBar extends Component {
    const username = localStorage.getItem('Username');
     axios({
       method: "get",
+      params : {attempt: this.props.attempt},
       url: "http://"+`${this.props.url}`+"/code/" + `${val}` + "/",
       headers: { Username: username }
     }).then(response => {
@@ -50,7 +51,8 @@ const mapStateToProps = state => {
   return {
     qno: state.coding.qno,
     username: state.root.userName,
-    url : state.Url.url
+    url : state.Url.url,
+    attempt : state.coding.attempt
   };
 };
 

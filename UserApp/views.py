@@ -246,7 +246,10 @@ class Code(APIView):
                 sub.TestCasesPercentage = (no_of_pass / NO_OF_TEST_CASES) * 100
                 sub.save()
 
-                if userprof.junior:
+                print(userprof.junior)
+                print('--------------------')
+
+                if not userprof.junior:
                     print('senior')
                     status = 'AC' if no_of_pass == NO_OF_TEST_CASES else 'WA'  # overall Status
                     sub.subStatus = status

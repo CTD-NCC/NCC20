@@ -35,7 +35,9 @@ class STableBody extends Component {
                 <td key={this.createKey(item, column)}>
                   {this.renderCell(item, column)}
                 </td>
-              ) : (
+              ) :
+
+              (
                 <td>
                   <div
                     className="progress position-relative"
@@ -44,7 +46,7 @@ class STableBody extends Component {
                     <div
                       className="progress-bar"
                       style={{
-                        width: `${this.renderCell(item, column)}`,
+                        width: `${this.renderCell(item, column)}%`,
                         color: "black",
                         backgroundColor: "#00aaee"
                       }}
