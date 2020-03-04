@@ -181,6 +181,7 @@ class Code(APIView):
             content = receive.get('content')
             ext = receive.get('ext')
             runflag = receive.get('runFlag')
+            print(ext,runflag)
 
             try:
                 mulque = MultipleQues.objects.get(user=usr, que=question)
@@ -337,7 +338,7 @@ class Code(APIView):
                     "testcases": testcase_values,
                     "error": error_text,
                 }
-
+            print(dict)
             return JsonResponse(dict)
 
 
@@ -488,6 +489,7 @@ class Result(APIView):
             }
             logout(request)
             return Response(dict)
+
 
 class total(APIView):
     def get(self,request):

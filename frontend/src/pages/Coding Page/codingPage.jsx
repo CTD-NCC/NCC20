@@ -78,12 +78,13 @@ class CodingPage extends Component {
       url: "http://"+`${this.props.url}`+"/code/" + `${this.props.qno}` + "/",
       data: {
         content: this.state.value,
-        runFlag: this.state.run,
+        runFlag: false,
         ext: this.props.ext
       },
       headers: { Username: username }
     })
       .then(response => {
+        console.log(response);
         this.props.updateTestcases(response.data.testcases);
         result = response.data.status;
         score = response.data.score;
@@ -95,7 +96,6 @@ class CodingPage extends Component {
         this.props.updateTotal(total);
       })
       .catch(error => {
-        console.log(error);
       });
   };
   handleConsole = () => {
@@ -111,7 +111,7 @@ class CodingPage extends Component {
       url: "http://"+`${this.props.url}`+"/code/" + `${this.props.qno}` + "/",
       data: {
         content: this.state.value,
-        runFlag: this.state.run,
+        runFlag: true,
         ext: this.props.ext
       },
       headers: { Username: username}

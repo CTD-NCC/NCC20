@@ -27,12 +27,14 @@ class STableFinal extends Component {
         };
     }
     componentDidMount() {
+
+    this.props.updateQN(1);
      const username = localStorage.getItem('Username');
         axios({
             method: "get",
             url: "http://"+`${this.props.url}`+"/submission/",
             params: {
-                qn: this.props.qn
+                qn: 1
             },
             headers: {
                 Username: username
@@ -88,7 +90,12 @@ const mapDispatchToProps = dispatch => {
         dispatch({
             type: "UPDATE_SUB",
             submissions: submissions
-        })
+        }),
+        updateQN: qn =>
+      dispatch({
+        type: "UPDATE_QNO",
+        qn: qn
+      }),
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(STableFinal);

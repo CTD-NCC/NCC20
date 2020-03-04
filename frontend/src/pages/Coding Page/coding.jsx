@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Navbar from "../../mainComponents/Navbar";
 import Footer from "../../mainComponents/footer.jsx";
 import CodingPage from "./codingPage";
+import {connect} from "react-redux";
 
 class Coding extends Component {
   state = {

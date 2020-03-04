@@ -19,7 +19,7 @@ class TabBar extends Component {
     this.props.passValue(val);
   }
   render() {
-    console.log(this.props.class1);
+
     return (
       <div className="navQuestion">
         <ul className="navQuestionLinks">
