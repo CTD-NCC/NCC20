@@ -246,23 +246,26 @@ class Code(APIView):
                 sub.TestCasesPercentage = (no_of_pass / NO_OF_TEST_CASES) * 100
                 sub.save()
 
-                if userprof.junior == False:
+                if userprof.junior:
+                    print('senior')
                     status = 'AC' if no_of_pass == NO_OF_TEST_CASES else 'WA'  # overall Status
                     sub.subStatus = status
 
-                    if status == 'AC':
+                    if status == 'AC' and mulque.scoreQuestion != 100:
                         userprof.totalScore += 100
                         question.totalSuccessfulSub += 1
-                        question.totalSub += 1
                         sub.subScore = 100
                         mulque.scoreQuestion = 100
                         userprof.latestSubTime = subTime
 
-
                     else:
-                        question.totalSub += 1
-                        sub.subScore = 0
-                        mulque.scoreQuestion = 0
+                        if no_of_pass == NO_OF_TEST_CASES:
+                            sub.subScore = 100
+                        else:
+                            sub.subScore = 0
+                        mulque.scoreQuestion = max(0, mulque.scoreQuestion)
+
+                    question.totalSub += 1
 
                     try:
                         question.accuracy = round(
@@ -271,6 +274,7 @@ class Code(APIView):
                         question.accuracy = 0
 
                 else:
+                    print('junior')
                     if no_of_pass == NO_OF_TEST_CASES:
                         status = 'AC'
                     elif no_of_pass == 0:
@@ -279,20 +283,25 @@ class Code(APIView):
                         status = 'PA'
                     sub.subStatus = status
 
-                    if status != 'WA':
-                        userprof.totalScore += no_of_pass*100/NO_OF_TEST_CASES
-                        question.totalSub += 1
-                        if status == 'AC':
-                            question.totalSuccessfulSub += 1
-                        sub.subScore = no_of_pass*100/NO_OF_TEST_CASES
-                        mulque.scoreQuestion = no_of_pass*100/NO_OF_TEST_CASES
-                        userprof.latestSubTime = subTime
+                    partial_mark = no_of_pass * 100 / NO_OF_TEST_CASES
+                    print("---> ", partial_mark)
+                    if status == 'WA':
+                        userprof.totalScore += 0
+                        mulque.scoreQuestion = max(mulque.scoreQuestion, 0)
+                        sub.subScore = 0
+
+                    elif status == 'AC':
+                        userprof.totalScore += (100 - mulque.scoreQuestion)
+                        mulque.scoreQuestion = 100
+                        sub.subScore = 100
 
                     else:
-                        question.totalSub += 1
-                        sub.subScore = 0
-                        mulque.scoreQuestion = 0
+                        if partial_mark > mulque.scoreQuestion:
+                            userprof.totalScore += int(partial_mark - mulque.scoreQuestion)
+                        mulque.scoreQuestion = int(max(partial_mark, mulque.scoreQuestion))
+                        sub.subScore = int(partial_mark)
 
+                    question.totalSub += 1
                     try:
                         question.accuracy = round(
                             (question.totalSuccessfulSub * 100 / question.totalSub), 1)
