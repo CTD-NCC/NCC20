@@ -15,5 +15,4 @@ urlpatterns = [
     # function base:
     path('timer/', timer, name='timer'),
     path('time/', time, name='time'),
-   # url(r'^(?P<garbage>.*)/$', garbage, name='redirect')
 ]

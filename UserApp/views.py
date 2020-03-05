@@ -74,13 +74,6 @@ def getuser(username):
 
 
 class Signup(APIView):
-    def get(self, request):
-        #      username = request.META.get('HTTP_USERNAME')
-        # if not username:
-        #     return redirect(reverse('signup'))
-        # else:
-            return HttpResponse("On signup function")
-
     def post(self, request):
         receive = json.loads(request.body.decode("utf-8"))
         username = request.data.get('userName')
@@ -159,7 +152,7 @@ class Code(APIView):
             }
 
             if att != -2:
-                sub = Submission.objects.get(user=user,que=question,attempt=att)
+                sub = Submission.objects.get(user=user, que=question, attempt=att)
                 print(sub)
                 data['code'] = sub.code
             else:
@@ -181,7 +174,7 @@ class Code(APIView):
             content = receive.get('content')
             ext = receive.get('ext')
             runflag = receive.get('runFlag')
-            print(ext,runflag)
+            print(ext, runflag)
 
             try:
                 mulque = MultipleQues.objects.get(user=usr, que=question)
