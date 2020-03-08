@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
 import "./navBar.css";
 import { connect } from "react-redux";
+import axios from "axios";
 
 class Score extends Component {
     
+  componentDidMount(){
+    axios.get("http://"+`${this.props.url}`+"/score/").then(response => {
+      this.props.updateTotal(response.data.total);
+    });
+  }
     render() { 
          
     return (  
@@ -28,4 +34,13 @@ const mapStateToProps = state => {
       total : state.testcases.total
     };
   }
-export default connect(mapStateToProps)(Score);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateTotal: total => {
+      dispatch({ type: "UPDATE_TOTAL", total: total });
+  }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Score);

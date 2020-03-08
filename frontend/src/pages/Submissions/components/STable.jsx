@@ -6,10 +6,10 @@ import axios from "axios";
 
 class MoviesTable extends Component {
   columns = [
-    { path: "qn", label: "Sr. No." },
+    { path: "sn", label: "Sr. No." },
     // { path: "title", label: "Question" },
     { path: "time", label: "Time" },
-    { path: "status", label: "Success Rate" },
+    { path: "rate", label: "Success Rate" },
     { path: "response", label: "Question" }
   ];
 

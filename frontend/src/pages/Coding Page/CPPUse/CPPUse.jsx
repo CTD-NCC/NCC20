@@ -8,7 +8,8 @@ class CPPUse extends Component {
 
     this.state = {
       classC: "orange",
-      classCpp: "black"
+      classCpp: "black",
+      Python : "black"
     };
   }
 
@@ -16,7 +17,8 @@ class CPPUse extends Component {
     this.props.updateExt(ext);
     this.setState({
       classC: "orange",
-      classCpp: "black"
+      classCpp: "black",
+      Python :"black"
     });
   }
 
@@ -24,7 +26,17 @@ class CPPUse extends Component {
     this.props.updateExt(ext);
     this.setState({
       classC: "black",
-      classCpp: "orange"
+      classCpp: "orange",
+      Python : "black"
+    });
+  }
+
+  handleClickPython = (ext) => {
+    this.props.updateExt(ext);
+    this.setState({
+      classC: "black",
+      classCpp: "black",
+      Python : "orange"
     });
   }
 
@@ -46,6 +58,14 @@ class CPPUse extends Component {
               onClick={() => this.handleClickCpp("cpp")}
             >
               <a>C++</a>
+            </li>
+          </div>
+          <div className="Python">
+            <li
+              className={`CppLang ${this.state.Python}`}
+              onClick={() => this.handleClickPython("py")}
+            >
+              <a>Python</a>
             </li>
           </div>
         </ul>
