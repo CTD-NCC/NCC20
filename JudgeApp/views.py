@@ -74,7 +74,7 @@ def get_quota(qno, ext, test_case_no):
     return quota
 
 
-def run_test_case(test_case_no, user_que_path, ext, qno):
+def run_test_case(test_case_no,code_f_path, user_que_path, ext, qno):
     input_file = standard_data + 'input/question{}/input{}.txt'.format(qno, test_case_no)
     input_f = open(input_file, "r")  # standard input
 
@@ -89,7 +89,7 @@ def run_test_case(test_case_no, user_que_path, ext, qno):
     if ext != 'py':
         exec_file = user_que_path + 'exe'
     else:
-        exec_file = user_que_path
+        exec_file = code_f_path
 
     process_code = run_in_sandbox(
         exec_file,
@@ -115,6 +115,7 @@ def run_test_case(test_case_no, user_que_path, ext, qno):
 
 def compile_code(user_question_path, code_file_path, err_file):
     lang = code_file_path.split('.')[1]
+    print(user_question_path)
     if lang == 'c':
         rc = os.system(
             "gcc" + " -o " + user_question_path + 'exe ' + code_file_path + ' -lseccomp ' + '-lm 2>' + err_file)
@@ -130,7 +131,6 @@ def exec_main(username, qno, lang, attempts=None, run=False):
 
     if run:
         code_file_path = user_question_path + 'code.{}'.format(lang)
-
     else:
         code_file_path = user_question_path + 'code{}.{}'.format(attempts, lang)
 
@@ -141,20 +141,11 @@ def exec_main(username, qno, lang, attempts=None, run=False):
     result = []
 
     if lang == 'py':
-        temppy = path_users_code + '{}/question{}/temp.py'.format(username,qno)
-        user_question_path = code_file_path
-
-        if not os.path.exists(temppy):
-            sandy = open(pysand, 'r')
-            tempfile = open(temppy,'w+')
-            tempfile.write(sandy.read())
-            sandy.close()
-            tempfile.close()
-
         if run:
             process_code = run_test_case(
                 test_case_no=1,
                 user_que_path=user_question_path,
+                code_f_path=code_file_path,
                 ext=lang,
                 qno=qno
             )
@@ -177,6 +168,7 @@ def exec_main(username, qno, lang, attempts=None, run=False):
             process_code = run_test_case(
                 test_case_no=1,
                 user_que_path=user_question_path,
+                code_f_path=code_file_path,
                 ext=lang,
                 qno=qno
             )
@@ -188,6 +180,7 @@ def exec_main(username, qno, lang, attempts=None, run=False):
         process_code = run_test_case(
             test_case_no=i+1,
             user_que_path=user_question_path,
+            code_f_path=code_file_path,
             ext=lang,
             qno=qno
         )

@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, reverse
 from rest_framework.utils import json
-from .serializer import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .models import *
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from datetime import datetime
 import datetime
@@ -121,11 +121,13 @@ def change_file_content(content, ext, code_file):
                 f.write(content)
                 f.close()
     else:
+        pysand = 'data/include/pysand.py'
         with open(code_file, 'w+') as f:
-            f.write('import temp\n')
+            sandy = open(pysand, 'r')
+            f.write(sandy.read())
             f.write(content)
+            sandy.close()
             f.close()
-
 
 class Code(APIView):
     def get(self, request, qn):
@@ -182,11 +184,14 @@ class Code(APIView):
                 mulque = MultipleQues(user=usr, que=question)
             att = mulque.attempts
 
-            user_code_path = f"{pathusercode}/{username}/question{qn}"
+            user_code_path = f"{pathusercode}/{username}/question{qn}/"
 
             if not os.path.exists(user_code_path):
                 os.system(f"mkdir {user_code_path}")
-            codefile = user_code_path + f"/code{att}.{ext}"
+            if runflag:
+                codefile = user_code_path + f"code.{ext}"
+            else:
+                codefile = user_code_path + f"code{att}.{ext}"
 
             change_file_content(content, ext, codefile)
 
@@ -318,14 +323,14 @@ class Code(APIView):
                 }
             else:
                 error_text = ""
-                if testcase_values == 'AC':
-                    error_text = "Compiled Successfully"
                 epath = pathusercode + f"/{username}/question{qn}/error.txt"
                 if os.path.exists(epath):
                     err = open(epath, "r")
                     error_text = err.read()
                     error_text = re.sub('/.*?:', '', error_text)
                     err.close()
+
+                error_text = f"{testcase_values}\n{error_text}"
 
                 dict = {
                     "testcases": testcase_values,

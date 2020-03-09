@@ -15,7 +15,7 @@ def initialize_quota(quota):
 def run_in_sandbox(exec_path, ipf, opf, errf, quota, lang):
     if lang == 'py':
         child = subprocess.Popen(
-            ['python3' + exec_path], preexec_fn=initialize_quota(quota),
+            ['python3 ' + exec_path], preexec_fn=initialize_quota(quota),
             stdin=ipf, stdout=opf, stderr=errf, shell=True
         )
     else:
