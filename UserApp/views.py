@@ -339,6 +339,21 @@ class Code(APIView):
             print(dict)
             return JsonResponse(dict)
 
+# class emergency_login(APIView):
+#     def post(self, request):
+#         receive = json.loads(request.body.decode("utf-8"))
+#         username = receive.get('username')
+#         password = receive.get('password')
+#         AdminPass = request.POST.get('admin_password')
+#         flag = False
+#             if AdminPass == 'NCC2020':
+#                 try:
+#                     usr = getuser(username)
+#                     if usr.password == password:
+#
+#                 except User.DoesNotExist:
+#                     pass
+
 
 class LeaderBoard(APIView):
     def get(self, request):
