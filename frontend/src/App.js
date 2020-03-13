@@ -13,7 +13,6 @@ import Footer from "./mainComponents/footer";
 import Modal from "./mainComponents/modal";
 import Testcases from "./pages/Testcases/testcases";
 import SubmissionPage from "./pages/Submissions/SubmissionPage";
-import EmergencyLogin from "./pages/emergencyLogin";
 
 class App extends Component {
   state = {};
@@ -24,7 +23,6 @@ class App extends Component {
         <Switch>
           <Route path="/result" component={Result} />
           <Route exact path="/" component={Login} />
-          <Route path="/emergency" component={EmergencyLogin}/>
           <div className="container-fluid">
             <div className="row" style={{ height: "93vh" }}>
               <Navbar loc={this.props.location} />

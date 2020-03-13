@@ -11,7 +11,7 @@ urlpatterns = [
     path('result/', Result.as_view(), name='result'),
     path('checkusername/', check.as_view()),
     path('score/',total.as_view()),
-    path('emergency/',emergency_login()),
+#    path('emergency/',emergency_login()),
 
     # function base:
     path('timer/', timer, name='timer'),

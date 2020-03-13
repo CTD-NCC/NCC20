@@ -18,8 +18,8 @@ duration = 0
 start = datetime.datetime(2020, 1, 1, 0, 0)
 flag = False
 
-pathusercode = 'data/usersCode/'
-standard = 'data/standard/'
+pathusercode = 'data/usersCode'
+standard = 'data/standard'
 NO_OF_TEST_CASES = 6
 
 
