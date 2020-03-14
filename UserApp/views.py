@@ -89,8 +89,12 @@ class Signup(APIView):
                 user = User.objects.get(username=username)
                 user_prof = UserProfile.objects.get(user=user)
                 if not user_prof.flag:
-                    authenticate(username=username, password=password)
-                user_prof.flag = True
+                    dict['flag'] = False
+                    dict['message'] = "User login Exide"
+                else:
+                    dict['flag'] = True
+                    dict['message'] = ""
+                    user_prof.flag = True
 
             except User.DoesNotExist:
                 user = User.objects.create_user(username=username, password=password)
@@ -99,13 +103,13 @@ class Signup(APIView):
                 user_prof.save()
                 login(request, user)
                 os.system(f'mkdir {pathusercode}/{username}')
-            dict['flag'] = True
-            dict['message'] = ""
+                dict['flag'] = True
+                dict['message'] = ""
         else:
             dict['flag'] = False
             dict['message'] = "Username or password is Wrong"
 
-        dict['data'] = request.data
+        dict['data'] = receive.get()
         return Response(dict, status=201)
 
         # email1 = receive.get('player1Email')
