@@ -5,15 +5,16 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     totalScore = models.IntegerField(default=0)
-    email1 = models.EmailField(default='example@gmail.com')
-    email2 = models.EmailField(default='example@gmail.com', null=True, blank=True)
-    phone1 = models.CharField(max_length=10)
-    phone2 = models.CharField(max_length=10,null=True,blank=True, default='0000000000')
-    name1 = models.CharField(max_length=100)
-    name2 = models.CharField(max_length=100, null=True, blank=True, default='Player2')
+    # email1 = models.EmailField(default='example@gmail.com')
+    # email2 = models.EmailField(default='example@gmail.com', null=True, blank=True)
+    # phone1 = models.CharField(max_length=10)
+    # phone2 = models.CharField(max_length=10,null=True,blank=True, default='0000000000')
+    # name1 = models.CharField(max_length=100)
+    # name2 = models.CharField(max_length=100, null=True, blank=True, default='Player2')
     junior = models.BooleanField(default=True)                     # True if Junior(FE) else False if Senior(SE,TE,BE)
     latestSubTime = models.TimeField(default='00:00')
     timer = models.TimeField(default='00:00')
+    flag = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

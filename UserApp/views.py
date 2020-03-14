@@ -9,7 +9,7 @@ import datetime
 import os
 import re
 from JudgeApp.views import exec_main
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 
 starttime = 0
@@ -78,25 +78,57 @@ class Signup(APIView):
         receive = json.loads(request.body.decode("utf-8"))
         username = request.data.get('userName')
         password = receive.get('password')
-        email1 = receive.get('player1Email')
-        email2 = receive.get('player2Email')
-        name1 = receive.get('player1Name')
-        name2 = receive.get('player2Name')
-        phone1 = receive.get('player1Contact')
-        phone2 = receive.get('player2Contact')
-        junior = receive.get('year')
-        user = User.objects.create_user(username=username, password=password)
 
-        userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
-                                  phone2=phone2, junior=junior)  # level remaining
+        user_arr = ['gauravghati', 'gaurav', 'tanmay', 'san']
+        pass_arr = ['12341234', '12341234', 'django1234', 'sanket']
 
-        print(username)
-        userprofile.save()
-        login(request, user)
+        dict = {}
 
-        os.system(f'mkdir {pathusercode}/{username}')
+        if username in user_arr and password in pass_arr:
+            try:
+                user = User.objects.get(username=username)
+                user_prof = UserProfile.objects.get(user=user)
+                if not user_prof.flag:
+                    dict['flag'] = False
+                    dict['message'] = "User login Exide"
+                else:
+                    dict['flag'] = True
+                    dict['message'] = ""
+                    user_prof.flag = True
 
-        return Response({"data": request.data}, status=201)
+            except User.DoesNotExist:
+                user = User.objects.create_user(username=username, password=password)
+                user_prof = UserProfile(user=user)
+                print(username)
+                user_prof.save()
+                login(request, user)
+                os.system(f'mkdir {pathusercode}/{username}')
+                dict['flag'] = True
+                dict['message'] = ""
+        else:
+            dict['flag'] = False
+            dict['message'] = "Username or password is Wrong"
+
+        dict['data'] = request.data
+        return Response(dict, status=201)
+
+        # email1 = receive.get('player1Email')
+        # email2 = receive.get('player2Email')
+        # name1 = receive.get('player1Name')
+        # name2 = receive.get('player2Name')
+        # phone1 = receive.get('player1Contact')
+        # phone2 = receive.get('player2Contact')
+        # junior = receive.get('year')
+        # user = User.objects.create_user(username=username, password=password)
+        #
+        # userprofile = UserProfile(user=user, email1=email1, email2=email2, name1=name1, name2=name2, phone1=phone1,
+        #                           phone2=phone2, junior=junior)  # level remaining
+        #
+        # print(username)
+        # userprofile.save()
+        # login(request, user)
+        # os.system(f'mkdir {pathusercode}/{username}')
+        # return Response({"data": request.data}, status=201)
 
 
 def change_file_content(content, ext, code_file):
@@ -128,6 +160,7 @@ def change_file_content(content, ext, code_file):
             f.write(content)
             sandy.close()
             f.close()
+
 
 class Code(APIView):
     def get(self, request, qn):
@@ -364,7 +397,7 @@ class LeaderBoard(APIView):
 
         else:
             data = []
-            for player in UserProfile.objects.order_by("-totalScore", "latestSubTime"):
+            for player in UserProfile.objects.order_by("-totalScore", "-latestSubTime"):
                 l = {
                     'teamName': player.user.username,
                     'score': player.totalScore,
@@ -398,7 +431,7 @@ class Submissions(APIView):
                 data = {
                     'sn': i,
                     'time': submission.subTime,
-                    'rate': (submission.correctTestCases / NO_OF_TEST_CASES * 100)
+                    'rate': round((submission.correctTestCases / NO_OF_TEST_CASES * 100),1)
                 }
                 i += 1
                 usersub.append(data)
