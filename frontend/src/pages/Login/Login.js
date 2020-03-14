@@ -38,7 +38,7 @@ class App extends React.Component {
     setTimeout(
       function skip() {
         this.setState({
-          mode: 1,
+          mode: 2,
           teamname: teamn,
           password: pass
         });
@@ -126,10 +126,7 @@ class App extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      this.setState({
-        redirect: false
-      });
-      return <Redirect push to="/question" />;
+      return <Redirect push to="/#/question" />;
     }
     if (!this.state.mode) {
       return (
@@ -145,23 +142,6 @@ class App extends React.Component {
             changeCheck={this.changeCheck.bind(this)}
             checkt={this.state.checkt}
             changeCheckT={this.changeCheckT.bind(this)}
-          />
-        </div>
-      );
-    } else if (this.state.mode === 1) {
-      return (
-        <div className="playerParent">
-          <Header />
-          <Players
-            changeModeP={this.changeModeP.bind(this)}
-            updateValues={this.updateValues.bind(this)}
-            player1name={this.state.player1name}
-            player1contact={this.state.player1contact}
-            player1email={this.state.player1email}
-            player2name={this.state.player2name}
-            player2contact={this.state.player2contact}
-            player2email={this.state.player2email}
-            changeModePL={this.changeModePL.bind(this)}
           />
         </div>
       );
@@ -189,18 +169,10 @@ class App extends React.Component {
                     <li>Each question has 100 points.</li>
                     <li>Duration of the contest is 3 hours.</li>
                   </ol>
-                  <div className="textt">You can start the contest in</div>
-                  <div className="start">
-                    <p>
-                      {this.state.minutes}:{this.state.padd}
-                      {this.state.seconds}
-                    </p>
-                  </div>
                   <div className="texttt">
                     <button
                       type="button"
                       className={this.state.startClass}
-                      disabled={this.state.buttonDisable}
                       onClick={this.handleStart.bind(this)}
                     >
                       Start
@@ -230,100 +202,6 @@ class App extends React.Component {
         </div>
       );
     }
-  }
-
-  componentDidMount() {
-    this.myinterval = setInterval(() => {
-      if (this.state.count === 0) {
-        clearInterval(this.myinterval);
-        this.setState({
-          buttonDisable: false,
-          startClass: "unblock"
-        });
-      }
-      var per = ((60 - this.state.count) / 60) * 100;
-      if (per < 70) {
-        if (this.state.seconds < 11 && this.state.seconds > 0) {
-          this.setState({
-            count: this.state.count - 1,
-            minutes: parseInt(this.state.count / 60),
-            seconds: this.state.count % 60,
-            padd: "0",
-            width: per + "%",
-            colorBar: "#05a000"
-          });
-        } else {
-          this.setState({
-            count: this.state.count - 1,
-            minutes: parseInt(this.state.count / 60),
-            seconds: this.state.count % 60,
-            padd: "",
-            width: per + "%",
-            colorBar: "#05a000"
-          });
-        }
-      } else if (per >= 70 && per < 90) {
-        if (this.state.seconds < 11 && this.state.seconds > 0) {
-          this.setState({
-            count: this.state.count - 1,
-            minutes: parseInt(this.state.count / 60),
-            seconds: this.state.count % 60,
-            padd: "0",
-            width: per + "%",
-            colorBar: "#07db00"
-          });
-        } else {
-          this.setState({
-            count: this.state.count - 1,
-            minutes: parseInt(this.state.count / 60),
-            seconds: this.state.count % 60,
-            padd: "",
-            width: per + "%",
-            colorBar: "#07db00"
-          });
-        }
-      } else if (per >= 90 && per < 95) {
-        if (this.state.seconds < 11 && this.state.seconds > 0) {
-          this.setState({
-            count: this.state.count - 1,
-            minutes: parseInt(this.state.count / 60),
-            seconds: this.state.count % 60,
-            padd: "0",
-            width: per + "%",
-            colorBar: "#ff8800"
-          });
-        } else {
-          this.setState({
-            count: this.state.count - 1,
-            minutes: parseInt(this.state.count / 60),
-            seconds: this.state.count % 60,
-            padd: "",
-            width: per + "%",
-            colorBar: "#ff8800"
-          });
-        }
-      } else {
-        if (this.state.seconds < 11 && this.state.seconds > 0) {
-          this.setState({
-            count: this.state.count - 1,
-            minutes: parseInt(this.state.count / 60),
-            seconds: this.state.count % 60,
-            padd: "0",
-            width: per + "%",
-            colorBar: "#ca0000"
-          });
-        } else {
-          this.setState({
-            count: this.state.count - 1,
-            minutes: parseInt(this.state.count / 60),
-            seconds: this.state.count % 60,
-            padd: "",
-            width: per + "%",
-            colorBar: "#ca0000"
-          });
-        }
-      }
-    }, 1000);
   }
 }
 
