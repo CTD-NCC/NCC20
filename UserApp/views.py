@@ -79,8 +79,8 @@ class Signup(APIView):
         username = request.data.get('userName')
         password = receive.get('password')
 
-        user_arr = ['1234', '2345', '3456', '4567', '5678']
-        pass_arr = ['1234', '2345', '3456', '4567', '5678']
+        user_arr = ['gauravghati', 'gaurav', 'tanmay', 'san']
+        pass_arr = ['12341234', '12341234', 'django1234', 'sanket']
 
         dict = {}
 
@@ -109,7 +109,7 @@ class Signup(APIView):
             dict['flag'] = False
             dict['message'] = "Username or password is Wrong"
 
-        dict['data'] = receive.get()
+        dict['data'] = request.data
         return Response(dict, status=201)
 
         # email1 = receive.get('player1Email')
