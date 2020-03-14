@@ -32,6 +32,7 @@ class CurrentScore extends Component {
             marginLeft: "15px",
             color: "rgb(30,65,125)",
             textShadow: "1px 1px 2px #000",
+            marginTop : "3vh"
           }}
         >
           SCORE

@@ -49,9 +49,10 @@ class Testcase extends Component {
       <div className="tc progress">
         <div
           className={this.getProgressClass()}
-          style={{ width: this.state.width + "%"}}
+          style={{ width: 100 + "%"}}
         >
-          {this.state.width>=15?this.props.testcase:""}
+          {this.props.testcase===""?
+          <img src="/493.gif" height="4vh" ></img>:this.props.testcase}
         </div>
       </div>
       </div>

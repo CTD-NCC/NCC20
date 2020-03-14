@@ -19,7 +19,7 @@ class MoviesTable extends Component {
   render() {
     console.log(this.props.minutes);
     const { newTable, teams, search } = this.props;
-    if (this.props.minutes < 15) {
+    if (this.props.minutes < 15 && this.props.hours === 0 )  {
       return (
         <React.Fragment>
           <div className="sanTable2">

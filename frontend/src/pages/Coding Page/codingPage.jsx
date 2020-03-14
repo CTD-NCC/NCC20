@@ -220,8 +220,8 @@ class CodingPage extends Component {
                   Code Editor
                 </span>
                 <CPPUse />
-                <span style={{ marginLeft: "40vw" }}>
-                  <input
+                <span style={{ marginLeft: "30vw" }}>
+                  {/* <input
                     type="file"
                     id="file"
                     onChange={e => this.handleChange(e.target.files[0])}
@@ -232,7 +232,7 @@ class CodingPage extends Component {
                     style={{ marginTop: "1vh", marginLeft: "-18vw" }}
                   >
                     Choose file
-                  </label>
+                  </label> */}
                   <button
                     className="btn btn-dark"
                     style={{
