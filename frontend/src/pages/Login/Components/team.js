@@ -158,7 +158,7 @@ class team extends Component {
             onFocus={this.handleFocusp.bind(this)}
             onBlur={this.handleBlurp.bind(this)}
             onChange={this.handlePassChange.bind(this)}
-            value={this.props.passWord}
+            value={this.props.password}
             spellCheck="false"
           ></input>{" "}
         </div>{" "}
