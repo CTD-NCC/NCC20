@@ -117,15 +117,17 @@ class team extends Component {
       })
       .then(res => {
         // if status is true then route to instruction page
+        
         if (res.data.status) {
-          this.props.changeModeR(this.state.teamname, this.state.password);
+          localStorage.setItem("Username", this.props.username);
+          this.props.changeModePL();
         } else {
           //else show the error
           this.props.changeCheckT(res.data.error);
         }
       });
      
-    localStorage.setItem("Username", this.props.username);
+  
   
   }
 
@@ -158,7 +160,7 @@ class team extends Component {
             onFocus={this.handleFocusp.bind(this)}
             onBlur={this.handleBlurp.bind(this)}
             onChange={this.handlePassChange.bind(this)}
-            value={this.props.passWord}
+            value={this.props.password}
             spellCheck="false"
           ></input>{" "}
         </div>{" "}
@@ -168,11 +170,11 @@ class team extends Component {
             1) 6 to 20 characters{" "}
           </p>{" "}
         </div>{" "}
-        <Link to="/question" className="in3">
+        <div className="in3">
           <button className="next" onClick={this.handleClick.bind(this)}>
             NEXT{" "}
           </button>{" "}
-        </Link>{" "}
+        </div>{" "}
       </div>
     );
   }

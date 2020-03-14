@@ -126,7 +126,7 @@ class App extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect push to="/#/question" />;
+      return <Redirect push to="/question" />;
     }
     if (!this.state.mode) {
       return (
@@ -142,6 +142,7 @@ class App extends React.Component {
             changeCheck={this.changeCheck.bind(this)}
             checkt={this.state.checkt}
             changeCheckT={this.changeCheckT.bind(this)}
+            changeModePL={this.changeModePL.bind(this)}
           />
         </div>
       );
