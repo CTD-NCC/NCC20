@@ -16,7 +16,7 @@ const initState = {
 
 const rootReducer = (
   state = {
-    userName: "",
+    username: "",
     password: "",
     player1Name: "",
     player1Contact: "",
@@ -36,7 +36,7 @@ const rootReducer = (
     case "CHANGE_USERNAME":
       return {
         ...state,
-        userName: action.username
+        username: action.username
       };
     case "CHANGE_PASSWORD":
       return {

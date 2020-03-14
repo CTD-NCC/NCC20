@@ -98,7 +98,7 @@ class team extends Component {
   checkUser = () => {
     axios
       .post("http://" + `${this.props.url}` + "/checkusername/", {
-        username: this.props.userName
+        username: this.props.username
       })
       .then(response => {
         if (response.data.exist !== true) {
@@ -130,7 +130,7 @@ class team extends Component {
   }
 
   render() {
-    console.log(this.props.userName, this.props.passWord);
+//    console.log(this.props.username, this.props.password);
     return (
       <div className={`team entry ${this.state.exit}`}>
         <div className="reg"> Register </div>{" "}
@@ -144,7 +144,7 @@ class team extends Component {
             onBlur={this.handleBlurt.bind(this)}
             onChange={this.handleTeamChange.bind(this)}
             onKeyUp={this.checkUser.bind(this)}
-            value={this.props.userName}
+            value={this.props.username}
             spellCheck="false"
           ></input>{" "}
           <p className="teamCheck"> {this.props.checkt} </p>{" "}
@@ -180,8 +180,8 @@ class team extends Component {
 
 const mapStateToProps = state => {
   return {
-    userName: state.root.userName,
-    passWord: state.root.password,
+    username: state.root.username,
+    password: state.root.password,
     year: state.root.year,
     url: state.Url.url
   };
@@ -189,16 +189,16 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeUsername: userName => {
+    changeUsername: username => {
       dispatch({
         type: "CHANGE_USERNAME",
-        username: userName
+        username: username
       });
     },
-    changePassWord: passWord => {
+    changePassWord: password => {
       dispatch({
         type: "CHANGE_PASSWORD",
-        password: passWord
+        password: password
       });
     },
     changeYear: year => {
