@@ -1,0 +1,48 @@
+.mytable {
+  /* font-size: 10px; */
+  text-align: center;
+  justify-content: center;
+  margin-left: 0;
+  background-color: rgba(8, 8, 15, 0.8);
+  border-radius: 7px;
+  color: whitesmoke;
+
+  width: 69vw;
+  height: 65vh;
+}
+
+.borderless th {
+  border: none;
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* text-align: center; */
+}
+.borderless td {
+  border: none;
+
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.myAcc {
+  margin-left: -20vw;
+}
+.tdiv {
+  margin: auto;
+}
+
+.pbar {
+  width: 17vw;
+  height: 3.5vh;
+  border-radius: 7px;
+  margin-left: 2.6vw;
+}
+.progress {
+  position: relative;
+}
+.mybutton {
+  width: 7vw;
+  height: 5vh;
+  border-radius: 7px;
+}

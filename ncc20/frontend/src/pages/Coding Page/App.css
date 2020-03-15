@@ -1,0 +1,94 @@
+.App {
+  text-align: center;
+}
+.container-fluid {
+  background-image: linear-gradient(rgb(109, 170, 218), rgb(155, 218, 223));
+  overflow: hidden;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.mainTab {
+  height: 74vh;
+  /* border: 1px solid black; */
+  margin-top: 2vh;
+  width: 80vw;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(32, 32, 32, 0.8);
+}
+::-webkit-scrollbar-track {
+  background-color: rgba(236, 251, 252, 0);
+}
+
+.scroller {
+
+  scrollbar-color: rgba(32, 32, 32, 0.8) rgb(236, 251, 252, 0);
+  scrollbar-width: thin;
+}
+
+.navQuestionLinks {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.navQuestion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5vh;
+  width: 79vw;
+  margin-left: -1vw;
+  box-shadow: -2px -2px 3px rgba(255, 255, 255, 0.6),
+    3px 3px 15px rgba(0, 0, 0, 0.5);
+  color: antiquewhite;
+}
+
+.questionArea {
+  box-shadow: inset -2px -2px 10px rgba(255, 255, 255, 0.2),
+    inset 2px 2px 10px rgba(0, 0, 0, 0.5);
+}

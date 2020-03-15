@@ -1,0 +1,25 @@
+.butView {
+    color: #0099cc;
+  
+    background: transparent;
+    border: 2px solid #0099cc;
+  
+    border-radius: 6px;
+    transition: 0.3s;
+    height: 4.4vh;
+    width: 7vw;
+  }
+  .butView:hover {
+    background-color: #0099cc;
+    color: whitesmoke;
+  }
+  
+  /* button ::-moz-focus-inner {
+    border: 0;
+    outline: 0;
+  } */
+  
+  :focus {
+    outline: none !important;
+  }
+  

@@ -1,0 +1,26 @@
+.btnSearch {
+  background-color: rgba(8, 8, 15, 0.8);
+  border-radius: 10%;
+  border: none;
+  outline: none;
+  margin-top: 0.33vh;
+  margin-left: 4px;
+
+  height: 33px;
+  width: 39px;
+}
+.btnSearch:hover {
+  background-color: rgba(8, 8, 15);
+}
+.myrow {
+  margin-left: 2.4vw;
+}
+.form-control {
+  box-shadow: -1px -1px 4px #ffffff73, 1px 1px 3px rgba(94, 104, 121, 0.288);
+}
+.spanSearch {
+  display: flex;
+}
+.spanGayab {
+  display: none;
+}
