@@ -30,7 +30,7 @@ class App extends Component {
             url: "http://"+`${this.props.url}`+"/result/",
             headers: { Username: username }
         }).then(response => {
-            console.log(response.data);
+          //  console.log(response.data);
             this.setState({
                 rank: response.data.rank,
                 score: response.data.score,

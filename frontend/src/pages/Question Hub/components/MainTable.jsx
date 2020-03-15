@@ -21,7 +21,7 @@ class QuestionH extends Component {
       headers: { Username: username}
     }).then(response => {
       this.setState({ questions: response.data });
-      console.log(response);
+     // console.log(response);
     });
   }
   render() {

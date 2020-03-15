@@ -431,7 +431,7 @@ class Submissions(APIView):
                 data = {
                     'sn': i,
                     'time': submission.subTime,
-                    'rate': (submission.correctTestCases / NO_OF_TEST_CASES * 100)
+                    'rate': round((submission.correctTestCases / NO_OF_TEST_CASES * 100),1)
                 }
                 i += 1
                 usersub.append(data)

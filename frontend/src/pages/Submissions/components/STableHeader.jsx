@@ -7,6 +7,7 @@ class STableHeader extends Component {
    const username = localStorage.getItem('Username');
 
   this.props.updateQN(e.currentTarget.selectedIndex + 1);
+  this.props.highlight(e.currentTarget.selectedIndex + 1);
     axios({
       method: "get",
       url: "http://"+`${this.props.url}`+"/submission/",
@@ -55,7 +56,8 @@ const mapStateToProps = state => {
     username: state.root.userName,
     qn: state.submission.qn,
     submissions: state.submission.submissions,
-    url : state.Url.url
+    url : state.Url.url,
+    questionNumber : state.qtab.questionNumber
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -69,6 +71,10 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: "UPDATE_SUB",
         submissions: submissions
+      }),
+      highlight : questionNumber => dispatch({
+        type : "HIGHLIGHT",
+        questionNumber : questionNumber
       })
   };
 };

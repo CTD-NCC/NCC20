@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../styles/team.css";
 import axios from "axios";
+import {Link} from "react-router-dom";
 import { connect } from "react-redux";
 
 class team extends Component {
@@ -97,7 +98,7 @@ class team extends Component {
   checkUser = () => {
     axios
       .post("http://" + `${this.props.url}` + "/checkusername/", {
-        username: this.props.userName
+        username: this.props.username
       })
       .then(response => {
         if (response.data.exist !== true) {
@@ -116,17 +117,22 @@ class team extends Component {
       })
       .then(res => {
         // if status is true then route to instruction page
-        if (res.data.status) {
-          this.props.changeModeR(this.state.teamname, this.state.password);
+        //console.log(res);
+        if(res.data.flag) {
+          localStorage.setItem("Username", this.props.username);
+          this.props.changeModePL();
         } else {
           //else show the error
-          this.props.changeCheckT(res.data.error);
+          this.props.changeCheckT(res.data.message);
         }
       });
+     
+  
+  
   }
 
   render() {
-    console.log(this.props.userName, this.props.passWord);
+//    console.log(this.props.username, this.props.password);
     return (
       <div className={`team entry ${this.state.exit}`}>
         <div className="reg"> Register </div>{" "}
@@ -140,7 +146,7 @@ class team extends Component {
             onBlur={this.handleBlurt.bind(this)}
             onChange={this.handleTeamChange.bind(this)}
             onKeyUp={this.checkUser.bind(this)}
-            value={this.props.userName}
+            value={this.props.username}
             spellCheck="false"
           ></input>{" "}
           <p className="teamCheck"> {this.props.checkt} </p>{" "}
@@ -154,7 +160,7 @@ class team extends Component {
             onFocus={this.handleFocusp.bind(this)}
             onBlur={this.handleBlurp.bind(this)}
             onChange={this.handlePassChange.bind(this)}
-            value={this.props.passWord}
+            value={this.props.password}
             spellCheck="false"
           ></input>{" "}
         </div>{" "}
@@ -176,8 +182,8 @@ class team extends Component {
 
 const mapStateToProps = state => {
   return {
-    userName: state.root.userName,
-    passWord: state.root.password,
+    username: state.root.username,
+    password: state.root.password,
     year: state.root.year,
     url: state.Url.url
   };
@@ -185,16 +191,16 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeUsername: userName => {
+    changeUsername: username => {
       dispatch({
         type: "CHANGE_USERNAME",
-        username: userName
+        username: username
       });
     },
-    changePassWord: passWord => {
+    changePassWord: password => {
       dispatch({
         type: "CHANGE_PASSWORD",
-        password: passWord
+        password: password
       });
     },
     changeYear: year => {

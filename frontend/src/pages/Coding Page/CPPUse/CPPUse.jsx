@@ -60,7 +60,7 @@ class CPPUse extends Component {
               <a>C++</a>
             </li>
           </div>
-          <div className="Python">
+          <div className="Python" style={{marginTop : "-.5vh"}}>
             <li
               className={`CppLang ${this.state.Python}`}
               onClick={() => this.handleClickPython("py")}

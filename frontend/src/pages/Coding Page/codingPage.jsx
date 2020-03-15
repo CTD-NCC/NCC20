@@ -84,7 +84,7 @@ class CodingPage extends Component {
       headers: { Username: username }
     })
       .then(response => {
-        console.log(response);
+       // console.log(response);
         this.props.updateTestcases(response.data.testcases);
         result = response.data.status;
         score = response.data.score;
@@ -121,12 +121,12 @@ class CodingPage extends Component {
           this.props.updateRunResult(response.data.result);
       })
       .catch(error => {
-        console.log(error);
+       // console.log(error);
       });
   };
   handleFileRead = e => {
     const content = this.fileReader.result;
-    console.log(content);
+    //console.log(content);
     this.setState({
       value: content
     });
@@ -220,8 +220,8 @@ class CodingPage extends Component {
                   Code Editor
                 </span>
                 <CPPUse />
-                <span style={{ marginLeft: "40vw" }}>
-                  <input
+                <span style={{ marginLeft: "30vw" }}>
+                  {/* <input
                     type="file"
                     id="file"
                     onChange={e => this.handleChange(e.target.files[0])}
@@ -232,7 +232,7 @@ class CodingPage extends Component {
                     style={{ marginTop: "1vh", marginLeft: "-18vw" }}
                   >
                     Choose file
-                  </label>
+                  </label> */}
                   <button
                     className="btn btn-dark"
                     style={{
