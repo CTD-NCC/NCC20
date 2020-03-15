@@ -321,8 +321,7 @@ class Code(APIView):
                     question.totalSub += 1
 
                     try:
-                        question.accuracy = round(
-                            (question.totalSuccessfulSub * 100 / question.totalSub), 1)
+                        question.accuracy = round((question.totalSuccessfulSub * 100 / question.totalSub), 1)
                     except ZeroDivisionError:
                         question.accuracy = 0
 
@@ -347,6 +346,8 @@ class Code(APIView):
                         userprof.totalScore += (100 - mulque.scoreQuestion)
                         mulque.scoreQuestion = 100
                         sub.subScore = 100
+                        question.totalSuccessfulSub += 1
+                        userprof.latestSubTime = subTime
 
                     else:
                         if partial_mark > mulque.scoreQuestion:
@@ -356,8 +357,7 @@ class Code(APIView):
 
                     question.totalSub += 1
                     try:
-                        question.accuracy = round(
-                            (question.totalSuccessfulSub * 100 / question.totalSub), 1)
+                        question.accuracy = round((question.totalSuccessfulSub * 100 / question.totalSub), 1)
                     except ZeroDivisionError:
                         question.accuracy = 0
 
@@ -456,7 +456,7 @@ class Submissions(APIView):
 
             return JsonResponse(usersub, safe=False)
 
-
+    
 class Questionhub(APIView):
     def get(self, request):
         username = request.META.get('HTTP_USERNAME')
