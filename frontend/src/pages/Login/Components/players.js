@@ -370,10 +370,10 @@ class players extends Component {
         .post("http://" + `${this.props.url}` + "/signup/", this.props.state)
 
         .then(response => {
-          console.log(response);
+          //console.log(response);
         })
         .catch(error => {
-          console.log(error);
+         // console.log(error);
         });
       localStorage.setItem("Username", this.props.username);
       this.props.changeModePL();

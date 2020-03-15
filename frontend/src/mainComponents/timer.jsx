@@ -68,7 +68,7 @@ class Timer extends Component {
   componentDidMount() {
     //let hrs = 60 * 60 * 3;
     axios.get("http://"+`${this.props.url}`+"/time/").then(response => {
-      console.log(response);
+      //console.log(response);
       this.setState({
         hrs: response.data.time,
         seconds: response.data.ss,

@@ -4,7 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 
 class TabBar extends Component {
-  handleClick(val) {
+  handleClick=(val) =>{
    const username = localStorage.getItem('Username');
     axios({
       method: "get",
@@ -18,6 +18,9 @@ class TabBar extends Component {
     this.props.updateNo(val);
     this.props.passValue(val);
   }
+
+ 
+
   render() {
 
     return (

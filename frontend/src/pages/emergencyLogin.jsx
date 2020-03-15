@@ -19,7 +19,7 @@ class EmergencyLogin extends Component {
     'superuser':superuserPassword})
 
     .then(response => {
-            console.log(response);
+            //console.log(response);
             localStorage.setItem('Username',this.state.username);
             this.props.changeUsername(this.state.username);
             <Redirect push to="/question" />

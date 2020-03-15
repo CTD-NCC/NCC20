@@ -17,7 +17,7 @@ class MoviesTable extends Component {
   ];
 
   render() {
-    console.log(this.props.minutes);
+   // console.log(this.props.minutes);
     const { newTable, teams, search } = this.props;
     if (this.props.minutes < 15 && this.props.hours === 0 )  {
       return (

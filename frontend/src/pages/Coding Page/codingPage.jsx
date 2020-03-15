@@ -84,7 +84,7 @@ class CodingPage extends Component {
       headers: { Username: username }
     })
       .then(response => {
-        console.log(response);
+       // console.log(response);
         this.props.updateTestcases(response.data.testcases);
         result = response.data.status;
         score = response.data.score;
@@ -121,12 +121,12 @@ class CodingPage extends Component {
           this.props.updateRunResult(response.data.result);
       })
       .catch(error => {
-        console.log(error);
+       // console.log(error);
       });
   };
   handleFileRead = e => {
     const content = this.fileReader.result;
-    console.log(content);
+    //console.log(content);
     this.setState({
       value: content
     });

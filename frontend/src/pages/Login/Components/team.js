@@ -117,13 +117,13 @@ class team extends Component {
       })
       .then(res => {
         // if status is true then route to instruction page
-        
-        if (res.data.status) {
+        //console.log(res);
+        if(res.data.flag) {
           localStorage.setItem("Username", this.props.username);
           this.props.changeModePL();
         } else {
           //else show the error
-          this.props.changeCheckT(res.data.error);
+          this.props.changeCheckT(res.data.message);
         }
       });
      
