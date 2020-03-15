@@ -193,7 +193,7 @@ class CodingPage extends Component {
               }}
             >
               <h4>{this.props.title}</h4>
-              <div>{this.props.question}</div>
+              <div>{this.props.question.split("\n")}</div>
             </div>
             <div
               style={{

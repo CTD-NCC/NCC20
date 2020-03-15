@@ -76,41 +76,59 @@ def getuser(username):
 class Signup(APIView):
     def post(self, request):
         receive = json.loads(request.body.decode("utf-8"))
-        username = request.data.get('userName')
+        username = receive.get('username')
         password = receive.get('password')
-
-        user_arr = ['gauravghati', 'gaurav', 'tanmay', 'san']
-        pass_arr = ['12341234', '12341234', 'django1234', 'sanket']
-
+        #user_arr = ['gauravghati', 'gaurav', 'tanmay', 'san']
+        #pass_arr = ['12341234', '12341234', 'django1234', 'sanket']
         dict = {}
+        message = ""
 
-        if username in user_arr and password in pass_arr:
-            try:
-                user = User.objects.get(username=username)
-                user_prof = UserProfile.objects.get(user=user)
-                if not user_prof.flag:
-                    dict['flag'] = False
-                    dict['message'] = "User login Exide"
-                else:
-                    dict['flag'] = True
-                    dict['message'] = ""
-                    user_prof.flag = True
-
-            except User.DoesNotExist:
-                user = User.objects.create_user(username=username, password=password)
-                user_prof = UserProfile(user=user)
-                print(username)
-                user_prof.save()
-                login(request, user)
+        usrflag = False
+        try:
+            usr = User.objects.get(username=username)
+            print(usr.username)
+            print(usr.password)
+            userprof = UserProfile.objects.get(user=usr)
+            if not userprof.password == password:
+                message = "Password Incorrect"
+            else:
+                usrflag = True
                 os.system(f'mkdir {pathusercode}/{username}')
-                dict['flag'] = True
-                dict['message'] = ""
-        else:
-            dict['flag'] = False
-            dict['message'] = "Username or password is Wrong"
+        except User.DoesNotExist:
+            message = "Invalid username"
 
-        dict['data'] = request.data
-        return Response(dict, status=201)
+        dict['flag'] = usrflag
+        dict['message'] = message
+
+        return Response(dict ,status=201)
+
+        # if username in user_arr and password in pass_arr:
+        #     try:
+        #         user = User.objects.get(username=username)
+        #         user_prof = UserProfile.objects.get(user=user)
+        #         if not user_prof.flag:
+        #             dict['flag'] = False
+        #             dict['message'] = "User login Exide"
+        #         else:
+        #             dict['flag'] = True
+        #             dict['message'] = ""
+        #             user_prof.flag = True
+        #
+        #     except User.DoesNotExist:
+        #         user = User.objects.create_user(username=username, password=password)
+        #         user_prof = UserProfile(user=user)
+        #         print(username)
+        #         user_prof.save()
+        #         login(request, user)
+        #         os.system(f'mkdir {pathusercode}/{username}')
+        #         dict['flag'] = True
+        #         dict['message'] = ""
+        # else:
+        #     dict['flag'] = False
+        #     dict['message'] = "Username or password is Wrong"
+        #
+        # dict['data'] = request.data
+        # return Response(dict, status=201)
 
         # email1 = receive.get('player1Email')
         # email2 = receive.get('player2Email')

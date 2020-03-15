@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     totalScore = models.IntegerField(default=0)
+    password = models.CharField(max_length=20, default='')
     # email1 = models.EmailField(default='example@gmail.com')
     # email2 = models.EmailField(default='example@gmail.com', null=True, blank=True)
     # phone1 = models.CharField(max_length=10)

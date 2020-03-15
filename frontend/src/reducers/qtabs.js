@@ -9,7 +9,6 @@ const qtab = (state = {
     class8: "black",
     questionNumber: 1
 },action) => {
-var state;
     if (action.type === "HIGHLIGHT")
     {
         switch(action.questionNumber)
