@@ -303,8 +303,7 @@ class Code(APIView):
                     question.totalSub += 1
 
                     try:
-                        question.accuracy = round(
-                            (question.totalSuccessfulSub * 100 / question.totalSub), 1)
+                        question.accuracy = round((question.totalSuccessfulSub * 100 / question.totalSub), 1)
                     except ZeroDivisionError:
                         question.accuracy = 0
 
@@ -329,6 +328,8 @@ class Code(APIView):
                         userprof.totalScore += (100 - mulque.scoreQuestion)
                         mulque.scoreQuestion = 100
                         sub.subScore = 100
+                        question.totalSuccessfulSub += 1
+                        userprof.latestSubTime = subTime
 
                     else:
                         if partial_mark > mulque.scoreQuestion:
@@ -338,8 +339,7 @@ class Code(APIView):
 
                     question.totalSub += 1
                     try:
-                        question.accuracy = round(
-                            (question.totalSuccessfulSub * 100 / question.totalSub), 1)
+                        question.accuracy = round((question.totalSuccessfulSub * 100 / question.totalSub), 1)
                     except ZeroDivisionError:
                         question.accuracy = 0
 
@@ -397,7 +397,7 @@ class LeaderBoard(APIView):
 
         else:
             data = []
-            for player in UserProfile.objects.order_by("-totalScore", "latestSubTime"):
+            for player in UserProfile.objects.order_by("-totalScore", "-latestSubTime"):
                 l = {
                     'teamName': player.user.username,
                     'score': player.totalScore,
